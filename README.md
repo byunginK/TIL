@@ -12,4 +12,4 @@
 
 # 분류
 ### Java
-*[JAVA 설치 ] JAVAinstall.md
+* [JAVA 설치 ] (https://github.com/byunginK/TIL/blob/master/JAVAinstall.md)
