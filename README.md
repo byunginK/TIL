@@ -13,3 +13,4 @@
 ## 분류
 ### Java
 * [JAVA 설치](https://github.com/byunginK/TIL/blob/master/JAVAinstall.md)
+* [JAVA 변수](https://github.com/byunginK/TIL/blob/master/Java%20Variable.md)
