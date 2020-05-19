@@ -12,3 +12,4 @@
 
 # 분류
 ### Java
+*[JAVA 설치 ] JAVAinstall.md
