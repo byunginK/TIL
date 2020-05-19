@@ -19,11 +19,44 @@
 ### 변수의 타입
   
 * #### 기본형 자료 종류
-  1. 정수
-  2. 실수
-  3. 문자형
-  4. 문자열
-  5. 판정형
+- 정수 <br>
+  byte -> 1 byte = 8 bit ( -128 ~ 127 까지 표현 가능) <br>
+  short -> 2 byte <br>
+  int -> 4 byte = 32 bit (java의 정수 기본 자료형) <br>
+  long -> 8 byte (초기화시 값 맨 끝 L을 붙여줘야함) <br>
   
-
+- 실수 <br>
+  float -> 4 byte (초기화시 값 맨 끝 f를 붙여줘야함) <br>
+  double -> 8 byte (java의 실수 기본 자료형) <br>
+  
+- 문자형 <br>
+  char -> 2 byte (ASCII Code 취급) 문자를 내부적으로 정수값으로 저장
+  
+- 판정형 <br>
+  boolean -> 1 byte (true/false 판별 )
+  
+  ![주석 2020-05-19 184303](https://user-images.githubusercontent.com/65350890/82311670-fdfb3e00-9a00-11ea-96c5-f9104a1df9b9.png)
+  
+* ### 변수의 스왑(Swap)
+  ```
+    class swap{
+      public static void main(String[] args){
+        
+        int x;
+        int y;
+        int num;
+        
+        x = 1;
+        y = 2;
+        
+        num = x;                    -> num에도 x 값이였던 1을 대입시킨다.
+        x = y;                      ->  x 에 y 의 값을 대입하여 x = 2 의 값을 가진다.
+        y = num;                    -> y에 아까 num의 값을 대입하여 1 의 값을 대입시킨다.
+        
+        x = 2;
+        y = 1;
+      }
+    }
+ ```
+ 
   
