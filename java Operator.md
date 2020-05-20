@@ -7,11 +7,12 @@
   조건이 True 일때 값1을 변수에 대입,  false 일때 값2를 대입해준다
   ```
     int number = 5;
-    char c;
+    
+    	char c;
 		c = (number > 0)?'Y':'N';
 		System.out.println("c = "+ c);   -> Y 출력
 		
-	  int n;
+	int n;
 		n = (number < 5)?10:20;
 		System.out.println("n = "+n);    -> 20 
 
