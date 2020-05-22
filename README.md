@@ -9,7 +9,9 @@
  >Today I Learned인데 날짜를 표시하지 않는 이유는 조급해지지 않고 꾸준하기 위함이다.
 
 #
-
+### *미니 프로그램*
++ [JAVA 랜덤숫자게임](https://github.com/byunginK/TIL/blob/master/RandomGame.java)
+---
 ## 분류
 ### ■ Java
 * [JAVA 설치](https://github.com/byunginK/TIL/blob/master/JAVAinstall.md)
