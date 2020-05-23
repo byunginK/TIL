@@ -11,6 +11,8 @@
 #
 ### *미니 프로그램*
 + [JAVA 랜덤숫자게임](https://github.com/byunginK/TIL/blob/master/RandomGame.java)
++ [JAVA BaseBall게임](https://github.com/byunginK/TIL/blob/master/JAVA%20BaseballGame.java)
+
 ---
 ## 분류
 ### ■ Java
