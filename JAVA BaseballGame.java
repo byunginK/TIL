@@ -26,8 +26,7 @@ public class MainClass {
 		int userNum;
 		int arr1[] = new int[3];
 		int arr2[] = new int[3];
-		int userNum2;
-		boolean b = false;
+		boolean b = true;
 		
 		
 		for(int i = 0; i < 3; i++) {							// 랜덤 숫자 3개 중복되지 않게 배열
@@ -42,53 +41,37 @@ public class MainClass {
 				}
 			}
 		}
-loopout:while(true) {
-			for(int k = 0; k < 10; k++) {	
-				for( int i =0; i < 3; i++) {						//유저 숫자 3개 입력
-					System.out.print("숫자를 입력하세요: ");
-					userNum = sc.nextInt();
-					arr2[i] = userNum;
-					for(int j = 0; j < 3; j++) {
-						if(i !=j) {
-							if(arr2[i] == arr2[j]) {
-								System.out.print("중복된 숫자를 입력하였습니다. 다시 입력하세요: ");
-								userNum = sc.nextInt();
-								arr2[j] = userNum;
-							}
-						}
-					}
+	while(true) {
+		for(int k = 0; k < 10; k++) {							//총 기회 10번
+			for( int i =0; i < 3; i++) {						//유저 숫자 3개 입력
+				System.out.print("숫자를 입력하세요: ");
+				userNum = sc.nextInt();
+				arr2[i] = userNum;
+			}
+				
+			for(int i =0; i < 3; i++) {					// 스트라이크인지 볼인지 확인
+				if(arr1[i] == arr2[i]) {
+					System.out.println("스트라이크");
 				}
-				for(int i =0; i < 3; i++) {
-					if(arr1[i] == arr2[i]) {
-						System.out.println("스트라이크");
-					}
-					else if(arr1[i] != arr2[i]) {
-						System.out.println("볼");
-					}
+				else if(arr1[i] != arr2[i]) {
+					System.out.println("볼");
 				}
-				if(arr1[0] == arr2[0] && arr1[1] == arr2[1] && arr1[2] == arr2[2] ) {
-					System.out.println("아웃");
-				}
-				else{
-					continue;
-				}
-			}	
-			System.out.println("공수 교대 합니다. 수고 하셨습니다.");
-			while(b==false) {
-				System.out.println("다시 플레이 하시겠습니까? 1. Y / 2. N");
-				System.out.print(">");
-				userNum2 = sc.nextInt();
-					if(userNum2 ==1) {
-						continue;
-					}
-					else if(userNum2==2) {
-						System.out.println("이용해 주셔서 감사합니다.");
-						break loopout;
-					}
-					else {
-						System.out.println("잘못 입력하였습니다.");
-						b = false;
-					}
+			}
+			if(arr1[0] == arr2[0] && arr1[1] == arr2[1] && arr1[2] == arr2[2] ) {		//다 맞췄을경우 기회 loop에서 벗어남
+				System.out.println("아웃");
+				break;
+			}
+			else{
+				System.out.println("숫자를 맞추지 못했습니다.");
+			}
+		}	
+			
+		System.out.println("다시 플레이 하시겠습니까? 1. Y / 2. N");		//재플레이 여부 확인
+			System.out.print(">");
+			String r = sc.next();
+			if(b == r.equals("N") || b == r.equals("n")) {
+				System.out.println("이용해 주셔서 감사합니다.");
+				break;
 			}
 		}
 		sc.close();
