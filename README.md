@@ -12,6 +12,7 @@
 ### *미니 프로그램*
 + [JAVA 랜덤숫자게임](https://github.com/byunginK/TIL/blob/master/RandomGame.java)
 + [JAVA BaseBall게임](https://github.com/byunginK/TIL/blob/master/JAVA%20BaseballGame.java)
++ [JAVA StudentScore](https://github.com/byunginK/TIL/blob/master/JAVA%20StudentManagement.java)
 
 ---
 ## 분류
@@ -22,4 +23,10 @@
 * [JAVA 제어문1(조건문)](https://github.com/byunginK/TIL/blob/master/JAVA%20Control%20Flow%20Statement1.md)
 * [JAVA 제어문2(반복문)](https://github.com/byunginK/TIL/blob/master/JAVA%20Control%20Flow%20Statement2.md)
 * [JAVA 제어문3(break,continue)](https://github.com/byunginK/TIL/blob/master/JAVA%20Control%20Flow%20Statement3.md)
+* [JAVA Array(배열)](https://github.com/byunginK/TIL/blob/master/JAVA%20Array.md)
 * [JAVA String class](https://github.com/byunginK/TIL/blob/master/JAVA%20String%20Class.md)
+* [JAVA String class2](https://github.com/byunginK/TIL/blob/master/JAVA%20String%20Class%202.md)
+* [JAVA Wrapper Class](https://github.com/byunginK/TIL/blob/master/JAVA%20WrapperClass.md)
+* [JAVA Shuffle](https://github.com/byunginK/TIL/blob/master/JAVA%20shuffle.md)
+* [JAVA 중복값 제거 코드](https://github.com/byunginK/TIL/blob/master/JAVA%20duplicated%20Number.md)
+
