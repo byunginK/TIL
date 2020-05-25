@@ -22,58 +22,86 @@ public class MainClass {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		int ranNum;
-		int userNum;
 		int arr1[] = new int[3];
 		int arr2[] = new int[3];
-		boolean b = true;
+		boolean clear = false;
 		
+		boolean swit[] = new boolean[10];			//랜덤 숫자의 개수의 맞게 설정
 		
-		for(int i = 0; i < 3; i++) {							// 랜덤 숫자 3개 중복되지 않게 배열
-			ranNum = (int)(Math.random()*9)+1;
-			arr1[i] = ranNum;
-			for(int j = 0; j < 3; j++) {
-				if(i!=j) {
-					if(arr1[i] == arr1[j]) {
-						ranNum = (int)(Math.random()*9)+1;
-						arr1[j] = ranNum;
+
+		for (int i = 0; i < swit.length; i++) {
+			swit[i] = false;    				// 00000 00000  전부 false로 우선 설정( 중복방지 코드 참고)
+		}
+		
+		int r, w; 			// 아래 중복 방지 코드
+		w =0;
+		while(w<3) {
+			r = (int)(Math.random()*10);			// r에 랜덤 숫자를 넣어준다.  나올 숫자도 맞게 설정
+			if(swit[r] ==false) {				
+				swit[r] = true;
+				r_num[w] = r + 1;			// 0 부터 랜덤 숫자가 들어가기 때문에  +1을 해준다.
+				w++;
+			}	
+		}
+		w = 0;
+		int strike, ball;
+		while(w<10) {
+			// user input  u1 != u2 != u3
+			int w1;
+			while(true) {
+				boolean check = false;
+				w1 = 0;
+				while(w1 < 3) {
+					System.out.println((w1 + 1)+"번째 수 = ");
+					u_num[w1] = sc.nextInt();
+					w1++;
+				}
+				
+				//같은 숫자가 있는지 체크
+			out: for (int i = 0; i < u_num.length; i++) {
+					for (int j = 0; j < u_num.length; j++) {
+						if(u_num[i] == u_num[j] && i!= j) {
+							check = true;   //입력한 같은 숫가가 있음
+							break out;
+						}
+					}
+				}
+				if(check == false) {
+					break;
+				}
+				System.out.println("입력한 숫자중에 중복되는 숫자가 있습니다. 다시 입력해 주십시오.");
+			}
+			
+			// process(비교)
+			strike = ball = 0;
+				// ball
+			for (int i = 0; i < u_num.length; i++) {
+				for (int j = 0; j < r_num.length; j++) {
+					if(u_num[i] == r_num[j] && i !=j) {
+						ball++;
 					}
 				}
 			}
-		}
-	while(true) {
-		for(int k = 0; k < 10; k++) {							//총 기회 10번
-			for( int i =0; i < 3; i++) {						//유저 숫자 3개 입력
-				System.out.print("숫자를 입력하세요: ");
-				userNum = sc.nextInt();
-				arr2[i] = userNum;
-			}
-				
-			for(int i =0; i < 3; i++) {					// 스트라이크인지 볼인지 확인
-				if(arr1[i] == arr2[i]) {
-					System.out.println("스트라이크");
-				}
-				else if(arr1[i] != arr2[i]) {
-					System.out.println("볼");
+				// strike
+			for (int i = 0; i < u_num.length; i++) {
+				if(u_num[i]==r_num[i]) {
+					strike++;
 				}
 			}
-			if(arr1[0] == arr2[0] && arr1[1] == arr2[1] && arr1[2] == arr2[2] ) {		//다 맞췄을경우 기회 loop에서 벗어남
-				System.out.println("아웃");
+				// 탈출
+			if(strike > 2) {
+				clear = true;
 				break;
 			}
-			else{
-				System.out.println("숫자를 맞추지 못했습니다.");
-			}
-		}	
-			
-		System.out.println("다시 플레이 하시겠습니까? 1. Y / 2. N");		//재플레이 여부 확인
-			System.out.print(">");
-			String r = sc.next();
-			if(b == r.equals("N") || b == r.equals("n")) {
-				System.out.println("이용해 주셔서 감사합니다.");
-				break;
-			}
+			//메세지 출력
+			System.out.println(strike+"스트라이크"+ball + "볼 입니다.");
+			w++;
 		}
-		sc.close();
+		if(clear) {
+			System.out.println("Game Clear");
+		}else {
+			System.out.println("Game Over");
+		}
 	}
+
 }
