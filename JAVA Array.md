@@ -57,3 +57,48 @@ for (int i = 0; i < Array2.length; i++) {			          //length는 3이다.
 3. Array2[0][2]
 4. Array2[0][3]
      ……
+
+
+## 2차원 배열 -> 1차원 배열로 바꾸기
+
+우선 아래와 같이 임의의 2차원배열을 초기화 한다.
+```
+char array2[][] = {
+{'A','B','C'},	
+{'D','E','F'},	
+{'G','H','I'},
+{'J','K','L'}
+};
+```
+그리고 2차원 배열의 length 함수를 통해 1차원 배열의 length를 지정해 줄 수 있다. (array2.length * array2[0].length)
+```
+char array1[] = new char[array2.length*array2[0].length];
+```
+
+왼쪽은 2차원 배열의 순서이며 오른쪽은 1차원 배열의 순서이다. 아래와 같은 순서로 값을 대입해주어야 한다.
+
+이때 가운데 식을 보면 3을 array2배열의 length만큼 곱해주고 0 부터 1씩 증가하는 값을 더해주면 array1배열의 
+
+index 넘버가 나오는것을 알 수 있다.
+```
+array2[0][0]	 3 * 0 + 0-> array1[0]
+array2[0][1]	 3 * 0 + 1-> array1[1]
+array2[0][2] 	 3 * 0 + 2-> array1[2]
+	
+array2[1][0]	 3 * 1 + 0-> array1[3]
+array2[1][1]	 3 * 1 + 1-> array1[4]
+array2[1][2]	 3 * 1 + 2-> array1[5]
+```
+
+이중 for 문을 이용하여 아까 식을 통해 1차원 배열에 값을 대입 해줄 수 있다. array2[i].length 는 3 
+
+i 는 0 부터 작은 for 문이 끝날때마다 1씩 증가
+
+j 는 0부터 1씩 증가 
+```
+for (int i = 0; i < array2.length; i++) {
+   for (int j = 0; j < array2[i].length; j++) {
+    array1[array2[i].length*i+j] = array2[i][j];
+   }
+}   
+```
