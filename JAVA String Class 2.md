@@ -68,3 +68,31 @@ else {
     System.out.println("정수 입니다.");
 }
 ```
+### 3. 대문자 -> 소문자 , 소문자 -> 대문자 문자열로 변환
+
+String Class의 함수인 charAt을 이용하여 문자를 추출하고 ASCII Code 값을 이용하여 해당 값이 대문자인지 소문자인지
+
+판별을 해준다. 이후 만약 대문자라면 값의 아스키 코드값에 +32를 해주면된다.(아스키 코드의 대문자와 소문자의 값의 차는 32이다.)
+
+마찬가지로 소문자라면 -32를 해주면 된다. 아래 코드는 우선 대문자에서 소문자로만 변환해주는 코드이다.
+
+```
+System.out.print("문자열 입력: ");
+String str = sc.next();
+String result ="";
+
+↓코드 = 한문자씩 산출
+for (int i = 0; i < str.length(); i++) {
+	char c = str.charAt(i);			// <=> indexOf 함수
+	if((int)c>=65 && (int)c<=90) {		// 대문자의 경우
+		int n = (int)c+32;		// 대문자 변환 부분
+		result = result + (char)n;
+	}
+	else {		//소문자의 경우
+		result = result + (char)c;
+	}
+}
+			
+
+```
+위의 코드시 *형변환* 을 주의 하자.
