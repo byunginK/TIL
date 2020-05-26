@@ -31,9 +31,9 @@ public class Mission2 {
 		
 		int studentNum = 0;
 		String name;
-		int korea;
-		int math;
-		int english;
+		String korea = "";
+		String eng = "";
+		String math = "";
 		int w = 0;
 		int koreamax=0;
 		int koreamin =100;
@@ -55,65 +55,95 @@ public class Mission2 {
 		}
 		while (w<list.length) {
 			while(true) {
-				System.out.print(list[w][0]+"의 국어 점수를 입력하세요: ");
-				korea = sc.nextInt();
-				if(korea>0 && korea<100) {		// 숫자의 범위 확인
-					if(korea> koreamax) {
-						koreamax = korea;
+				System.out.print("국어: ");
+				korea = sc.next();
+				boolean check = false;
+				for(int j = 0; j < korea.length(); j++) {
+					char c = korea.charAt(j);				// 아스키 코드로
+					if((int)c < 48 || (int)c > 57) {
+						check = true;
+						break;
 					}
-					if(korea <koreamin) {
-						koreamin = korea;
-					}
-					list[w][1] = korea+"";
-					break;
 				}
-				else {
-					System.out.println("잘못된 범위 입니다. 다시입력하세요");
+				if(check == true) {
+					System.out.println("잘못 입력 하셨습니다. 다시 입력해 주십시오");
 					continue;
 				}
+				int numKorea = Integer.parseInt(korea);
+				if(numKorea < 0 || numKorea > 100) {
+					System.out.println("범위를 초과한 점수 입니다. 다시 입력해 주세요.");
+					continue;
+				}
+				break;
+				
+				
 			}
-			
 			
 			while(true) {
-				System.out.print(list[w][0]+"의 수학 점수를 입력하세요: ");
-				math = sc.nextInt();
-				if(math>0 && math<100) {
-					if(math> mathmax) {
-						mathmax = math;
+				System.out.print("영어: ");
+				eng = sc.next();
+				boolean check = false;
+				for(int j = 0; j < eng.length(); j++) {
+					char c = eng.charAt(j);				// 아스키 코드로
+					if((int)c < 48 || (int)c > 57) {
+						check = true;
+						break;
 					}
-					if(math <mathmin) {
-						mathmin = math;
-					}
-					list[w][2] = math+"";
-					break;
 				}
-				else {
-					System.out.println("잘못된 범위 입니다. 다시입력하세요");
+				if(check == true) {
+					System.out.println("잘못 입력 하셨습니다. 다시 입력해 주십시오");
 					continue;
 				}
+				int numEng = Integer.parseInt(eng);
+				if(numEng < 0 || numEng > 100) {
+					System.out.println("범위를 초과한 점수 입니다. 다시 입력해 주세요.");
+					continue;
+				}
+				break;
+				
 			}
+			while(true) {
+				System.out.print("수학: ");
+				math = sc.next();
+				boolean check = false;
+				for(int j = 0; j < math.length(); j++) {
+					char c = math.charAt(j);				// 아스키 코드로
+					if((int)c < 48 || (int)c > 57) {
+						check = true;
+						break;
+					}
+				}
+				if(check == true) {
+					System.out.println("잘못 입력 하셨습니다. 다시 입력해 주십시오");
+					continue;
+				}
+				int numMath = Integer.parseInt(math);
+				if(numMath < 0 || numMath > 100) {
+					System.out.println("범위를 초과한 점수 입니다. 다시 입력해 주세요.");
+					continue;
+				}
+				break;
+			}
+			
+		}
 		
-			
-			while(true) {
-			System.out.print(list[w][0]+"의 영어 점수를 입력하세요: ");
-			english = sc.nextInt();
-				if(english>0 && english<100) {
-					if(english> englishmax) {
-						englishmax = english;
-					}
-					if(english <englishmin) {
-						englishmin = english;
-					}
-					list[w][3] = english+"";
-					w++;
-					break;
-				}
-				else {
-					System.out.println("잘못된 범위 입니다. 다시입력하세요");
-					continue;
-				}
+		int studentCount[][] = new int[list.length][3];
+		for (int i = 0; i < list.length; i++) {
+			studentCount[i][0] = Integer.parseInt(list[i][1]);	//국어
+			studentCount[i][1] = Integer.parseInt(list[i][2]);	//영어
+			studentCount[i][2] = Integer.parseInt(list[i][3]);	//수학
+		}
+		int max = studentCount[0][0];    //국어 최고 점수
+		for (int i = 0; i < list.length; i++) {
+			if(max <studentCount[i][0]) {
+				max = studentCount[i][0];
 			}
-			
+		}
+		int min = studentCount[0][1];	 // 영어		
+		for (int i = 0; i < list.length; i++) {
+			if(min>studentCount[i][1]) {
+				min = studentCount[i][1];
+			}
 		}
     
 		//과목의 최고 점수
