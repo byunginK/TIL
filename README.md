@@ -24,7 +24,7 @@
 * [JAVA 제어문2(반복문)](https://github.com/byunginK/TIL/blob/master/JAVA%20Control%20Flow%20Statement2.md)
 * [JAVA 제어문3(break,continue)](https://github.com/byunginK/TIL/blob/master/JAVA%20Control%20Flow%20Statement3.md)
 * [JAVA Array(배열)](https://github.com/byunginK/TIL/blob/master/JAVA%20Array.md)
-* [JAVA 피보나치](https://github.com/byunginK/TIL/blob/master/JAVA%20fibonnaci.md
+* [JAVA 피보나치](https://github.com/byunginK/TIL/blob/master/JAVA%20fibonnaci.md)
 * [JAVA String class](https://github.com/byunginK/TIL/blob/master/JAVA%20String%20Class.md)
 * [JAVA String class2 (판별)](https://github.com/byunginK/TIL/blob/master/JAVA%20String%20Class%202.md)
 * [JAVA Wrapper Class](https://github.com/byunginK/TIL/blob/master/JAVA%20WrapperClass.md)
