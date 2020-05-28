@@ -14,6 +14,7 @@
 + [JAVA BaseBall게임](https://github.com/byunginK/TIL/blob/master/JAVA%20BaseballGame.java)
 + [JAVA StudentScore](https://github.com/byunginK/TIL/blob/master/JAVA%20StudentManagement.java)
 * [JAVA 간단한 계산기](https://github.com/byunginK/TIL/blob/master/JAVA%20Calculator.java)
+* [JAVA 암호화/복호화](https://github.com/byunginK/TIL/blob/master/JAVA%20Security.md)
 
 ---
 ## 분류
@@ -31,6 +32,7 @@
 * [JAVA Wrapper Class](https://github.com/byunginK/TIL/blob/master/JAVA%20WrapperClass.md)
 * [JAVA Shuffle (알고리즘)](https://github.com/byunginK/TIL/blob/master/JAVA%20shuffle.md)
 * [JAVA Sorting (알고리즘)](https://github.com/byunginK/TIL/blob/master/JAVA%20Sorting.md)
+   + [JAVA Sorting (메서드화)](https://github.com/byunginK/TIL/blob/master/JAVA%20Sorting%20Func.java)
 * [JAVA 중복값 제거 코드](https://github.com/byunginK/TIL/blob/master/JAVA%20duplicated%20Number.md)
 * [JAVA 함수](https://github.com/byunginK/TIL/blob/master/JAVA%20function.md)
 
