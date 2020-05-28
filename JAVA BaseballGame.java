@@ -22,8 +22,8 @@ public class MainClass {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		int arr1[] = new int[3];
-		int arr2[] = new int[3];
+		int r_num[] = new int[3];
+		int u_num[] = new int[3];
 		boolean clear = false;
 		
 		boolean swit[] = new boolean[10];			//랜덤 숫자의 개수의 맞게 설정
