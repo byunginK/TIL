@@ -50,7 +50,7 @@ static void random(int r_num[]) {					//목적: 배열에 랜덤숫자 3개 대�
 			r = (int)(Math.random()*10);		
 			if(swit[r] ==false) {				
 				swit[r] = true;
-				r_num[w] = r + 1;			.// 중복되지 않은 랜덤숫자 r_num배열에 대입
+				r_num[w] = r + 1;			// 중복되지 않은 랜덤숫자 r_num배열에 대입
 				w++;
 			}	
 		}
