@@ -11,7 +11,7 @@
 #
 ### *미니 프로그램*
 + [JAVA 랜덤숫자게임](https://github.com/byunginK/TIL/blob/master/RandomGame.java)
-+ [JAVA BaseBall게임](https://github.com/byunginK/TIL/blob/master/JAVA%20BaseballGame.java)
++ [JAVA BaseBall게임](https://github.com/byunginK/TIL/tree/master/BaseBall)
 + [JAVA StudentScore](https://github.com/byunginK/TIL/blob/master/JAVA%20StudentManagement.java)
 * [JAVA 간단한 계산기](https://github.com/byunginK/TIL/blob/master/JAVA%20Calculator.java)
 * [JAVA 암호화/복호화](https://github.com/byunginK/TIL/blob/master/JAVA%20Security.md)
@@ -40,3 +40,4 @@
    + [JAVA File Read & Write](https://github.com/byunginK/TIL/blob/master/JAVA%20File%20Read%26Write.md)
 * [JAVA OverLoad](https://github.com/byunginK/TIL/blob/master/JAVA%20Overload.md)
 * [JAVA Exception](https://github.com/byunginK/TIL/blob/master/JAVA%20Exception.md)
+* [JAVA OOP](https://github.com/byunginK/TIL/blob/master/JAVA%20OOP.md)
