@@ -360,7 +360,7 @@ public class Main {
 		
 		for (int i = 0; i < str.length; i++) {
 			String s = str[i]; // 홍길동-나이-영어-수학 이런형식으로 넘어오게됨
-			String split[] = s.split("-");
+			String split[] = s.split("-");// s의 문자열을 "-"을 지워주는 split 함수를 이용하여 split[]배열에 하나씩 담기게해줌
 			
 			student[i][0] = split[0];
 			student[i][1] =	split[1];	
