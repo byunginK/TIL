@@ -247,21 +247,25 @@ public class Main {
 		String temp[] = null;
 		for (int i = 0; i < sortDatas.length -1; i++) {
 			for (int j = i +1; j < sortDatas.length; j++) {
-				int num1 = Integer.parseInt(sortDatas[i][2]);
-				int num2 = Integer.parseInt(sortDatas[j][2]);
-				if(num1 > num2) {
-					temp = sortDatas[i];  // 한줄을 통째로 가져와서 바꿔준다.
-					sortDatas[i] = sortDatas[j];
-					sortDatas[j] = temp;
+				if(!sortDatas[i][2].equals("")&& !sortDatas[j][2].equals("")) {
+					int num1 = Integer.parseInt(sortDatas[i][2]);
+					int num2 = Integer.parseInt(sortDatas[j][2]);
+					if(num1 > num2) {
+						temp = sortDatas[i];  // 한줄을 통째로 가져와서 바꿔준다.
+						sortDatas[i] = sortDatas[j];
+						sortDatas[j] = temp;
+					}
+			
 				}
 			}
 		}
 		for (int i = 0; i < sortDatas.length; i++) {
+			if(!sortDatas[i][2].equals("")) {
 			System.out.println(sortDatas[i][0]+" "+sortDatas[i][1]+" "+sortDatas[i][2]+" "+sortDatas[i][3]+" ");
-		}
 		
+			}
+		}
 	}
-	
 	static void dataSave(String student[][]) {
 		/*
 		 이름
