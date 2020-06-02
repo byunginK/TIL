@@ -40,4 +40,4 @@
    + [JAVA File Read & Write](https://github.com/byunginK/TIL/blob/master/JAVA%20File%20Read%26Write.md)
 * [JAVA OverLoad](https://github.com/byunginK/TIL/blob/master/JAVA%20Overload.md)
 * [JAVA Exception](https://github.com/byunginK/TIL/blob/master/JAVA%20Exception.md)
-* [JAVA OOP](https://github.com/byunginK/TIL/blob/master/JAVA%20OOP.md)
+* [JAVA OOP](https://github.com/byunginK/TIL/tree/master/OOP)
