@@ -65,7 +65,7 @@ co.func();
 #### instanceOf
 - 상속 받은 Object를 부모 클래스의 instance로 생성
 
-ChildOne   -> Parant
+ChildOne   -> Parant<br>
 ChildTwo   -> Parant
 
 - 생성된 instance에 어떤 자식클래스가 생성되었는지 판별할 수 있는 제어자
