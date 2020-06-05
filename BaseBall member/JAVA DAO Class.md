@@ -273,3 +273,177 @@ public void allPrint() {
 	}
 ```
 모든 선수 출력을 해주는 메서드 이며, 배열로 프로그램 구현 하였기 때문에 null이 아닌경우와 "" 빈문자일 경우를 제외하고 출력해준다.
+
+```java
+public void saveData() {
+		
+		int len = 0;			
+		for (int i = 0; i < human.length; i++) {
+			if(human[i] != null) {		
+				len++;
+			}
+		}
+		
+		String datas[] = new String[len];   //우선 배열의 갯수에 맞춰서 생성
+		
+		for (int i = 0; i < datas.length; i++) {
+			datas[i] = human[i].toString();		//over ride 되어서 pitcher 와 batter의 toString이 넘어온다
+		}
+		fp.saveData(datas);
+	}
+```
+파일로 데이터를 저장할때 "-"토큰을 이용하는게 좋다. 예를 들어 (번호-이름-나이-키-승수-패수-방어율)
+
+1. 세이브는 내용이 있는 부분 까지만 하기 때문에 우선 내용이 있는 배열의 길이까지만을 구해주는 len 의 길이를 파악한다.
+2. 배열의 len(내용이있는 길이)까지 생성(할당)한다.
+3. datas[] 배열에 human[]의 toString 을 넘겨준다. OverRide가 되기 때문에 Pitcher와 Batter의 toString이 넘어온다.( 중요 )
+4. FileProc의 saveData메서드를 불러와 해당 내용을 텍스트파일에 쓰는 소스코드를 진행한다.
+
+```java
+public void loadData() {
+		// 이 함수를 하기 전에 배열이 먼저 만들어져 있어야 한다.
+		String datas[] = fp.loadData();
+		/*
+		 datas = Pitcher, Batter 섞여 들어가 있다. -> Human[]
+		 		객체 생성
+		 		값을 저장
+		 */
+		
+		for (int i = 0; i < datas.length; i++) {
+			//datas[0~n-1]
+			//datas[0] = 1000-홍길동-24-178.1-10-3-1.43
+			//datas[1] = 2001-일지매-21-180.1-21-18-0.8
+			//datas[2] = 1002-장길산-21-190.3-20-4-0.43
+			
+			String data[] = datas[i].split("-"); // "-" 잘라서 data[]배열에 넣기
+			
+			int title = Integer.parseInt(data[0]);
+			if(title < 2000) {		// 투수
+				
+				human[i] = new Pitcher(Integer.parseInt(data[0]), 
+												data[1], 
+									Integer.parseInt(data[2]), 
+									Double.parseDouble(data[3]), 
+									Integer.parseInt(data[4]),
+									Integer.parseInt(data[5]), 
+									Double.parseDouble(data[6]));
+						
+				
+			}
+			else {
+				human[i] = new Batter(Integer.parseInt(data[0]), 
+												data[1], 
+									Integer.parseInt(data[2]), 
+									Double.parseDouble(data[3]), 
+									Integer.parseInt(data[4]),
+									Integer.parseInt(data[5]), 
+									Double.parseDouble(data[6]));
+			}
+		}
+	}
+```
+1. FileProc의 loadData를 불러와 텍스트에 적혀있는 내용을 불러오고 return된 배열을 datas[]에 다시 담는다.
+2. split 메서드를 이용해 토큰을 잘라 data배열에 차례대로 대입한다
+3. data[0]의 정보는 선수 넘버이므로 2000보다 작으면 투수 크면 타자이다. 해당 조건을 이용하여 human배열에 자료형에 맡게 변환하여 넣어준다.
+
+```java
+public void hitAvgSorting() {
+		// 등록된 사람 정렬할 배열에 담아 구하기
+		Human ballMan[] = choicePosition(2);
+		
+		//정렬
+		Human obj = null;
+		for (int i = 0; i < ballMan.length-1; i++) {
+			for (int j = i+1; j < ballMan.length; j++) {
+				Batter b1 = (Batter)ballMan[i];
+				Batter b2 = (Batter)ballMan[j];
+				if(b1.getHitAvg() < b2.getHitAvg()) {
+					obj = ballMan[i]; 
+					ballMan[i] = ballMan[j];
+					ballMan[j] = obj;
+				}
+			}
+		}
+		for (int i = 0; i < ballMan.length; i++) {
+			System.out.println(ballMan[i].toString());
+		}
+	}
+```
+1. 타율 정렬을 위해 우선 타자별 투수별 인원을 배열에 담는 choicePosition()메서드를 불러온다. (아래 참조) 
+
+투수 타자가 랜덤으로 담겨있기때문에 구분을해주고 정렬을 해주어야 한다.
+
+2. 인스턴스를 담기위해 비어있는 Human obj를 null값으로 잡아주고 정렬문에 사용하는 for문을 불러온다.
+3. 우선 타율정렬로 타자를 불러와야한다. Batter의 객체를 생성하고 ballMan을 형변환 하여 넣어준다.
+4. 각 객체의 타율을 비교하고 내림차순으로 정렬 해준다.
+
+```java
+public void defenceSorting() {
+		
+		Human ballMan[] = choicePosition(1);
+		
+		Human obj = null;
+		for (int i = 0; i < ballMan.length-1; i++) {
+			for (int j = i+1; j < ballMan.length; j++) {
+				Pitcher p1 = (Pitcher)ballMan[i];
+				Pitcher p2 = (Pitcher)ballMan[j];
+				if(p1.getDefence() > p2.getDefence()) {
+					obj = ballMan[i];
+					ballMan[i] = ballMan[j];
+					ballMan[j] = obj;
+							
+				}
+			}
+		}
+		for (int i = 0; i < ballMan.length; i++) {
+			System.out.println(ballMan[i].toString());
+		}
+		
+	}
+```
+타율과 마찬가지로 투수 방어율 오름차순 정렬이다. 방식은 아까와 동일하다.
+
+```java
+public Human [] choicePosition(int num) {
+		int count = 0;
+		
+		for (int i = 0; i < human.length; i++) {
+			if(human[i] != null) {
+				if(num ==1) {
+					if(human[i].getNumber() < 2000) {	//투수
+						count++;
+					}
+					
+				}else {
+					if(human[i].getNumber() >= 2000){// 타자
+						count++;
+					}
+				}
+			}
+		}
+		Human[] choiceHuman = new Human[count];	//사람 수만큼 배열 생성
+		
+		// 배열에 사람 수만큼만 넣기
+		int m = 0; // i 로 같이 돌리면 human의 길이만큼 너무 많이 돌아간다.
+		for (int i = 0; i < human.length; i++) {
+			if(human[i] != null) {
+				if(num ==1) {
+					if(human[i].getNumber() < 2000) {
+						choiceHuman[m] = human[i];
+						m++;
+					}
+				}
+				else {
+					if(human[i].getNumber() >= 2000) {
+						choiceHuman[m] = human[i];
+						m++;
+					}
+				}
+			}
+		}
+		return choiceHuman;
+	}
+```
+1. 사람 수만큼 배열을 생성해야 함으로 선수넘버를 조건으로 count 한다.
+2. 배열을 할당하고 타자따로 투수 따로 choiceHuman 배열에 넣어준다. i를 같이 안쓰고 m 을 쓰는 이유는  nullPoint가 발생하기 때문이다.
+3. Human 배열을 return값으로 돌려준다.
