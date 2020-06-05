@@ -55,12 +55,12 @@ public class Human {
 
 	@Override
 	public String toString() {
-		return "Human [number=" + number + ", name=" + name + ", age=" + age + ", height=" + height + "]";
+		return number + "-" + name + "-" + age + "-" + height;
 	}
-
-	
 }
 ```
+마지막 toString 은 "-"을 통해 데이터세이브때 이용 할 수 있도록 편집 하였다.
+
 # Pitcher Class
 ```java
 package dto;
@@ -103,9 +103,17 @@ public class Pitcher extends Human {
 	public void setDefence(double defence) {
 		this.defence = defence;
 	}
-
+	
+	@Override
+	public String toString() {
+		return super.toString() + "-" + win + "-" + lose + "-" + defence;
+	}
 }
 ```
+OverRide를 통해 toString의 메서드를 생성하였고 이것도 마찬가지로 "-"토큰으로 추가하여 편집하였다. 또한 return시 super.toString(human)
+
+toString 불러오기를 통해 전체 문자열을 가지고 오도록 구현 하였다.
+
 # Batter Class
 ```java
 package dto;
@@ -117,11 +125,16 @@ public class Batter extends Human {
 	private double hitAvg; // 타율  0.0 ~ 1.0
 	
 	public Batter() {
-		super();
 		
 	}
 	
-	
+	public Batter(int number, String name, int age, double height, int batcount, int hit, double hitAvg) {
+		super(number, name,age, height);
+		this.batcount = batcount;
+		this.hit = hit;
+		this.hitAvg = hitAvg;
+	}
+
 	
 	public int getBatcount() {
 		return batcount;
@@ -143,10 +156,21 @@ public class Batter extends Human {
 	}
 	@Override
 	public String toString() {
-		return "Batter [batcount=" + batcount + ", hit=" + hit + ", hitAvg=" + hitAvg + "]";
+		return super.toString() + "-" + batcount + "-" + hit + "-" + hitAvg;
 	}
 	
-	
-	
+	public void allclean() {		//한번에 set을 불러올수 있다.
+		setNumber(0);
+		setName("");
+		setAge(0);
+		setHeight(0.0);
+		setBatcount(0);
+		setHit(0);
+		setHitAvg(0.0);
+	}
 }
 ```
+Pitcher와 마찬가지로 생성자를 전부 생성하도록 하고 Over Ride 를 통해서 문자열 전부를 불러오도록 한다. 아래 allclean()메서드는
+
+DAO클래스에서 삭제에 사용하기 위해 생성하였다.
+
