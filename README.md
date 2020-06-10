@@ -19,6 +19,7 @@
 * [JAVA Student2](https://github.com/byunginK/TIL/blob/master/JAVA%20Student2.java)
 * [JAVA BaseBallMember](https://github.com/byunginK/TIL/tree/master/BaseBall%20member)
    + [BaseBallMember2(ArrayList, 객체화)](https://github.com/byunginK/TIL/tree/master/Baseball%20Member2)
+   + [BaseBallMember Singleton](https://github.com/byunginK/TIL/tree/master/baseball%20member%20Singleton)
 
 ---
 ## 분류
@@ -51,3 +52,5 @@
 * [JAVA Collection](https://github.com/byunginK/TIL/tree/master/Collection)
 * [JAVA Abstract Class](https://github.com/byunginK/TIL/blob/master/JAVA%20Abstract%20Class.md)
 * [JAVA Interface](https://github.com/byunginK/TIL/blob/master/JAVA%20Interface.md)
+* [JAVA Pattern](https://github.com/byunginK/TIL/tree/master/Pattern)
+* [JAVA 자료구조](https://github.com/byunginK/TIL/tree/master/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0)
