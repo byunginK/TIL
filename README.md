@@ -1,6 +1,6 @@
 # Today I Learned (TIL)
 
-▶오늘 배운, 알게 된, 학습한 내용을 정리해두는 저장소
+▶ 오늘 배운, 알게 된, 학습한 내용을 정리해두는 저장소
    
  >좋은 개발자가 되기 위해 하루동안 학습한 내용이나 개발관련 경험들을 간단한 기록으로 남긴다.
 
@@ -20,7 +20,7 @@
 * [JAVA BaseBallMember](https://github.com/byunginK/TIL/tree/master/BaseBall%20member)
    + [BaseBallMember2(ArrayList, 객체화)](https://github.com/byunginK/TIL/tree/master/Baseball%20Member2)
    + [BaseBallMember Singleton](https://github.com/byunginK/TIL/tree/master/baseball%20member%20Singleton)
-
+* [BaseBallMember UI](https://github.com/byunginK/TIL/tree/master/BaseBall%20UI)
 ---
 ## 분류
 ### ■ Java
