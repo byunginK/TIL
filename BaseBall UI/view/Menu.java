@@ -73,7 +73,8 @@ public class Menu extends JFrame implements ActionListener{
 			new AllPrint();
 		}
 		else if(btnTitle.equals("저장")) {
-			
+			bd.dataSave();
+			JOptionPane.showMessageDialog(null, "저장 되었습니다.");
 		}
 	}
 
