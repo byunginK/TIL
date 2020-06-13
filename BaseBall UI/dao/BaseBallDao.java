@@ -51,12 +51,11 @@ public class BaseBallDao {
 		for (int i = 0; i < list.size(); i++) {
 			human = list.get(i);
 			if(name.equals(human.getName())) {
-				
+			list.remove(i);
+				return true;
 			}
 		}
-		
-		
-		return true;
+		return false;
 	}
 	public void select(String name) {
 		
