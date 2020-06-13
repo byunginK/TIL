@@ -71,7 +71,6 @@ public class Delete extends JFrame implements ActionListener{
 		}
 		else if(obj == dele) {
 			BaseBallDao bd = BaseBallDao.getInstance();
-			Human human = null;
 			
 			String str = textfield.getText();
 			
