@@ -57,14 +57,27 @@ public class BaseBallDao {
 		}
 		return false;
 	}
-	public void select(String name) {
-		
+	public int select(String name) {
+		Human human = null;
+		int index = -1;
+		for (int i = 0; i < list.size(); i++) {
+			human = list.get(i);
+			if(name.equals(human.getName())) {
+				index = i;
+			}
+		}
+		return index;
 	}
 	public void updata(String name) {
 		
 	}
-	public void allPrint() {
-		
+	public String[] allPrint() {
+		String str[] = new String [list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			Human h = list.get(i);
+			str[i] = h.toString();
+		}
+		return str;
 	}
 	public void dataSave() {
 		fp.saveData(list);
