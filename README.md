@@ -1,6 +1,6 @@
 # Today I Learned (TIL)
 
-▶ 오늘 배운, 알게 된, 학습한 내용을 정리해두는 저장소
+▶  오늘 배운, 알게 된, 학습한 내용을 정리해두는 저장소
    
  >좋은 개발자가 되기 위해 하루동안 학습한 내용이나 개발관련 경험들을 간단한 기록으로 남긴다.
 
@@ -56,3 +56,5 @@
 * [JAVA 자료구조](https://github.com/byunginK/TIL/tree/master/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0)
 > #### JAVA- AWT 
 > * [AWT Basic](https://github.com/byunginK/TIL/tree/master/AWT)
+>> #### JAVA- Network
+>> * [Network Basic](https://github.com/byunginK/TIL/tree/master/Network)
