@@ -110,7 +110,7 @@ SELECT first_name, last_name
 FROM employees
 where manager_id = ''; 
 ```
-null 로 구분되어 있는 부부은 ''으로 인식 하지 못한다. 
+null 로 구분되어 있는 부분은 ''으로 인식 하지 못한다. 
 
 ```
 SELECT first_name, last_name
@@ -179,3 +179,55 @@ where salary not in(8000,3200); -- 지정된 값 이외의 포함하지 않은 �
 - salary >= 3200 AND salary <= 9000
 - salary BETWEEN 3200 AND 9000
 위의 두 소스 코드는 같다.
+- 범위 (이상,이하)를 구할때 이용한다.
+
+### 9. LIKE
+- 글자 단위 탐색 
+```
+SELECT first_name
+FROM employees
+where first_name like 'G_ra_d'; 
+```
+_ 는 한글자가 무엇이든지 허용
+
+```
+SELECT first_name
+FROM employees
+where first_name like 'K%y'; 
+```
+% 는 글자수에 관계없이 모두 허용 (꼭 3글자가 아닐 수 있다.)
+
+```
+SELECT first_name
+FROM employees
+where first_name like 'A%';   
+```
+맨 앞에 A로 시작하는 사람들 모두 출력
+```
+SELECT first_name
+FROM employees
+where first_name like '%y';  
+```
+맨끝에 y로 끝나는 사람 모두 출력
+
+```
+SELECT first_name
+FROM employees
+where first_name like '%e%'; 
+```
+맨끝이 e 이거나 중간에 있는 사람 모두 출력 (e라는 문자만 있으면 출력)
+
+```
+SELECT first_name, hire_date
+FROM employees
+where hire_date like '06/01%';
+```
+2006년 1월 이후의 모든 날짜의 입사날짜가 탐색된다.
+
+```
+SELECT ename,deptno
+FROM emp
+where deptno = 20
+    and ename not like('%S%');
+```
+not like 를 활용하여 이름에 S 가 없는 사람중 부서번호가 20인 사람을 조회하여 이름과 부서 번호를 명세
