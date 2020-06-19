@@ -129,8 +129,10 @@ SELECT SUBSTR('ABCDE',3)FROM DUAL;    --3번지부터 끝까지
 SELECT SUBSTR('ABCDE',3,2) FROM DUAL; -- 3번지부터 2문자 불러오는 함수
 ```
 #### UPPER / LOWER
+```
 upper/lower(컬럼명 또는 문자열) 하게되면 upper는 대문자로 lower는 소문자로 변형되어 출력된다.
-
+```
 #### length
+```
 length(문자열, 컬럼명)을 넣게 되면 문자열의 길이, 컬럼 값의 문자 길이의 값이 나온다.
-
+```
