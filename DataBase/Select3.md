@@ -108,3 +108,23 @@ WHERE a.manager_id = b.employee_id;
 같은 테이블 안에서 사원과 상사를 나누어 탐색한다.
 
 사원의 상사를 구하기 위해 manager_id 와 employee_id이 같은경우 b 테이블에서 불러온 이름의 사람이 상사인것을 확인 할 수 있다.
+
+### 계층형 구조 (오름,내림)
+```sql
+SELECT a.employee_id, a.first_name AS "사원",
+    a.manager_id AS "사원의 상사", b.employee_id,
+    b.first_name AS "상사"
+FROM employees a, employees b
+WHERE a.manager_id = b.employee_id(+)
+CONNECT BY  a.manager_id = PRIOR a.employee_id;
+```
+위의 소스코드는 하향식으로 가장 상위에 있는 상사를 아래로 하나씩 정렬되어 출력한다.
+```sql
+SELECT a.employee_id, a.first_name AS "사원",
+    a.manager_id AS "사원의 상사", b.employee_id,
+    b.first_name AS "상사"
+FROM employees a, employees b
+WHERE a.manager_id = b.employee_id(+)
+CONNECT BY PRIOR a.manager_id = a.employee_id;
+```
+상향식이며, 아래 사원의 manager_id를 확인하여 위 상사를 하나씩 출력한다.
