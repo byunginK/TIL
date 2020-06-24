@@ -64,6 +64,14 @@ FROM employees;
 ```
 NULL 값으로 나오는 값들이 0으로 변경이 되어서 출력이 된다.
 
+### 9. NVL2(컬럼, 컬럼이 null이 아닐 경우 설정할 값, 컬럼이 null의 경우 설정할 값) 
+- 총급여sal+comm가 평균 급여보다 많은 급여를 받는 사람의 부서번호, 이름, 총급여, 
+커미션을 출력하시오.(커미션은 유(O),무(X)로 표시하고 컬럼명은 "comm유무" 출력)
+```sql
+SELECT deptno, ename, sal+comm, NVL2(COMM, '유', '무')  as "comm유무" 
+FROM emp
+WHERE sal+comm > (SELECT AVG(sal) FROM emp);
+```
 
 ---
 ## Where 절 
