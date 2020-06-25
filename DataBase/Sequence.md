@@ -32,3 +32,7 @@ ALTER SEQUENCE TEST_SEQ
 INCREMENT BY 3;   ★ 증가하는 값이 3으로 수정된다.
 ```
 
+## SEQUENCE 삭제 (초기화 불가로 삭제했다가 다시 생성)
+```SQL
+DROP SEQUENCE TEST_SEQ;
+```
