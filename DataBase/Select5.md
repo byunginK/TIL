@@ -42,6 +42,7 @@ CASE와 같은 값을 나타내준다.
 ## OVER() 함수
 - SELECT 절에서만 사용 가능
 - GROUP by 를 보강하기 위해 등장
+★ JOIN을 하고 Group by 를 사용하지 못할때 COUNT , SUM, AVG 등 함수를 이용하기 위해서 OVER를 사용할 수 있다.
 ```sql
 SELECT first_name, department_id, COUNT(DISTINCT department_id)OVER() -- 킴벌리때문에 106이 출력
  FROM employees;
@@ -51,9 +52,11 @@ OVER함수를 통해 COUNT 함수를 사용하고 그안에서 부서번호를 �
 ## PARTITION BY == GROUP BY
 ```sql
 SELECT department_id, first_name, salary,
-    COUNT(*)OVER(PARTITION BY department_id)
+    COUNT(*)OVER(PARTITION BY department_id) ---------- ORDER BY department_id ASC; 로 정렬을 할 수 있다.
 FROM employees;
 ```
+★ OVER를 묶을때 PARTITION BY 를 이용해 그룹으로 묶고 COUNT,SUM,AVG 등 함수를 활욜 할 수 있고, 그뒤에 ORDER BY로 정렬을 할 수도 있다.
+
 부서별로 묶고 그 안의 사원수를 카운트하고 부서번호, 이름, 급여를 출력한다. 맨끝에 나오는 숫자는 사원이 해당한 부서의 사원 수 이다.
 
 ## 집합 
