@@ -47,9 +47,7 @@ import db.DBConnection;
 public class InsertTest {
 
 	public InsertTest() {
-		
 	}
-	
 	public int insertData(String id, String name, int age) { 
  		
 		String sql = " INSERT INTO USERTEST(ID, NAME, AGE, JOINDATE) "
@@ -74,6 +72,29 @@ public class InsertTest {
 			DBClose.close(stat, conn, null);
 		}
  		return count;
+	}
+}
+```
+
+## Main
+
+```java
+package main;
+
+import db.DBConnection;
+import jdbc.InsertTest;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		DBConnection.initConnection(); // 생성자에 굳이 넣을 필요없이 바로 불러오기만 하면된다.
+		
+		InsertTest it = new InsertTest(); 
+		int count = it.insertData("abc4", "장영실", 22); // 데이터 insert
+		if(count == 1) {
+			System.out.println("데이터가"+ count + "개 추가 되었습니다.");
+		}
 	}
 }
 ```
