@@ -10,7 +10,6 @@
 
 #
 ### *미니 프로그램*
-+ [JAVA BaseBall게임](https://github.com/byunginK/TIL/tree/master/BaseBall)
 * [StudentScore2(ArrayList, 객체화)](https://github.com/byunginK/TIL/tree/master/Student%20Score2)
 * [JAVA BaseBallMember](https://github.com/byunginK/TIL/tree/master/BaseBall%20member)
    + [BaseBallMember2(ArrayList, 객체화)](https://github.com/byunginK/TIL/tree/master/Baseball%20Member2)
@@ -28,9 +27,11 @@
 * [JAVA Collection](https://github.com/byunginK/TIL/tree/master/Collection)
 * [JAVA Pattern](https://github.com/byunginK/TIL/tree/master/Pattern)
 * [JAVA 자료구조](https://github.com/byunginK/TIL/tree/master/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0)
-> #### JAVA- AWT 
+> #### ◎ JAVA- AWT 
 > * [AWT Basic](https://github.com/byunginK/TIL/tree/master/AWT)
->> #### JAVA- Network
+>> #### ◎ JAVA- Network
 >> * [Network Basic](https://github.com/byunginK/TIL/tree/master/Network)
+>>> #### ◎ JAVA DataBase Connectity
+>>> * [JDBC](https://github.com/byunginK/TIL/tree/master/JDBC)
 ### ■ DATABASE ORACLE
  * [ORACLE BASIC](https://github.com/byunginK/TIL/tree/master/DataBase)
