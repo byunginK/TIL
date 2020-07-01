@@ -97,18 +97,23 @@ public class DateContent extends JFrame implements ActionListener {
 			new MenuView();
 		}
 		else if(obj == search) {
-			String str = tf1[0].getText().trim() + tf1[1].getText().trim() + tf1[2].getText().trim();
-			
-			List<AbookDto> list = adao.dateContent(id, str);
-			if( list.size() != 0) {
-				for (int i = 0; i < list.size(); i++) {
-					String s = list.get(i).getId()+" / "+list.get(i).getAmount()+""+" / "+list.get(i).getContent()+" / "+list.get(i).getDate();
-					try {
-						textArea.insert(s+"\n", textArea.getLineStartOffset(0));
-					} catch (BadLocationException e1) {
-						e1.printStackTrace();
+			if(tf1[0].getText().equals("")||tf1[1].getText().equals("")||tf1[2].getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "날짜를 입력해주세요");
+			}
+			else {
+				String str = tf1[0].getText().trim() + tf1[1].getText().trim() + tf1[2].getText().trim();
+				
+				List<AbookDto> list = adao.dateContent(id, str);
+				if( list.size() != 0) {
+					for (int i = 0; i < list.size(); i++) {
+						String s = list.get(i).getId()+" / "+list.get(i).getAmount()+""+" / "+list.get(i).getContent()+" / "+list.get(i).getDate();
+						try {
+							textArea.insert(s+"\n", textArea.getLineStartOffset(0));
+						} catch (BadLocationException e1) {
+							e1.printStackTrace();
+						}
 					}
-				}
+				}	
 			}	
 		}
 	}
