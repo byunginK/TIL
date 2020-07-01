@@ -70,21 +70,27 @@ public class KindView extends JFrame implements ActionListener {
 			new MenuView();
 		}
 		else if(obj == search) {
-			String sh = tf.getText().trim();
-			AbookDto dto = adao.kindSearch(id, sh);
-			if( dto != null) {
-				String str = dto.getId()+" / "+dto.getAmount()+""+" / "+dto.getContent()+" / "+dto.getDate();
-				try {
-					ta.insert(str+"\n", ta.getLineStartOffset(0));
-				} catch (BadLocationException e1) {
-					e1.printStackTrace();
-				}
-				
+			if(tf.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "검색어를 입력해주세요");
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "없는 항목 입니다.");
+				String sh = tf.getText().trim();
+				AbookDto dto = adao.kindSearch(id, sh);
+				if( dto != null) {
+					String str = dto.getId()+" / "+dto.getAmount()+""+" / "+dto.getContent()+" / "+dto.getDate();
+					try {
+						ta.insert(str+"\n", ta.getLineStartOffset(0));
+					} catch (BadLocationException e1) {
+						e1.printStackTrace();
+					}
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "없는 항목 입니다.");
+				}
+
 			}
-		}
+		}	
 	}
 
 }
