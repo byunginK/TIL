@@ -65,7 +65,7 @@ public class KindView extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	@Override
-	public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		String id = MemberDao.getInstance().getLoginId();
 		AbookDao adao = AbookDao.getInstance();
@@ -81,7 +81,7 @@ public class KindView extends JFrame implements ActionListener {
 				String sh = tf.getText().trim();
 				AbookDto dto = adao.kindSearch(id, sh);
 				if( dto != null) {
-					String str = dto.getId()+" / "+dto.getAmount()+""+" / "+dto.getContent()+" / "+dto.getDate();
+					String str = dto.getId()+"님, "+dto.getAmount()+""+"원, "+IO(dto.getIo_kind())+", "+dto.getContent()+", ["+dto.getDate()+"]";
 					try {
 						ta.insert(str+"\n", ta.getLineStartOffset(0));
 					} catch (BadLocationException e1) {
@@ -95,6 +95,16 @@ public class KindView extends JFrame implements ActionListener {
 
 			}
 		}	
+	}
+	public String IO(String str) {
+		String result;
+		if(str.equals("I")) {
+			result = "수입";
+		}
+		else {
+			result = "지출";
+		}
+		return result;
 	}
 
 }
