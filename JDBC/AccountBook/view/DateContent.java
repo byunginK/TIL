@@ -102,11 +102,12 @@ public class DateContent extends JFrame implements ActionListener {
 			}
 			else {
 				String str = tf1[0].getText().trim() + tf1[1].getText().trim() + tf1[2].getText().trim();
+				String str2 = tf2[0].getText().trim() + tf2[1].getText().trim() + tf2[2].getText().trim();
 				
-				List<AbookDto> list = adao.dateContent(id, str);
+				List<AbookDto> list = adao.dateContent(id, str, str2);
 				if( list.size() != 0) {
 					for (int i = 0; i < list.size(); i++) {
-						String s = list.get(i).getId()+" / "+list.get(i).getAmount()+""+" / "+list.get(i).getContent()+" / "+list.get(i).getDate();
+						String s = list.get(i).getId()+" 님,  "+list.get(i).getAmount()+""+" 원,  "+IO(list.get(i).getIo_kind())+", "+list.get(i).getContent()+" , ["+list.get(i).getDate()+"]";
 						try {
 							textArea.insert(s+"\n", textArea.getLineStartOffset(0));
 						} catch (BadLocationException e1) {
@@ -116,5 +117,16 @@ public class DateContent extends JFrame implements ActionListener {
 				}	
 			}	
 		}
+	}
+	
+	public String IO(String str) {
+		String result;
+		if(str.equals("I")) {
+			result = "수입";
+		}
+		else {
+			result = "지출";
+		}
+		return result;
 	}
 }
