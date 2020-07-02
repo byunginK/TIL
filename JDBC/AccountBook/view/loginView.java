@@ -9,14 +9,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
 
-import dao.AbookDao;
 import dao.MemberDao;
 
 public class loginView extends JFrame implements ActionListener {
 
-	JTextField tx1, tx2;
+	JTextField tx1;
+	JPasswordField pf;
 	JButton btn1, btn2;
 	JLabel lb1,lb2,lb3;
 	JPanel jp = new JPanel();
@@ -42,10 +44,10 @@ public class loginView extends JFrame implements ActionListener {
 		
 		tx1 = new JTextField();
 		tx1.setBounds(130, 75, 100, 25);
-		tx2 = new JTextField();
-		tx2.setBounds(130, 120, 100, 25);
+		pf = new JPasswordField();
+		pf.setBounds(130, 120, 100, 25);
 		add(tx1);
-		add(tx2);
+		add(pf);
 		
 		btn1 = new JButton("log-in");
 		btn1.setBounds(40, 165, 90, 30);
@@ -58,7 +60,7 @@ public class loginView extends JFrame implements ActionListener {
 		
 		JRootPane  rootPane  = getRootPane();  //로그인시 엔터로 log-in 버튼 작동
         	rootPane.setDefaultButton(btn1);  
-		
+         
 		add(jp);
 		setBounds(700, 300, 300, 280);
 		setVisible(true);
@@ -73,21 +75,21 @@ public class loginView extends JFrame implements ActionListener {
 		MemberDao dao = MemberDao.getInstance();
 		if(obj == btn1) {
 			String id = tx1.getText().trim();
-			String pw = tx2.getText().trim();
+			String pw = pf.getText().trim();
 			
 			boolean b = dao.login(id, pw);
 			
 			if(b == true) {
 				
 				MemberDao.getInstance().setLoginId(id);
-				
+				JOptionPane.showMessageDialog(null, id + " 님 환영합니다.");
 				dispose();
 				new MenuView();
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "ID,PW가 일치 하지 않습니다.");
 				tx1.setText("");
-				tx2.setText("");
+				pf.setText("");
 			}
 		}
 		else if(obj == btn2) {
