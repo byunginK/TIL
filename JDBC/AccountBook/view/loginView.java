@@ -56,6 +56,9 @@ public class loginView extends JFrame implements ActionListener {
 		add(btn1);
 		add(btn2);
 		
+		JRootPane  rootPane  = getRootPane();  //로그인시 엔터로 log-in 버튼 작동
+        	rootPane.setDefaultButton(btn1);  
+		
 		add(jp);
 		setBounds(700, 300, 300, 280);
 		setVisible(true);
