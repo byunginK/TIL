@@ -55,9 +55,9 @@ public class AbookDao {
 	}
 	
 	public AbookDto kindSearch(String id,String sh) {
-		String sql = " SELECT M.ID, A.IO_KIND, A.AMOUNT, A.CONTENT, A.WDATE "
-				+ " FROM MEMBER M, ACCOUNTBOOK A "
-				+ " WHERE M.ID = A.ID AND M.ID = '"+id+"' AND A.CONTENT LIKE '%"+sh+"%' ";
+		String sql = " SELECT ID, IO_KIND, AMOUNT, CONTENT, WDATE "
+				+ " FROM ACCOUNTBOOK  "
+				+ " WHERE ID = '"+id+"' AND CONTENT LIKE '%"+sh+"%' ";
 		
 		Connection conn = DBconnection.getConnection();
 		Statement stmt = null;
@@ -89,9 +89,9 @@ public class AbookDao {
 		return dto;
 	}
 	public List<AbookDto> dateContent(String id,String date1) {
-		String sql = " SELECT M.ID, A.IO_KIND, A.AMOUNT, A.CONTENT, A.WDATE "
-				+ " FROM MEMBER M, ACCOUNTBOOK A "
-				+ " WHERE M.ID = A.ID AND M.ID = '"+id+"' AND A.WDATE >= TO_DATE('"+date1+"','YYYYMMDD') ";
+		String sql = " SELECT ID, IO_KIND, AMOUNT, CONTENT, WDATE "
+				+ " FROM ACCOUNTBOOK "
+				+ " WHERE ID = '"+id+"' AND WDATE BETWEEN TO_DATE('"+date1+"','YYYYMMDD') AND TO_DATE('"+date2+"','YYYYMMDD') ";
 		
 		Connection conn = DBconnection.getConnection();
 		Statement stmt = null;
