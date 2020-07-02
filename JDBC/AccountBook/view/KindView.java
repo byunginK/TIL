@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
@@ -53,6 +54,9 @@ public class KindView extends JFrame implements ActionListener {
 		back.setBounds(200, 350, 130, 30);
 		back.addActionListener(this);
 		add(back);
+		
+		JRootPane  rootPane  = getRootPane();   // 검색 버튼 엔터로 작동
+        	rootPane.setDefaultButton(search);  
 		
 		add(jp);
 		setBounds(600, 200, 400, 500);
