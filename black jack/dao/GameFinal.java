@@ -203,23 +203,20 @@ public class Game {
 			case 1: // Hit
 				// 카드 배분
 				uCardSet.add(uCardDeck(cardList));
+				userSum(uCardSet);
 				if (dealerScore <= 16) {
 					dCardSet.add(dCardDeck(cardList));
-				}
-				b = checkCard();
-				if(b == false) {
-					System.out.print("딜러 카드: ");
-					for (int i = 0; i < dCardSet.size(); i++) {
-						System.out.print(dCardSet.get(i)+" ");
-					}
-					System.out.println();
-					System.out.println("점수 합산: " + dealerScore);
-					break loop2;
+					dealerSum(dCardSet);
 				}
 
+				boolean b2 = scoreBrust();
+				if(b2 == false) {
+					break loop2;
+				}
 				System.out.print("플레이어 카드: ");
 				for (int i = 0; i < uCardSet.size(); i++) {
 					System.out.print(uCardSet.get(i)+" ");
+					
 				}
 				System.out.println();
 				System.out.println("점수 합산: " + userScore);
@@ -254,10 +251,7 @@ public class Game {
 				}
 				break loop2;
 			}
-			boolean b2 = scoreBrust();
-			if(b2 == false) {
-				break;
-			}
+			
 		}
 	}
 	
