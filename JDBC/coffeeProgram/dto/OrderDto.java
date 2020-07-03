@@ -7,17 +7,19 @@ public class OrderDto {
 	private String c_size;
 	private String syrup;
 	private String other;
+	private int count;
 	
 	public OrderDto() {
 	}
 
-	public OrderDto(String id, String coffee, String c_size, String syrup, String other) {
+	public OrderDto(String id, String coffee, String c_size, String syrup, String other, int count) {
 		super();
 		this.id = id;
 		this.coffee = coffee;
 		this.c_size = c_size;
 		this.syrup = syrup;
 		this.other = other;
+		this.count = count;
 	}
 
 	public String getId() {
@@ -59,4 +61,13 @@ public class OrderDto {
 	public void setOther(String other) {
 		this.other = other;
 	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
 }

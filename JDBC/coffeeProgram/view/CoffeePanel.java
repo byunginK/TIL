@@ -36,6 +36,7 @@ public class CoffeePanel extends JPanel{
 		String price[] = {"Short","4800","4300","4300","4300","3800","3800","3300","3300","2800","2500"};
 		for (int i = 0; i < price1.length; i++) {
 			price1[i] = new JLabel(price[i]);
+			price1[i].setHorizontalAlignment(JLabel.CENTER);
 			jp2.add(price1[i]);
 		}
 		
@@ -46,6 +47,7 @@ public class CoffeePanel extends JPanel{
 		String pc1[] = {"Tall","5300","4800","4800","4800","4300","4300","3800","3800","3300","3000"};
 		for (int i = 0; i < price2.length; i++) {
 			price2[i] = new JLabel(pc1[i]);
+			price2[i].setHorizontalAlignment(JLabel.CENTER);
 			jp3.add(price2[i]);
 		}
 		
@@ -56,6 +58,7 @@ public class CoffeePanel extends JPanel{
 		String pc2[] = {"Grande","5800","5300","5300","5300","4800","4800","4300","4300","3800","3500"};
 		for (int i = 0; i < price3.length; i++) {
 			price3[i] = new JLabel(pc2[i]);
+			price3[i].setHorizontalAlignment(JLabel.CENTER);
 			jp4.add(price3[i]);
 		}
 		

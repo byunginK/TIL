@@ -90,8 +90,8 @@ public class MemberDao {
 	
 	public boolean login(String id, String pw) {
 		String sql = " SELECT ID "
-				+ " FROM MEMBER "
-				+ " WHERE ID = ? AND PWD = ? ";
+				+ " FROM COFMEMBER "
+				+ " WHERE ID = ? AND PW = ? ";
 		
 		Connection conn = null;
 		PreparedStatement psmt = null;

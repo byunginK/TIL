@@ -27,6 +27,7 @@ public class CoffeeMenu extends JFrame {
 		pan.setLayout(null);
 		pan.setBounds(0, 0, 350, 400);
 		
+		
 		CoffeePanel cp = new CoffeePanel();
 		cp.setBounds(30, 80, 280, 220);
 		add(cp);
@@ -36,6 +37,6 @@ public class CoffeeMenu extends JFrame {
 		setBounds(300, 100, 350, 400);
 		setVisible(true);
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 }

@@ -3,6 +3,8 @@ package view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,10 +43,62 @@ public class LoginView extends JFrame implements ActionListener {
 		add(lb3);
 		
 		
-		tx1 = new JTextField();
+		tx1 = new JTextField("ID");
 		tx1.setBounds(130, 75, 100, 25);
-		pf = new JPasswordField();
+		tx1.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Object obj = e.getSource();
+				if(obj == tx1) {
+					tx1.setText("");
+				}
+			}
+		});
+		pf = new JPasswordField("11111");
 		pf.setBounds(130, 120, 100, 25);
+		pf.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Object obj = e.getSource();
+				if(obj == pf) {
+					pf.setText("");
+				}
+			}
+		});
 		add(tx1);
 		add(pf);
 		
