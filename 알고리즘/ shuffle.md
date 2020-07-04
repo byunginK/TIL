@@ -8,7 +8,7 @@
 트럼프 카드를 무작위로 섞어서 52장을 랜덤 숫자, 무늬, 카드 번호 로 출력하였다.
 
 1. 초기화
-```
+```java
 int r_num[] = new int[52];			      // 랜덤 번호 
 boolean swit[] = new boolean[52];			//중복을 체크를 위한 설정
 int r;
@@ -16,7 +16,7 @@ int w;
 ```
 
 2. 랜덤 번호 배정 (중복 되지 않게 배정)
-```
+```java
 for (int i = 0; i < swit.length; i++) {
   swit[i] = false;
   }
@@ -32,7 +32,7 @@ while(w<52) {						            //중복없이 swit배열에 랜덤하게 숫자 
 ```
 
 3. 카드 무늬 와 실제 카드 번호 초기화
-```
+```java
 int cardNum;  // 1 ~ 13
 int cardPic;	// 0 ~3  0: 스페이드 1: 다이아 2: 하트 3: 클로버
 ```
@@ -59,7 +59,7 @@ cardNum = r_num[i] % 13 + 1; // 1 ~13
 ```
 
 5. 무늬 설정
-```
+```java
 cardPic = r_num[i] /13;		// 0 ~ 3
 			
 switch(cardPic) {
