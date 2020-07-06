@@ -29,13 +29,15 @@ public class MemberDaoEx {
 		fp.createFile();
 		this.loadData();
 		
-		memberNumber = list.get(list.size()-1).getNumber();
-		if(memberNumber >= 2000) {
-			memberNumber = memberNumber - 1000;
-		}
-		else {	
-			memberNumber = memberNumber + 1;
-		}
+		if(list.size() > 0 && list != null){
+			memberNumber = list.get(list.size()-1).getNumber();
+			if(memberNumber >= 2000) {
+				memberNumber = memberNumber - 1000;
+			}
+			else {	
+				memberNumber = memberNumber + 1;
+			}
+		}	
 	}
 
 	//list에서 제일 마지막 선수의 number 취득
