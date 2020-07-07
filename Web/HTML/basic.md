@@ -256,3 +256,43 @@ The Dark Knight
 </html>
 ```
 이미지에 align을 한후 텍스트를 개행없이 진행하게 되면 이미지 바로 옆에 텍스트를 붙일 수 있다.
+
+### EX
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body bgcolor="#000000" text="#ffffff">			-- 배경색은 검정색, 글자색은 흰색
+<div align="center">
+<h1>타히티 사진</h1>
+다음 사진을 클릭하면, 확대 사진을 볼 수 있습니다.<br><br>
+
+<a href="./images/tahiti01.jpg" target="photo">		-- 그림에 링크를 걸어줌 target은 name과 같은 역할로 변수에 값을 넣어주는 역할
+	<img alt="" src="./images/tahiti01s.jpg">	-- 해당코드는 작은 그림 5개 나열 그리고 target설정
+</a>
+<a href="./images/tahiti02.jpg" target="photo">
+	<img alt="" src="./images/tahiti02s.jpg">
+</a>
+<a href="./images/tahiti03.jpg" target="photo">
+	<img alt="" src="./images/tahiti03s.jpg">
+</a>
+<a href="./images/tahiti04.jpg" target="photo">
+	<img alt="" src="./images/tahiti04s.jpg">
+</a>
+<a href="./images/tahiti05.jpg" target="photo">
+	<img alt="" src="./images/tahiti05s.jpg">
+</a>
+<br><br><br>
+<iframe src="./images/tahiti01.jpg" width="400" height="266" name="photo"> -- iframe을 통해 name을 photo로 잡아주고 첫번째 그림은 첫번째 사진으로 설정
+
+</iframe>
+</div>
+</body>
+</html>
+```
+위의 예제는 작은 이미지에 링크를 걸어 사진을 우선 연결시킨다. 그 다음 iframe(웹페이지 안에 웹페이지)를 통해 다시 동일한 값의 이미지를 띄워주게 된다.
+
+![타히티](https://user-images.githubusercontent.com/65350890/86758694-feb66500-c07e-11ea-8db6-423a954e32d7.png)
