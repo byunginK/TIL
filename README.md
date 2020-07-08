@@ -40,3 +40,4 @@
 * [ORACLE BASIC](https://github.com/byunginK/TIL/tree/master/DataBase)
 ### ■ Web
 * [HTML](https://github.com/byunginK/TIL/tree/master/Web/HTML)
+* [JavaScript](https://github.com/byunginK/TIL/tree/master/Web/Java%20Script)
