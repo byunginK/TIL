@@ -150,3 +150,63 @@ function func() {
 </script>
 ```
 버튼을 누르면 원하는 진법으로 변환하는 코드이다. .toString(원하는 진수)를 통해 변환 가능하다.
+
+## 예제
+```html
+<h2>체육관 이용 요금</h2>
+<p>기본 사용료 (2명, 4시간) 40,800원 </p>
+
+<input type="checkbox" name="pay"  value="20000" onclick="add()">야간 조명 (20,000원)<br>
+<input type="checkbox" name="pay"  value="4000" onclick="add()">배구 네트 x2 (4,000원)<br>
+<input type="checkbox" name="pay"  value="5000" onclick="add()">배구 x 10 (5,000원)<br><br>
+합계 금액 <input type="text" id="total" value="40,800" size="5">원형
+
+<script type="text/javascript">
+
+function add() {
+	let check = document.getElementsByName("pay");	//name= pay 가 다수이기때문에 배열로 들어감
+	let option = 0;
+	for (var i = 0; i < check.length; i++) {
+		if(check[i].checked){
+			option = option + parseInt(check[i].value);	// 배열이 돌아가면서 값이 option에 더해짐
+		}
+	}
+	document.getElementById("total").value = option + 40800;
+
+}
+
+</script>
+```
+### 방법 2
+```html
+<form name="frm">
+	<h2>체육관 이용 요금(예제2)</h2>
+	<p>기본 사용료 (2명, 4시간) 40,800원 </p>
+	
+	<input type="checkbox" id="pay1"  value="20000" onclick="sum(0)">야간 조명 (20,000원)<br>
+	<input type="checkbox" id="pay2"  value="4000" onclick="sum(1)">배구 네트 x2 (4,000원)<br>
+	<input type="checkbox" id="pay3"  value="5000" onclick="sum(2)">배구 x 10 (5,000원)<br><br>
+	합계 금액 <input type="text" id="total2" value="40800" size="5">원형
+</form>
+
+
+<script type="text/javascript">
+	
+let arr = new Array(3); 	// form 으로 접근하는법
+for(var i = 0; i <arr.length; i++){
+	arr[i] = parseInt(document.getElementById('pay'+(i+1)).value);
+			      
+function sum(num) {
+	if(document.frm.elements[num].checked){
+		total = total + arr[num];
+	}else{
+		total = total - arr[num];
+	}
+	document.frm.elements[3].value = total;
+	
+	let obj = document.getElementsByTagName("boby")[0];
+	alert(obj.getElementsByTagName("h2")[4].innerHTML);
+}			      
+			      
+</script>
+```
