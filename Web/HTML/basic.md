@@ -197,10 +197,10 @@ div는 텍스트를 묶어서 속성이나 특성을 정해 줄 수 있다.
 <a href="index2.html">index2.html로 이동</a>
 <br>
 
-<a href = "./index3.html" target = "_self">index3.html로 이동</a>
+<a href = "./index3.html" target = "_self">index3.html로 이동</a> ★ _self는 현재창
 <br>
 
-<a href = "./index4.html" target = "_blank">index4.html로 이동</a>
+<a href = "./index4.html" target = "_blank">index4.html로 이동</a> ★ _blank는 새창
 
 
 </body>
@@ -256,6 +256,35 @@ The Dark Knight
 </html>
 ```
 이미지에 align을 한후 텍스트를 개행없이 진행하게 되면 이미지 바로 옆에 텍스트를 붙일 수 있다.
+
+### 목록 작성
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<ul> <!-- 순서가 없는 목록 -->
+	<li>Coffee</li>
+	<li>Tea</li>
+	<li>Cocoa</li>
+</ul>
+
+
+<ol> <!-- 순서가 있는 목록 1,2,3   I II III IV   a,b,c -->
+	<li>Apple</li>
+	<li>Pear</li>
+	<li>Banana</li>
+
+</ol>
+
+</body>
+</html>
+```
+
 
 ### EX
 ```html
