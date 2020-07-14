@@ -46,6 +46,11 @@
 - file = java, javascript(web에서 표현), jquery  함수가 전부 다르다.  (보통 자바 스크립트에서 많이 사용)(호환문제)
 
 ### 파일 읽기 (Test)
+같은 폴더에 텍스트 파일 생성
+```txt
+안녕하세요
+hello
+```
 ```html
 <!DOCTYPE html>
 <html>
@@ -67,7 +72,7 @@ let xhttp = new XMLHttpRequest(); // XML file을 읽어오기 위해서 객체 �
 function loadXMLDoc() {
 	
 	xhttp.onreadystatechange = function () {
-//		console.log(this.responseText);  // xhttp를 읽어드림
+//		console.log(this.responseText);  // xhttp를 읽어드림 , 읽게 되면 (안녕하세요 hello)가 콘솔로 출력
 //		console.log(this.readyState); // 먼저 호출 -> open -> send -> 다시 닫힘
 		console.log(this.status);
 	}
