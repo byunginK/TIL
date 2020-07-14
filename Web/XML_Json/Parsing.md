@@ -114,6 +114,41 @@ function nodeValFunc(xml) { // 데이터를 구체적으로 불러오는 함수
 	
 	document.getElementById('demo').innerHTML = txt + numtxt;
 }
+				   
+function nodeNameFunc(xml) {	//노드의 이름을 불러오는 함수
+	let arr,xmlDoc,txt;
+	txt = "";
+	xmlDoc = xml.responseXML;
+	arr = xmlDoc.documentElement.childNodes; // 배열에 문서의 노드들을 넣어준다
+	
+	for (i = 0; i < arr.length; i++) {
+		if(arr[i].nodeType == 1){		//실제 데이터가 들어가있는 타입만 
+			txt += arr[i].nodeName+'<br>';	// 노드이름을 추출
+		}
+	}
+	document.getElementById("demo").innerHTML =txt;
+}
+	
+function childNodeFunc(xml) {		// 태그의 자식 노드를 불러오는 함수
+	let arr, xmlDoc, txt;
+	txt = "";
+	
+	xmlDoc = xml.responseXML;
+	
+	arr = xmlDoc.getElementsByTagName("고객")[0]; 
+	let len = arr.childNodes.length;
+	console.log(len);
+	
+	let fchild = arr.firstChild;	// '고객' 노드의 첫번째 자식 노드를 배열로 넣어줌
+	
+	for (i = 0; i < len; i++) {
+		if(fchild.nodeType == 1){
+			txt += i + " " + fchild.nodeName +"<br>";
+		}
+		fchild = fchild.nextSibling;
+	}
+	document.getElementById('demo').innerHTML = txt;
+}
 </script>
 
 </body>
