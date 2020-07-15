@@ -125,5 +125,5 @@ $(function() {
 </script>
 ```
 ### jquery 코드 추가 
-#### $("tr:eq(2) td:eq(0)").html("데이터"); tr 3번째, td 의 첫번째의 칸에 '데이터'를 넣게 된다
+#### $("tr:eq(2) td:eq(0)").html("데이터"); == tr 3번째, td 의 첫번째의 칸에 '데이터'를 넣게 된다
 ![image](https://user-images.githubusercontent.com/65350890/87527406-0dc49500-c6c7-11ea-81d8-154e41adbb24.png)
