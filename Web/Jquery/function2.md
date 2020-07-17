@@ -127,3 +127,24 @@ $(function() {
 ### jquery 코드 추가 
 #### $("tr:eq(2) td:eq(0)").html("데이터"); == tr 3번째, td 의 첫번째의 칸에 '데이터'를 넣게 된다
 ![image](https://user-images.githubusercontent.com/65350890/87527406-0dc49500-c6c7-11ea-81d8-154e41adbb24.png)
+
+### 파일 불러오기
+```html
+<body>
+
+<div id="news">로딩중...</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#news").load("news.txt", function(txt, status) { // 파일을 읽어들여온다. 매개변수 두개가 있으며(내용,상태)순이다.
+	//	alert(status);	sucess라는 문구가 뜨고 웹에 파일을 읽어 온다
+		alert(txt);
+	});
+});
+
+</script>
+
+</body>
+```
+- 단 news.txt라는 파일이 webcontents에 있어야한다.
+
