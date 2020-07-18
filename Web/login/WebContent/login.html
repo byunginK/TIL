@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<style type="text/css">
+body,html {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	margin: 0px; 
+}
+.wrapper{
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+.wrapper::after{
+	position: absolute;
+	width: 100%;
+  	height: 100%;
+  	content: "";
+	background: url("./images/sanbg.jpg") no-repeat center;
+	background-size: cover;
+	top: 0;
+  	left: 0;
+  	z-index: -1;
+  	opacity: 0.5;
+}
+.login_content{
+ 	position:absolute;
+	top:50%; left:50%;
+    transform: translate(-50%, -50%);
+	width:400px;
+	height:450px;
+	text-align: center;
+	border-radius: 40px;
+	box-shadow: 2px 2px 2px 2px gray;
+	background-color: white;
+}
+.log_info{
+	min-height: 35px;
+	box-shadow: none !important;
+	border-width: 0 0 1px 0;
+	border-radius: 0;
+	font-size: 20px;
+}
+.login_input{
+	position: relative;
+	width: 100%;
+	height: 56%; 
+	margin: 0;
+}
+._id{
+	position: absolute;
+	margin-top: 30px;
+	margin-left: 20%;
+	
+}
+._pw{
+	position: absolute;
+	margin-top: 100px;
+	margin-left: 20%;
+}
+.btnclass{
+	position: absolute;
+	color: white;
+	font-size: 20px;
+	font-weight: bold;
+	background: #19aa8d;
+	border-radius: 3px;
+	border: none;
+	width: 230px; 
+	height:50px;
+	text-align: center;
+	margin-left:-115px;
+	margin-top: 165px;
+}
+.pw_hint{
+	position: absolute;
+	bottom: 15%;
+	border: 1px solid;
+	width: 100%;
+	height: 80px;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	border-color: #dee4e7;
+}
+.create_id{
+	position: absolute;
+	width: 100%;
+	bottom: 7%;
+}
+a{
+	text-decoration: none;
+}
+
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#btn").mouseover(function() {
+		$(this).css("background", '#179b81');
+	});
+	$('#btn').mouseout(function() {
+		$(this).css("background", '#19aa8d');
+	});
+	$('.login_content').hide();
+
+});
+
+</script>
+</head>
+<body onload="$('.login_content').fadeIn(2000);">
+<div class="wrapper">
+	<div class="login_content">
+			<h1>산과 함께하기 </h1>
+			<div class="login_input">
+				<div class="_id"><input type="text" class="log_info" name="id" placeholder="Uername" required="required"></div>
+				<div class="_pw"><input type="Password" class="log_info" name="pw" placeholder="Password" required="required"></div>
+				<button type="button" id="btn" class="btnclass">로그인</button>
+			</div>
+				<div class="pw_hint">
+					<p class="hint-text"><a href="#">Forgot Password?</a></p>
+				</div>
+			<div class="create_id">지금 부터 우리와 함께하기 <a href="#"><i>회원가입</i></a></div>
+	</div>
+</div>
+
+
+</body>
+</html>
