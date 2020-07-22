@@ -13,9 +13,9 @@ import dto.CustUserDto;
 // Dao
 public class CustUserDao {
 	
-	private static CustUserDao dao = new CustUserDao();
+	private static CustUserDao dao = new CustUserDao();		// 싱글톤 생성(데이터를 넘겨주기 위한)
 
-	private CustUserDao() {
+	private CustUserDao() {		//생성자에 DB드라이브 로드 확인
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			System.out.println("Oracle Driver loading Success");
@@ -28,7 +28,7 @@ public class CustUserDao {
 		return dao;
 	}
 	
-	public List<CustUserDto> getCustUserList() {
+	public List<CustUserDto> getCustUserList() {	//고객 리스트에 표시해줄 데이터를 DB에서 꺼내오기 위한 쿼리문
 		String sql = " SELECT ID, NAME, ADDRESS "
 					+ " FROM CUSTUSER "
 					+ " ORDER BY ID DESC ";
@@ -49,7 +49,7 @@ public class CustUserDao {
 				String name = rs.getString("NAME");
 				String address = rs.getString("ADDRESS");
 				
-				list.add(new CustUserDto(id, name, address));
+				list.add(new CustUserDto(id, name, address));	//가져온 데이터 리스트에 dto 형태로 넣기
 			}
 			
 		} catch (SQLException e) {
@@ -87,12 +87,7 @@ public class CustUserDao {
 	}
 	
 	
-	
-	
-	
-	
-	
-	public Connection getConnection() throws SQLException {
+	public Connection getConnection() throws SQLException {			//DB 연결
 		String url = "jdbc:oracle:thin:@192.168.7.45:1521:xe";
 		
 		String user = "hr";
@@ -101,7 +96,9 @@ public class CustUserDao {
 		Connection conn = DriverManager.getConnection(url, user, password);
 		return conn;
 	}
-	public void close(Connection conn, PreparedStatement psmt, ResultSet rs) {
+	
+	
+	public void close(Connection conn, PreparedStatement psmt, ResultSet rs) {	// DB 닫아주기
 		
 			try {
 				if(conn != null) {
