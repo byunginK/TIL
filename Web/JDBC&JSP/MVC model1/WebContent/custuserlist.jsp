@@ -57,7 +57,7 @@ if(list.size() == 0){	//데이터가 없다
 				<%=cust.getId()%>
 			</td>
 			<td>
-				<a href="custuserdetail.jsp?id=<%=cust.getId()%>"><%=cust.getName() %></a>
+				<a href="custuserdetail.jsp?id=<%=cust.getId()%>"><%=cust.getName() %></a> <!-- 고객 상세 정보를 보기위한 링크 -->
 			</td>
 		</tr>
 		<tr>
@@ -84,11 +84,8 @@ if(list.size() == 0){	//데이터가 없다
 	<a href="custuseradd.jsp">고객정보 추가</a>
 	</td>
 </tr>
-
 </table>
-
 </form>
-
 
 </body>
 </html>
