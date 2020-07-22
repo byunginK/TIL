@@ -3,12 +3,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%
+<%	//custuseradd에서 submit으로 넘겨준 데이터 받기
 String id = request.getParameter("id");
 String name = request.getParameter("name");
 String address = request.getParameter("address");
 
-System.out.println(id+" "+name+" "+address);
+System.out.println(id+" "+name+" "+address);	//확인
 %>    
 <!DOCTYPE html>
 <html>
@@ -21,7 +21,7 @@ System.out.println(id+" "+name+" "+address);
 <%
 CustUserDao dao = CustUserDao.getInstance();
 
-boolean isS = dao.addCustUser(new CustUserDto(id,name,address));
+boolean isS = dao.addCustUser(new CustUserDto(id,name,address));	//DB에 넣기(넘겨 받은 데이터(id,name,address)로 dto생성)
 
 if(isS){
 %>
@@ -40,7 +40,5 @@ if(isS){
 <%
 }
 %>
-
-
 </body>
 </html>
