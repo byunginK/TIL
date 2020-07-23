@@ -133,6 +133,7 @@ public class CustUserDao {
 		return count > 0 ? true : false;
 	}
 
+	// ★★★★★★★★★★★★★★★ 다중 쿼리문 처리시 사용 가능
 	public boolean deleteCustUsers(String ids[]) {
 		String sql = " DELETE FROM CUSTUSER " 
 					+ " WHERE ID = ? ";
@@ -143,7 +144,7 @@ public class CustUserDao {
 
 		try {
 			conn = getConnection();
-			conn.setAutoCommit(false); // 작업하는동안 자동 커밋을 끈다
+			conn.setAutoCommit(false); // 작업하는동안 자동 커밋을 끈다(이클립스는 원래 자동으로 커밋)
 
 			psmt = conn.prepareStatement(sql);
 
@@ -158,7 +159,7 @@ public class CustUserDao {
 			e.printStackTrace();
 
 			try {
-				conn.rollback();
+				conn.rollback();	//만약 위의 쿼리문 실행시 문제 발생되면 예외로 팅겨오는데 그때 DB에 문제가 없게 롤백시켜준다.
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -175,6 +176,10 @@ public class CustUserDao {
 
 		for (int i = 0; i < count.length; i++) {
 			if (count[i] != -2) { // -2 : 정상 종료
+				
+						// 0~n: 성공한 row count 수
+						//-2: 성공은 하였으나 row count 수를 알 수 없음
+						//-3: 실패
 				isS = false;
 				break;
 			}
