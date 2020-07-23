@@ -29,7 +29,6 @@ if(isS){
 	alert('성공적으로 추가 되었습니다.');
 	location.href = "custuserlist.jsp";
 	</script>
-	
 <%
 }else{
 %>
@@ -40,7 +39,5 @@ if(isS){
 <%
 }
 %>
-
-
 </body>
 </html>
