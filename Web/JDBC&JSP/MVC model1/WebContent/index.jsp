@@ -8,7 +8,11 @@
 </head>
 <body>
 
-<a href="custuserlist.jsp">고객목록</a>
+<!-- <a href="custuserlist.jsp">고객목록</a> -->
+
+<%
+	response.sendRedirect("custuserlist.jsp");
+%>
 
 </body>
 </html>

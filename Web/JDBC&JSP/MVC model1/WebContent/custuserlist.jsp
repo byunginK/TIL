@@ -57,7 +57,7 @@ if(list.size() == 0){	//데이터가 없다
 				<%=cust.getId()%>
 			</td>
 			<td>
-				<a href="custuserdetail.jsp?id=<%=cust.getId()%>"><%=cust.getName() %></a> <!-- 고객 상세 정보를 보기위한 링크 -->
+				<a href="custuserdetail.jsp?id=<%=cust.getId()%>"><%=cust.getName() %></a>
 			</td>
 		</tr>
 		<tr>
@@ -72,7 +72,7 @@ if(list.size() == 0){	//데이터가 없다
 <tr>
 	<td align="center" height="1" bgcolor="#c0c0c0" colspan="3">
 		<!-- 다중 삭제 -->
-		<input type="submit" value="고객정보 삭제">
+		<input type="submit"  value="고객정보 삭제">
 	</td>
 </tr>
 <tr>
@@ -84,8 +84,35 @@ if(list.size() == 0){	//데이터가 없다
 	<a href="custuseradd.jsp">고객정보 추가</a>
 	</td>
 </tr>
+
 </table>
 </form>
+
+<script type="text/javascript">
+/* let count = 0;
+function deletechecks() {
+	let user = document.getElementsByName("delck");
+	if(count == 0){
+		for (let i = 0; i < user.length; i++) {
+				user[i].checked = true;
+				count = 1;
+		}
+	}
+	else if(count == 1){
+		for (let i = 0; i < user.length; i++) {
+			user[i].checked = false;
+			count = 0;
+		}
+	}
+} */
+
+function deletechecks(ch) {
+	let arrCheck = document.getElementsByName("delck");
+	for(i=0; i < arrCheck.length; i++){
+		arrCheck[i].checked = ch;
+	}
+}
+</script>
 
 </body>
 </html>
