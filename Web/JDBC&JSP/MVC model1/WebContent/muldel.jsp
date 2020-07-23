@@ -10,8 +10,8 @@ boolean isS= true;
 	/* for(int i = 0; i < delck.length; i++){
 		System.out.println(delck[i]);
 		dao.deleteCustUser(delck[i]); //DB에서 삭제
-	} */
-	 isS = dao.deleteCustUsers(delck);
+	} dao에서의 쿼리문이 한개의 데이터를 삭제하도록 설정시 for문으로 여러개 처리*/
+	 isS = dao.deleteCustUsers(delck);	// dao의 쿼리문 자체가 배열로 받아 한꺼번에 처리 (dao DB쿼리 확인 必)
 } 
 %>    
 <!DOCTYPE html>
