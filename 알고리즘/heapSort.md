@@ -81,3 +81,18 @@ public static void heapify(int[]A,int len) { // Max heap을 만드는 함수
 	}
 ```
 - 결과 {1,2,3,6,8,10,11,12,15}
+
+# 우선순위 큐(PriorityQueue)
+### 최대값우선순위 큐
+- **순서에 상관없이 일정한 규칙에 따라 우선순위를 선정하고, 우선순위가 가장 높은 데이터가 가장 먼저 나오게 됩니다.**<br>
+- insert : 컴플리트 바이너리 힙 트리가 깨지지 않기 위해 리프노드 맨 마지막에 삽입 - > 힙을 다시 만들어줌
+![image](https://user-images.githubusercontent.com/65350890/88291197-d4c59980-cd32-11ea-8af4-b78c251f4a4a.png)
+
+- 최대값 우선순위 임으로 max heap의 경우 루트가 가장 최대값이 된다.
+- 따라서 루트를 빼고 새로 값을 push 한다. 이후 heap의 조건을 계속 유지하기 위해 마지막에 push했던 값을 루트로 가져간다.
+- 하지만 max heap의 조건이 깨지므로 max heap의 조건을 복원하기 위해 heapify를 진행한다.
+
+![image](https://user-images.githubusercontent.com/65350890/88291554-5d443a00-cd33-11ea-96a8-7b8ea1e47a24.png)
+
+- 우선순위 큐도 Java내부적으로 구현이 되어 있습니다. 일반적인 큐를 사용하는 것처럼 add(); peek(); poll(); 등의 메소드를 사용할 수 있다.
+![image](https://user-images.githubusercontent.com/65350890/88291736-ac8a6a80-cd33-11ea-81ce-cca176061835.png)
