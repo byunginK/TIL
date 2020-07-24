@@ -149,3 +149,184 @@ public class CustUserServlet extends HttpServlet {
 
 }
 ```
+## 모델 2 다른 방법
+-html
+```html
+<p id='demo'></p>
+<br>
+<!-- <input type="text" id="id"> -->
+<button type="button">click</button>
+
+<script type="text/javascript">
+$(function() {
+	$("button").click(function() {
+		$.ajax({
+			url:"./hello",	//경로지정
+			type:"post",
+			datatype:"json",
+			success:function(json){
+		//		alert('success');
+			//	alert(json);
+			//	alert(json[0].id);
+			//	alert(json[0].name);
+			//	alert(json[0].address);
+				$.each(json, function(i,val){
+					$("#demo").append("i:"+i+" id:"+ val.id+" name:"+val.name+" address:"+val.address+"<br>");  //i는 인덱스 번호, val.불러올 키값
+				});
+			},
+			error:function(){
+				alert("error");
+			}
+		});
+	});
+});
+</script>
+```
+### - 컨트롤러
+- 여기서 사용하는 jar는 gson-2.8.5.jar 이다.
+
+![image](https://user-images.githubusercontent.com/65350890/88376611-b87c3800-cdd8-11ea-9d38-ae401b55bb34.png)
+
+```java
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		/* 예시
+		String str = "hello";
+		// google json
+		String gson = new Gson().toJson(str);	//json형태로 변환
+		resp.getWriter().write(gson);	//데이터를 보내준다
+		*/
+		
+		List<CustUserDto> list = new ArrayList<CustUserDto>();
+		list.add(new CustUserDto("eee", "홍길동", "평양시"));
+		list.add(new CustUserDto("ttt", "일지매", "베이징시"));
+		
+		resp.setContentType("application/json"); //json 으로 변환
+		resp.setCharacterEncoding("UTF-8"); //한글깨짐 방지
+		
+		//gson-2.8.5.jar 추가해야함
+		String gson = new Gson().toJson(list);	//리스트를 담는다.
+		
+		resp.getWriter().write(gson); //return 함수
+		
+	}
+}
+```
+
+---
+# 모델 2 Ajax 변경
+
+### HTML
+```html
+<tr class="titleAf">
+	<td height="2" bgcolor="#0000ff" colspan="3"></td>
+</tr>
+
+<!-- 여기에 추가 된다 -->
+
+<tr>
+	<td align="center" height="1" bgcolor="#c0c0c0" colspan="3">		
+		<input type="submit" value="고객정보 삭제">
+	</td>
+</tr>
+...
+
+<script type="text/javascript">
+//$(document).ready(function () {
+$(function () {
+	$.ajax({
+		url:"./custData",
+		type:"get",
+		data:"work=data",	//work 값을 넘겨준다.
+		success:function(datas){
+			let custlist = datas.map.custlist;	//해쉬맵의 리스트를 넘겨준다
+			
+			$.each(custlist, function (i, val) {			
+				let app = "<tr bgcolor='#f6f6f6'>" 
+						+	"<td align='center' bgcolor='yellow'>" 
+						+		"<input type='checkbox' name='delck' value='" + val.id + "'>"	//값에 아이디를 넣어줌(전체삭제시 필요)
+						+	"</td>"		
+						+	"<td>" + val.id + "</td>"	// 아이디 표시를 위해 값을 대입
+						+	"<td>"
+						+		"<a href='custcontroller?work=detail&id=" + val.id + "'>" + val.name + "</a>" 
+											//컨트롤러에게 work값과 아이디 값을준다. 그리고 이름 값 대입
+						+	"</td>"
+						+ "</tr>"
+						+ "<tr>"
+						+ 	"<td height='2' bgcolor='#0000ff' colspan='3'></td>"
+						+ "</tr>";
+				
+				$(".titleAf").eq(-1).after(app);	// class titleAf 뒤에 추가 eq(음수)는 선택된 (클래스)의 만 마지막인덱스
+			});				
+			
+		},
+		error:function(){
+			alert('error');
+		}
+	});
+	
+});
+</script>
+```
+### Servlet
+#### 1. CustUserData
+```java
+@WebServlet("/custData")
+public class CustUserData extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String work = req.getParameter("work");
+		
+		if(work.equals("data")) {
+			CustUserDao dao = CustUserDao.getInstance();			
+			List<CustUserDto> list = dao.getCustUserList();
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("custlist", list);
+			
+			// 전송할 데이터를 추가
+			JSONObject jobj = new JSONObject();
+			jobj.put("map", map);			
+			
+			resp.setContentType("application/x-json; charset=UTF-8");
+			resp.getWriter().print(jobj);
+		}
+	}
+
+}
+```
+#### 2. CustUserController
+```java
+@WebServlet("/custcontroller")
+public class CustUserController extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String work = req.getParameter("work");	
+		
+		if(work.equals("move")) {	
+			forward("custuserlist.html", req, resp);	// 제일 처음 index의 링크의 work='move'(현재 깃허브에 안올림)
+		}		
+		else if(work.equals("detail")) {	//이름을 누르면 work의 값이 넘어와 이쪽 조건으로 들어오게된다.
+			String id = req.getParameter("id");
+			System.out.println("id:" + id);
+			
+			CustUserDao dao = CustUserDao.getInstance();
+			CustUserDto custdto = dao.getCustuser(id);			
+			// 보내줄 데이터
+			req.setAttribute("cust", custdto);			
+			// 이동
+			forward("custuserdetail.jsp", req, resp);
+		}
+	}
+	
+	public void forward(String link, HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
+		RequestDispatcher dis = req.getRequestDispatcher(link);
+		dis.forward(req, resp);		
+	}
+}
+```
