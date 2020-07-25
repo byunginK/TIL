@@ -27,7 +27,7 @@ public class MountinListController extends HttpServlet {
 			list = dao.getMountList();
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
-			String gson = new Gson().toJson(list);
+			String gson = new Gson().toJson(list);	//Gson을 통해 json형식으로 ajax와 연동
 			
 			resp.getWriter().write(gson);
 		}else if(work.equals("seloption1")) {
