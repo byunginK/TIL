@@ -10,11 +10,6 @@
 
 #
 ### *미니 프로그램*
-* [StudentScore2(ArrayList, 객체화)](https://github.com/byunginK/TIL/tree/master/Student%20Score2)
-* [JAVA BaseBallMember](https://github.com/byunginK/TIL/tree/master/BaseBall%20member)
-   + [BaseBallMember2(ArrayList, 객체화)](https://github.com/byunginK/TIL/tree/master/Baseball%20Member2)
-   + [BaseBallMember Singleton](https://github.com/byunginK/TIL/tree/master/baseball%20member%20Singleton)
-* [BaseBallMember UI](https://github.com/byunginK/TIL/tree/master/BaseBall%20UI)
 * [Black Jack](https://github.com/byunginK/TIL/tree/master/black%20jack)
 * [가계부 Simple (DB연동)](https://github.com/byunginK/TIL/tree/master/JDBC/AccountBook)
 * [커피주문 Simple (DB연동)](https://github.com/byunginK/TIL/tree/master/JDBC/coffeeProgram)
@@ -41,3 +36,6 @@
 * [CSS](https://github.com/byunginK/TIL/tree/master/Web/CSS)
 * [XML/Json](https://github.com/byunginK/TIL/tree/master/Web/XML_Json)
 * [JQuery](https://github.com/byunginK/TIL/tree/master/Web/Jquery)
+* [Ajax](https://github.com/byunginK/TIL/tree/master/Web/Ajax)
+* [Servlet](https://github.com/byunginK/TIL/tree/master/Web/Servlet)
+* [JDBC&JSP(MVC1,2)](https://github.com/byunginK/TIL/tree/master/Web/JDBC%26JSP)
