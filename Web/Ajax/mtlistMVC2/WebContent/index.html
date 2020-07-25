@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style type="text/css">
+.mttable {
+	border-collapse: collapse;
+	width: 700px;
+}
+
+td {
+	text-align: center;
+}
+
+select {
+	height: 20px;
+}
+</style>
+</head>
+<body>
+	<div>
+		<h1>지역 별 산 리스트</h1>
+	</div>
+	<div>
+		<select id="seloption">
+			<option>검색 조건 선택</option>
+			<option value="location">지역</option>
+			<option value="name">산 이름</option>
+			<option value="manage">관리 범주</option>
+		</select> <input type="text" id="search" name="work">
+		<button type="button" id="searchBtn">검색</button>
+	</div>
+	<br>
+	<div>
+		<table class="mttable">
+			<col width="100">
+			<col width="300">
+			<col width="200">
+			<col width="300">
+			<tr>
+				<td height="2" bgcolor="blue" colspan="4"></td>
+			</tr>
+			<tr>
+				<th>지역</th>
+				<th>산 이름</th>
+				<th>높이</th>
+				<th>관리범주</th>
+			</tr>
+			<tr class="tr1">
+				<td height="2" bgcolor="blue" colspan="4"></td>
+			</tr>
+
+			<!-- 여기서 추가 되어야함 -->
+
+			<tr>
+				<td height="2" bgcolor="blue" colspan="4"></td>
+			</tr>
+
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		$(function() {
+			$.ajax({
+				url : "./mtlist",
+				type : "get",
+				datatype : "json",
+				data : "work=list",
+				success : function(datas) {
+					//	alert('success');
+					//	alert(datas[0].name);
+					$.each(datas, function(i, val) {
+						let addt = "<tr class='slist'>" + "<td>" + val.location
+								+ "</td>" + "<td>" + val.name + "</td>"
+								+ "<td>" + val.height + "</td>" + "<td>"
+								+ val.manage + "</td>" + "</tr>";
+						$(".tr1").eq(-1).after(addt);
+					});
+				},
+				error : function() {
+					alert('error');
+				}
+			});
+
+			$("#searchBtn").click(
+					function() {
+						$(".slist").remove();
+						if ($("#seloption").val() == 'location')
+							$.ajax({
+								url : "./mtlist",
+								type : "get",
+								data : "search=" + $("#search").val()
+										+ "&work=seloption1",
+								success : function(data) {
+									$.each(data, function(i, val) {
+										let addt = "<tr class='slist'>"
+												+ "<td>" + val.location
+												+ "</td>" + "<td>" + val.name
+												+ "</td>" + "<td>" + val.height
+												+ "</td>" + "<td>" + val.manage
+												+ "</td>" + "</tr>";
+										$(".tr1").eq(-1).after(addt);
+									});
+								},
+								error : function() {
+									alert('error');
+								}
+							});
+						else if($("#seloption").val() == 'name')
+							$.ajax({
+								url : "./mtlist",
+								type : "get",
+								data : "search=" + $("#search").val()
+										+ "&work=seloption2",
+								success : function(data) {
+									$.each(data, function(i, val) {
+										let addt = "<tr class='slist'>"
+												+ "<td>" + val.location
+												+ "</td>" + "<td>" + val.name
+												+ "</td>" + "<td>" + val.height
+												+ "</td>" + "<td>" + val.manage
+												+ "</td>" + "</tr>";
+										$(".tr1").eq(-1).after(addt);
+									});
+								},
+								error : function() {
+									alert('error');
+								}
+							});
+						else if($("#seloption").val() == 'manage')
+							$.ajax({
+								url : "./mtlist",
+								type : "get",
+								data : "search=" + $("#search").val()
+										+ "&work=seloption3",
+								success : function(data) {
+									$.each(data, function(i, val) {
+										let addt = "<tr class='slist'>"
+												+ "<td>" + val.location
+												+ "</td>" + "<td>" + val.name
+												+ "</td>" + "<td>" + val.height
+												+ "</td>" + "<td>" + val.manage
+												+ "</td>" + "</tr>";
+										$(".tr1").eq(-1).after(addt);
+									});
+								},
+								error : function() {
+									alert('error');
+								}
+							});
+					});
+		});
+	</script>
+
+</body>
+</html>
