@@ -1,0 +1,91 @@
+<%@page import="movie.MovieManager"%>
+<%@page import="dto.MovieVo"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+    
+    
+    
+<-- jsoup-1.11.3.jar  라이브러리를 추가해야 jsoup 이용 가능 -->
+
+
+
+
+<%
+List<MovieVo> list = MovieManager.getCGVdata();
+
+for(int i = 0; i < list.size(); i++){
+	System.out.println(list.get(i).toString());
+}
+// list -> json (차트 data에 json 형식으로 데이터를 받기 때문에 변형 해주어야 한다)
+
+String jsonlike = "[";  
+for(MovieVo m : list){
+	jsonlike += "{ name:'"+m.getTitle()+"',y:"+m.getLike()+"},";
+}
+jsonlike = jsonlike.substring(0, jsonlike.lastIndexOf(","));// 0부터 마지막 인덱스 전까지
+
+jsonlike +="]";
+
+System.out.println(jsonlike);
+
+request.setAttribute("jsonlike", jsonlike);
+%>    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+</head>
+<body>
+
+<div id="container"></div>
+
+
+<script type="text/javascript">
+Highcharts.chart('container', {
+	  chart: {
+	    plotBackgroundColor: null,
+	    plotBorderWidth: null,
+	    plotShadow: false,
+	    type: 'pie'
+	  },
+	  title: {
+	    text: '영화가 좋아요'
+	  },
+	  tooltip: {
+	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	  },
+	  accessibility: {
+	    point: {
+	      valueSuffix: '%'
+	    }
+	  },
+	  plotOptions: {
+	    pie: {
+	      allowPointSelect: true,
+	      cursor: 'pointer',
+	      dataLabels: {
+	        enabled: true,
+	        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+	      }
+	    }
+	  },
+	  series: [{
+	    name: 'Brands',
+	    colorByPoint: true,
+	    data:<%=request.getAttribute("jsonlike")%> /* java에서 JS로 값을 넘길 수 있다 */
+	  }]
+	});
+</script>
+
+</body>
+</html>
