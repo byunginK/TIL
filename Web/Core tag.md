@@ -1,12 +1,13 @@
 # Core tag
 
+- jstl.jar, standard.jar 코어태그 사용시 필요 jar (mavenrepository)에서 다운로드 가능
+
 - Core: 제어문(for, if) + El tag
 ```
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- 
-	jstl.jar, standard.jar 코어태그 사용시 필요 jar
- -->
+태그 사용을 위해 상위 문구 추가 필요
+
  ```
 ### 1. 기본 형태
  ```html
