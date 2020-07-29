@@ -4,6 +4,22 @@
 <%@page import="dto.MemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%!
+//댓글의 depth와 이미지를 추가하는 함수   		depth =1   이면 한칸 띄어쓰기하고 이미지 
+public String arrow(int depth){
+	String rs = "<img src='./image/arrow.png' width='20px' height='20px'/>";
+	String nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
+	
+	String ts = "";
+	for(int i = 0; i<depth; i++){
+		ts +=nbsp;
+	}
+	return depth==0?"":ts + rs;
+}
+
+%>    
+    
+    
 <%
 Object ologin = session.getAttribute("login");
 MemberDto mem = null;
@@ -50,24 +66,47 @@ if(list == null || list.size() == 0){
 }else{
 	for(int i = 0; i < list.size(); i++){
 		BbsDto bbs = list.get(i);
+		if(bbs.getDel()==0){
 %>
-	<tr>
-		<th><%=i+1 %></th>
-		<td>
-			<a href="bbsdetail.jsp?seq=<%=bbs.getSeq() %>">
-				<%=bbs.getTitle() %>
-			</a>
-		</td>
-		<td align="center"><%=bbs.getId() %></td>
-	</tr>
+			<tr>
+				<th><%=i+1 %></th>
+				<td>
+					<%=arrow(bbs.getDepth()) %>	<!-- 여백 + 이미지 -->
+					<a href="bbsdetail.jsp?seq=<%=bbs.getSeq() %>">
+						<%=bbs.getTitle() %>
+					</a>
+				</td>
+				<td align="center"><%=bbs.getId() %></td>
+			</tr>
 <%
+		}else{
+			%>
+			<tr>
+				<th><%=i+1 %></th>
+				<td style="color: red">
+					<%=arrow(bbs.getDepth()) %>	<!-- 여백 + 이미지 -->
+					이 글은 삭제 되었습니다.
+				</td>
+				<td align="center"><%=bbs.getId() %></td>
+			</tr>
+			<%
+		}
 	}
 }
 %>
 </table>
+<a href="bbswrite.jsp">글쓰기</a>
 </div>
 
-<a href="bbswrite.jsp">글쓰기</a>
+<form action="bbssearch.jsp">
+<select name="search_op">
+	<option value="id">작성자</option>
+	<option value="title">제목</option>
+	<option value="content">내용</option>
+</select>
+<input type="text" name="sc">
+<input type="submit" value="검색">
+</form>
 
 </body>
 </html>
