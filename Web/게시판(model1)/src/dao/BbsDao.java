@@ -416,6 +416,200 @@ public class BbsDao {
 		}
 		return list;
 	}
+	// 검색의 방법 1
+	public List<BbsDto> getBbsList(String choice, String searchword) {
+		String sql = " SELECT SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, DEL, READCOUNT "
+					+" FROM BBS "
+					+" WHERE 1=1 ";
+		String sqlWord ="";
+		if(choice.equals("title")) {
+			sqlWord = " AND TITLE LIKE '%"+ searchword.trim() + "%' ";
+		}else if(choice.equals("writer")) {
+			sqlWord = " AND ID='"+ searchword.trim()+"' ";
+		}else if(choice.equals("content")) {
+			sqlWord = " AND CONTENT LIKE '%"+ searchword.trim() + "%' ";
+		}
+		sql = sql+ sqlWord;
+		sql	+= " ORDER BY REF DESC, STEP ASC ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		List<BbsDto> list = new ArrayList<BbsDto>();
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getBbsList success");
+			
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 getBbsList success");
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getBbsList success");
+			
+			while(rs.next()) {
+				int i = 1;
+				
+				BbsDto dto = new BbsDto(rs.getInt(i++), 
+										rs.getString(i++), 
+										rs.getInt(i++), 
+										rs.getInt(i++), 
+										rs.getInt(i++), 
+										rs.getString(i++), 
+										rs.getString(i++), 
+										rs.getString(i++), 
+										rs.getInt(i++), 
+										rs.getInt(i++));
+				list.add(dto);
+				
+			}
+			System.out.println("4/6 getBbsList success");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return list;
+	}
+	
+	public boolean updateContent(String nwtitle, String nwcont,int seq) {
+		String sql = " UPDATE BBS "
+					+" SET TITLE = ? , CONTENT = ? , WDATE = SYSDATE "
+					+" WHERE SEQ = ? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		
+		int count = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 updateContent success");
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, nwtitle);
+			psmt.setString(2, nwcont);
+			psmt.setInt(3, seq);
+			System.out.println("2/6 updateContent success");
+			
+			count = psmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+		return count>0?true:false;
+	}
+	
+	// 글의 모든 갯수
+	public int getAllBbs(String choice, String searchword) {
+		String sql = " SELECT COUNT(*) FROM BBS ";
+		String sqlword = "";
+		if(choice.equals("id")) {
+			sqlword = " WHERE ID ='"+searchword.trim()+"' ";
+		}else if(choice.equals("title")) {
+			sqlword = " WHERE TITLE LIKE '%"+ searchword.trim() + "%' ";
+		}else if(choice.equals("content")) {
+			sqlword = " WHERE CONTENT LIKE '%"+ searchword.trim() + "%' ";
+		}
+		sql = sql+ sqlword;
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		int len = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getAllBbs success");
+			psmt= conn.prepareStatement(sql);
+			System.out.println("2/6 getAllBbs success");
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				len = rs.getInt(1);
+			}
+			System.out.println("3/6 getAllBbs success");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return len;
+		
+	}
+	
+	public List<BbsDto> getBbspagingList(String choice, String searchword, int page) {
+		/*
+			1. row 번호
+			2. 검색
+			3. 정렬
+			4. 범위
+		*/
+		
+		
+		String sql = " SELECT SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, DEL, READCOUNT "
+				+" FROM ";
+		sql += " (SELECT ROW_NUMBER()OVER(ORDER BY REF DESC, STEP ASC) AS RNUM, " +
+				" SEQ, ID, REF,STEP,DEPTH,TITLE,CONTENT,WDATE,DEL,READCOUNT " +
+					 " FROM BBS ";
+		String sqlWord ="";
+		if(choice.equals("title")) {
+			sqlWord = " WHERE TITLE LIKE '%"+ searchword.trim() + "%' AND DEL = 0 ";
+		}else if(choice.equals("id")) {
+			sqlWord = " WHERE ID='"+ searchword.trim()+"' AND DEL = 0 ";
+		}else if(choice.equals("content")) {
+			sqlWord = " WHERE CONTENT LIKE '%"+ searchword.trim() + "%' AND DEL = 0 ";
+		}
+		sql = sql+ sqlWord;			  
+		sql	+= " ORDER BY REF DESC, STEP ASC) ";
+		sql	+= " WHERE RNUM >= ? AND RNUM <= ? ";
+		
+		int start, end;
+		start = 1 + 7*page;
+		end = 7 + 7*page;
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		List<BbsDto> list = new ArrayList<BbsDto>();
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getBbsList success");
+			
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, start);
+			psmt.setInt(2, end);
+			System.out.println("2/6 getBbsList success");
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getBbsList success");
+			
+			while(rs.next()) {
+				int i = 1;
+				
+				BbsDto dto = new BbsDto(rs.getInt(i++), 
+										rs.getString(i++), 
+										rs.getInt(i++), 
+										rs.getInt(i++), 
+										rs.getInt(i++), 
+										rs.getString(i++), 
+										rs.getString(i++), 
+										rs.getString(i++), 
+										rs.getInt(i++), 
+										rs.getInt(i++));
+				list.add(dto);
+				
+			}
+			System.out.println("4/6 getBbsList success");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return list;
+	}
 }
 
 

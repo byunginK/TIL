@@ -49,7 +49,7 @@ MemberDto mem = (MemberDto)ologin;
 </table>
 
 <%
-if(bbs.getId().equals(mem.getId())){ // 작성자(세션 아이디와 글을 작성한 아이디가 동일해야만 버튼 보이게함)
+if(bbs.getId().equals(mem.getId())){
 	%>
 	<button type="button" onclick="updateBbs(<%=bbs.getSeq() %>)">수정</button>
 	<button type="button" onclick="deleteBbs(<%=bbs.getSeq() %>)">삭제</button>

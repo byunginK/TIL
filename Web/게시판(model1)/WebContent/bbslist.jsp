@@ -32,16 +32,73 @@ if(ologin == null){	//세션이 날라갔을때 (시간이 많이 지나서)
 <%	
 }
 mem = (MemberDto)ologin;
+%>
 
+<%
+//검색 방법 1
+String searchWord = request.getParameter("searchWord");
+String choice = request.getParameter("choice");
+
+if(choice == null || choice.equals("")){
+	choice = "sel";
+}
+//검색어를 지정하지 않고 Choice가 넘어 왔을때
+if(choice.equals("sel")){
+	searchWord = "";
+}
+if(searchWord == null){
+	searchWord = "";
+	choice = "sel";
+}
+%>
+
+
+<%
 BbsDao dao = BbsDao.getInstance();
 
-List<BbsDto> list = dao.getBbsList();
+String spageNumber = request.getParameter("pageNumber");
+
+int pageNumber = 0; // 현재 페이지(첫번재 페이지)
+if(spageNumber != null && !spageNumber.equals("")){
+	pageNumber = Integer.parseInt(spageNumber);
+}
+
+System.out.println("pageNumber:"+pageNumber);
+
+//List<BbsDto> list = dao.getBbsList();
+/* List<BbsDto> list = dao.getBbsList(choice, searchWord); */
+List<BbsDto> list = dao.getBbspagingList(choice, searchWord, pageNumber);
+
+int len = dao.getAllBbs(choice, searchWord);
+
+System.out.println("총 글의 갯수:"+len);
+
+int bbsPage = len / 7; //예: 총 8개 ->2page
+if(len% 7>0){
+	bbsPage = bbsPage +1; //현재 2가 됨
+}
+
+
+
 %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	let searchWord = "<%=searchWord%>";
+	if(searchWord=="") return;
+	
+	let obj = document.getElementById("choice");
+	obj.value = "<%=choice%>";
+	obj.setAttribute("selected", "selected");
+	
+});
+
+</script>
 </head>
 <body>
 
@@ -66,47 +123,99 @@ if(list == null || list.size() == 0){
 }else{
 	for(int i = 0; i < list.size(); i++){
 		BbsDto bbs = list.get(i);
-		if(bbs.getDel()==0){
 %>
 			<tr>
 				<th><%=i+1 %></th>
 				<td>
+				<%
+				if(bbs.getDel()==0){
+					 %>
 					<%=arrow(bbs.getDepth()) %>	<!-- 여백 + 이미지 -->
 					<a href="bbsdetail.jsp?seq=<%=bbs.getSeq() %>">
 						<%=bbs.getTitle() %>
 					</a>
-				</td>
-				<td align="center"><%=bbs.getId() %></td>
-			</tr>
-<%
-		}else{
-			%>
-			<tr>
-				<th><%=i+1 %></th>
-				<td style="color: red">
+				
+				<%
+				}else{
+				%>
+			
+				
 					<%=arrow(bbs.getDepth()) %>	<!-- 여백 + 이미지 -->
 					이 글은 삭제 되었습니다.
-				</td>
+				<%
+				}
+				%>	
+			
 				<td align="center"><%=bbs.getId() %></td>
 			</tr>
 			<%
-		}
 	}
 }
 %>
 </table>
-<a href="bbswrite.jsp">글쓰기</a>
+<%
+
+	for(int i = 0; i < bbsPage; i++){
+		if(pageNumber == i){	// 1 [2] [3] 이렇게 페이지  , 현재 페이지는 링크
+			%>
+			<span style="font-size: 15pt; color: blue; font-weight: bold; text-decoration: none" >
+				<%=i+1 %>
+			</span>&nbsp;
+			<%
+		}else{	// 그외 페이지
+			%>
+			<a href = "#none" title="<%=i+1 %>페이지" onclick="goPage(<%=i %>)" style="font-size: 15pt; color: black; font-weight: bold; text-decoration: none">
+				[<%=i +1 %>]
+			</a>&nbsp;
+			<%
+		}
+	}
+	
+%>
+
+
 </div>
 
-<form action="bbssearch.jsp">
-<select name="search_op">
+<br><br>
+<a href="bbswrite.jsp">글쓰기</a>
+
+
+
+
+<!-- 검색 방법 1 -->
+<select id="choice">
+	<option value="sel">선택</option>
 	<option value="id">작성자</option>
 	<option value="title">제목</option>
 	<option value="content">내용</option>
 </select>
-<input type="text" name="sc">
-<input type="submit" value="검색">
-</form>
+<input type="text" id="search" value="<%=searchWord%>">
+<button onclick="searchBbs()">검색</button> 
+
+<script type="text/javascript">
+function searchBbs() {
+	var choice = document.getElementById("choice").value;
+	var word = document.getElementById("search").value;
+//	alert(choice);
+//	alert(word);
+
+
+	location.href = "bbslist.jsp?searchWord=" + word + "&choice=" + choice;	//새로고침
+	
+}
+
+
+function goPage(pageNum) {
+	var choice = document.getElementById("choice").value;
+	var word = document.getElementById("search").value;
+	
+	location.href = "bbslist.jsp?pageNumber="+pageNum+"&choice="+choice+"&searchWord="+word;
+
+	
+}
+
+</script>
+
 
 </body>
 </html>
