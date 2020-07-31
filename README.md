@@ -40,3 +40,6 @@
 * [Jsoup](https://github.com/byunginK/TIL/tree/master/Web/Jsoup)
 * [Servlet](https://github.com/byunginK/TIL/tree/master/Web/Servlet)
 * [JDBC&JSP(MVC1,2)](https://github.com/byunginK/TIL/tree/master/Web/JDBC%26JSP)
+* [게시판(MVC 1)](https://github.com/byunginK/TIL/tree/master/Web/%EA%B2%8C%EC%8B%9C%ED%8C%90(model1))
+* [게시판(MVC 2)](https://github.com/byunginK/TIL/tree/master/Web/%EA%B2%8C%EC%8B%9C%ED%8C%90(model2))
+* [일정관리(MVC 1)](https://github.com/byunginK/TIL/tree/master/Web/%EC%9D%BC%EC%A0%95%EA%B4%80%EB%A6%AC(model1))
