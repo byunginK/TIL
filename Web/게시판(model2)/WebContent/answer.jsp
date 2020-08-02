@@ -16,14 +16,14 @@ if(s){
 	%>
 	<script type="text/javascript">
 		alert("답글 추가 성공");
-		location.href="bbslist.jsp";
+		location.href="conBbs?work=movblist";
 	</script>
 	<%
 }else{
 	%>	
 	<script type="text/javascript">
 		alert("추가 실패");
-		location.href="bbslist.jsp?"
+		location.href="conBbs?work=movblist"
 	</script>
 <%
 }

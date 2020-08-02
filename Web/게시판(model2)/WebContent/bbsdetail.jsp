@@ -96,7 +96,7 @@ $(function() {
 				var t = data.replace(regExp, "");
 				if(t=="success"){
 					alert("글이 삭제 되었습니다.");
-					location.href="bbslist.jsp";
+					location.href="conBbs?work=blist";
 				}else{
 					alert('삭제 실패');
 				}

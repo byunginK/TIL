@@ -1,7 +1,7 @@
 package controller;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -26,14 +25,40 @@ public class ControllerBbs extends HttpServlet {
 		String work = req.getParameter("work");
 		BbsDao dao = BbsDao.getInstance();
 		//System.out.println(work);
-		if(work.equals("bbslist")) {
-			List<BbsDto> list = dao.getBbsList();		
+		List<BbsDto> list = new ArrayList<BbsDto>();
+		
+		if(work.equals("movblist")) {
+			resp.sendRedirect("bbslist.jsp");
+		}else if(work.equals("blist")) {
+			String choice = req.getParameter("choice");
+			String search = req.getParameter("search");
+			String spageNumber = req.getParameter("pageNumber");
+			int pageNumber;
+			if(spageNumber.equals("")) {
+				pageNumber = 0;
+			}else {
+				pageNumber = Integer.parseInt(spageNumber);
+			}
 			
-			resp.setContentType("application/json");
-			resp.setCharacterEncoding("UTF-8"); 
-			String gson = new Gson().toJson(list);
-			//System.out.println(gson);
-			resp.getWriter().write(gson);
+			System.out.println("blist"+choice+" "+search+" "+pageNumber);
+			
+		
+			
+			list = dao.getSearchBbs(choice, search,pageNumber);
+			
+				resp.setContentType("application/json"); 
+				resp.setCharacterEncoding("UTF-8"); 
+				String gson = new Gson().toJson(list);	
+				resp.getWriter().write(gson);
+			
+			
+		}else if(work.equals("bsearch")) {
+			String choice = req.getParameter("choice");
+			String search = req.getParameter("search");
+			System.out.println("bsearch"+choice + " "+ search);
+			req.setAttribute("choice", choice);
+			req.setAttribute("search", search);
+			forward("bbslist.jsp", req, resp);
 		}else if(work.equals("write")) {
 			resp.sendRedirect("bbswrite.jsp");
 		}else if(work.equals("back")) {
@@ -44,15 +69,7 @@ public class ControllerBbs extends HttpServlet {
 			String content = req.getParameter("content");
 			BbsDto dto = new BbsDto(id, title, content);
 			boolean isS = dao.writeBbs(dto);
-			if(isS) {
-				String check = "success";
-				String gson = new Gson().toJson(check);
-				resp.getWriter().write(gson);
-			}else {
-				String check = "fail";
-				String gson = new Gson().toJson(check);
-				resp.getWriter().write(gson);
-			}
+			isS(isS, req, resp);
 		}else if(work.equals("detail")) {
 			int seq = Integer.parseInt(req.getParameter("seq"));
 			BbsDto dto = dao.getBbs(seq);
@@ -71,6 +88,19 @@ public class ControllerBbs extends HttpServlet {
 			boolean isS = dao.answer(seq, dto);
 			req.setAttribute("isS", isS);
 			forward("answer.jsp", req, resp);
+			
+		}else if(work.equals("page")) {
+			String choice = req.getParameter("choice");
+			String search = req.getParameter("search");
+			int len = dao.getAllBbs(choice, search);
+			int bbsPage = len/5;
+			if(len%5>0) {
+				bbsPage = bbsPage +1;
+			}
+			resp.setContentType("application/json"); 
+			resp.setCharacterEncoding("UTF-8"); 
+			String gson = new Gson().toJson(bbsPage);	
+			resp.getWriter().write(gson);
 			
 		}
 	}

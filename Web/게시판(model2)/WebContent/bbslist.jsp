@@ -1,19 +1,9 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="dto.BbsDto"%>
+<%@page import="java.util.List"%>
 <%@page import="dto.MemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%!
-//댓글의 depth와 이미지를 추가하는 함수   		depth =1   이면 한칸 띄어쓰기하고 이미지 
-public String arrow(int depth){
-	String rs = "<img src='./image/arrow.png' width='20px' height='20px'/>";
-	String nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
-	
-	String ts = "";
-	for(int i = 0; i<depth; i++){
-		ts +=nbsp;
-	}
-	return depth==0?"":ts + rs;
-}
-%>    
     
 <%
 Object ologin = session.getAttribute("login");
@@ -27,6 +17,22 @@ if(ologin == null){
 <%	
 }
 mem = (MemberDto)ologin;
+
+String choice = request.getParameter("choice");
+String search = request.getParameter("search");
+String pageNumber = request.getParameter("pageNumber");
+
+if(choice == null || choice.equals("")){
+	choice="";
+}
+if(search == null) {
+	search = "";
+	choice = "sel";
+}
+if(pageNumber == null){
+	pageNumber = "0";
+}
+
 %>
   
 <!DOCTYPE html>
@@ -35,6 +41,25 @@ mem = (MemberDto)ologin;
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	let search = "<%=search%>";
+	if(search=="") return;
+	else{
+		let seh = document.getElementById("search");
+		seh.value= "<%=search%>";
+	}
+	let obj = document.getElementById("choice");
+	obj.value = "<%=choice%>";
+	obj.setAttribute("selected", "selected");
+	
+});
+</script>
+<%
+System.out.println("setA"+" "+choice+" "+search);
+%>
+
 </head>
 <body>
 
@@ -51,53 +76,52 @@ mem = (MemberDto)ologin;
 
 
 </table>
+
+
+
 <a href="conBbs?work=write">글쓰기</a>
 </div>
 
-<form action="bbssearch.jsp">
-<select name="search_op">
+<div align="center">
+<select id="choice">
+	<option value="sel">선택</option>
 	<option value="id">작성자</option>
 	<option value="title">제목</option>
 	<option value="content">내용</option>
 </select>
-<input type="text" name="sc">
-<input type="submit" value="검색">
-</form>
+<input type="text" id="search">
+<input type="button" id="search_btn" value="검색">
+</div>
 
 <script type="text/javascript">
 $(document).ready(function() {
-	let count = 0;
+	let choice = $("#choice").val();
+	let search = $("#search").val();
+	let pageNumber = <%=pageNumber%>;
 	$.ajax({
 		url:"conBbs",
 		type:"get",
 		datatype : "json",
-		data:"work=bbslist",
+		data:"work=blist&choice="+choice+"&search="+search+"&pageNumber="+pageNumber,
 		success:function(datas) {
-			//alert(datas);
-			if(datas==null){
+			
+			//alert("success");
+			if(datas==""){
 				let addlist = "<tr><th colspan='3'>"+"작성된 글이 없습니다."+"</th></tr>";
-			$("#tb1").after(addlist);
+				$("tr").eq(-1).after(addlist);
 			}else{
-				
+				let count2 = 1;
 				$.each(datas,function(i, val){
+					
 					let addlist = "";
 					let nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
 					let ts = "";
 					for(let j = 0; j<val.depth; j++){
 						ts +=nbsp;
 					}
-				 	if(val.del==1){
+				  
 						addlist = "<tr>"
-							+	"<th>"+count+"</th>"
-							+	"<td style='color: red'>"
-							+		ts+"***이 글은 삭제 되었습니다.***"
-							+	"</td>"
-							+	"<td align='center'>"+val.id+"</td>"
-							+ "</tr>"
-						count++;
-					}else{ 
-						addlist = "<tr>"
-									+	"<th>"+count+"</th>"
+									+	"<th>"+count2+"</th>"
 									+	"<td>"
 									+		ts+ "<a href='conBbs?work=detail&seq="+val.seq+"'>"
 									+		val.title
@@ -106,21 +130,66 @@ $(document).ready(function() {
 									+	"<td align='center'>"+val.id+"</td>"
 									+ "</tr>"
 						
-						count++;
-					 } 	
+						count2++;
+					 
 				 	$("tr").eq(-1).after(addlist);
 				});
 			}
-			
 		},
 		error:function() {
 			alert('error');
 		}
-		
+	}); 
+	
+	$.ajax({
+		url:'conBbs',
+		type:"get",
+		datatype : "json",
+		data:"work=page&choice="+choice+"&search="+search,
+		success:function(data) {
+			let str = JSON.stringify(data);
+			let bp = Number(str);
+		//	alert('페이지:'+str);
+			let addlist2="";
+			for(let i = 0; i < bp; i++){
+				if(pageNumber == i){	// 1 [2] [3] 이렇게 페이지  , 현재 페이지는 링크
+					 addlist2 = "<span style='font-size: 15pt; color: blue; font-weight: bold; text-decoration: none' >"
+								+(i+1)
+								+"</span>&nbsp;"
+					
+				}else{	// 그외 페이지
+					
+					addlist2 = "<a href = '#none'  onclick='goPage("+i+")' style='font-size: 15pt; color: black; font-weight: bold; text-decoration: none'>"
+								+[i +1]
+								+"</a>&nbsp;"
+					
+				}
+				$('a').eq(-1).before(addlist2);
+			}
+		},
+		error: function() {
+			alert('error');
+		}
 	});
 });
-</script>
+$(function() {
+	$("#search_btn").click(function() {
+		let choice = $("#choice").val();
+		let search = $("#search").val();
+		location.href="conBbs?work=bsearch&choice="+choice+"&search="+search;
+	});
+		
+});
+function goPage(pageNum) {
+	var choice = document.getElementById("choice").value;
+	var word = document.getElementById("search").value;
+	
+	location.href = "bbslist.jsp?pageNumber="+pageNum+"&choice="+choice+"&search="+word; 
+	
+	
+}
 
+</script>
 </body>
 </html>
 

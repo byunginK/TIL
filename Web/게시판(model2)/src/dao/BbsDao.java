@@ -21,7 +21,7 @@ public class BbsDao {
 	
 	public static BbsDao getInstance() {
 		return dao;
-	}
+	} 
 	
 	public List<BbsDto> getBbsList() {
 		String sql = " SELECT SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, DEL, READCOUNT "
@@ -230,6 +230,110 @@ public class BbsDao {
 		}
 		return count>0?true:false;
 	}
+	
+	public List<BbsDto> getSearchBbs(String choice, String search, int page) {
+		String sql = " SELECT SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, DEL, READCOUNT "
+				+" FROM ";
+		sql += " (SELECT ROW_NUMBER()OVER(ORDER BY REF DESC, STEP ASC) AS RNUM, " + //from 의 서브 쿼리 앞에 row넘버를 붙여서 정렬
+				" SEQ, ID, REF,STEP,DEPTH,TITLE,CONTENT,WDATE,DEL,READCOUNT " +
+					 " FROM BBS ";
+		String sqlWord ="";
+		if(choice.equals("title")) {  // 검색어가 있을경우 아래 조건문을 통해 WHERE 조건 추가
+			sqlWord = " WHERE TITLE LIKE '%"+ search.trim() + "%' AND DEL = 0 ";
+		}else if(choice.equals("id")) {
+			sqlWord = " WHERE ID='"+ search.trim()+"' AND DEL = 0 ";
+		}else if(choice.equals("content")) {
+			sqlWord = " WHERE CONTENT LIKE '%"+ search.trim() + "%' AND DEL = 0 ";
+		}
+		sql = sql+ sqlWord;			  
+		sql	+= " ORDER BY REF DESC, STEP ASC) ";
+		sql	+= " WHERE RNUM >= ? AND RNUM <= ? ";
+		
+		int start,end;
+		start = 1+5*page;
+		end = 5+5*page;
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		List<BbsDto> list = new ArrayList<BbsDto>();
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getSearchBbs success");
+			
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, start);
+			psmt.setInt(2, end);
+			System.out.println("2/6 getSearchBbs success");
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getSearchBbs success");
+			
+			while(rs.next()) {
+				int i = 1;
+				
+				BbsDto dto = new BbsDto(rs.getInt(i++), 
+										rs.getString(i++), 
+										rs.getInt(i++), 
+										rs.getInt(i++), 
+										rs.getInt(i++), 
+										rs.getString(i++), 
+										rs.getString(i++), 
+										rs.getString(i++), 
+										rs.getInt(i++), 
+										rs.getInt(i++));
+				list.add(dto);
+			}
+			System.out.println("4/6 getSearchBbs success");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return list;
+	}
+	
+	public int getAllBbs(String choice, String search) {
+		String sql = " SELECT COUNT(*) FROM BBS ";
+		String sqlword = "";
+		if(choice.equals("id")) {
+			sqlword = " WHERE ID = '"+search.trim()+"' ";
+		}else if(choice.equals("title")) {
+			sqlword = " WHERE TITLE LIKE '%"+ search.trim() + "%' ";
+		}else if(choice.equals("content")) {
+			sqlword = " WHERE CONTENT LIKE '%"+ search.trim() + "%' ";
+		}
+		
+		sql = sql + sqlword;
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		int len = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getAllBbs success");
+			psmt= conn.prepareStatement(sql);
+			System.out.println("2/6 getAllBbs success");
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				len = rs.getInt(1);
+			}
+			System.out.println("3/6 getAllBbs success");
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return len;
+	}
+	
 }
 
 

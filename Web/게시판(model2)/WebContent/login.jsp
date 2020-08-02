@@ -174,7 +174,7 @@ $(document).ready(function() {
 						
 					}else{
 						alert('환영합니다');
-						location.href="bbslist.jsp";
+						location.href="conBbs?work=movblist";
 					}
 				},
 				error: function() {

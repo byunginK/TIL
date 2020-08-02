@@ -53,7 +53,7 @@ $(document).ready(function() {
 				var t = data.replace(regExp, "");
 				if(t=="success"){
 					alert("작성하신 글이 추가 되었습니다.");
-					location.href="bbslist.jsp";
+					location.href="conBbs?work=blist";
 				}else{
 					alert('추가 실패');
 				}
