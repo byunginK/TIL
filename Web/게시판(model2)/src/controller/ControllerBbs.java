@@ -34,7 +34,7 @@ public class ControllerBbs extends HttpServlet {
 			String search = req.getParameter("search");
 			String spageNumber = req.getParameter("pageNumber");
 			int pageNumber;
-			if(spageNumber.equals("")) {
+			if(spageNumber.equals("")) {	//로그인 후 바로 값이 없기때문에 지정해줌
 				pageNumber = 0;
 			}else {
 				pageNumber = Integer.parseInt(spageNumber);
@@ -52,7 +52,7 @@ public class ControllerBbs extends HttpServlet {
 				resp.getWriter().write(gson);
 			
 			
-		}else if(work.equals("bsearch")) {
+		}else if(work.equals("bsearch")) {	//검색누르면 그값을 다시 jsp로 보내줌 (ajax 처리)
 			String choice = req.getParameter("choice");
 			String search = req.getParameter("search");
 			System.out.println("bsearch"+choice + " "+ search);
@@ -89,7 +89,7 @@ public class ControllerBbs extends HttpServlet {
 			req.setAttribute("isS", isS);
 			forward("answer.jsp", req, resp);
 			
-		}else if(work.equals("page")) {
+		}else if(work.equals("page")) {	//페이지 총 개수를 구해주는 함수 및 그것을 ajax로 출력
 			String choice = req.getParameter("choice");
 			String search = req.getParameter("search");
 			int len = dao.getAllBbs(choice, search);
