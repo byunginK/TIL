@@ -20,7 +20,7 @@ mem = (MemberDto)ologin;
 
 String choice = request.getParameter("choice");
 String search = request.getParameter("search");
-String pageNumber = request.getParameter("pageNumber");
+String pageNumber = request.getParameter("pageNumber");	//getlist함수에 파라미터로 넣기위해(현재 페이지를 계속 업데이트하기위해) 값을 받는다
 
 if(choice == null || choice.equals("")){
 	choice="";
@@ -29,7 +29,7 @@ if(search == null) {
 	search = "";
 	choice = "sel";
 }
-if(pageNumber == null){
+if(pageNumber == null){	//로그인 후 접근할때 null값으로 0값을 잡아준다
 	pageNumber = "0";
 }
 
@@ -43,7 +43,7 @@ if(pageNumber == null){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-$(document).ready(function() {
+$(document).ready(function() {	//제일 처음 search 와 choice의 값을 잡아준다 아니면, 검색한 값들을 ajax에 넣어주기위해 servlet으로 부터 
 	let search = "<%=search%>";
 	if(search=="") return;
 	else{
@@ -141,7 +141,7 @@ $(document).ready(function() {
 		}
 	}); 
 	
-	$.ajax({
+	$.ajax({ // 페이지 출력 부분 
 		url:'conBbs',
 		type:"get",
 		datatype : "json",
@@ -159,12 +159,12 @@ $(document).ready(function() {
 					
 				}else{	// 그외 페이지
 					
-					addlist2 = "<a href = '#none'  onclick='goPage("+i+")' style='font-size: 15pt; color: black; font-weight: bold; text-decoration: none'>"
-								+[i +1]
-								+"</a>&nbsp;"
+					addlist2 = "<a href = '#none'  onclick='goPage("+i+")' style='font-size: 15pt; color: black; font-weight: bold; text-decoration: none'>["
+								+(i +1)
+								+"]</a>&nbsp;"
 					
 				}
-				$('a').eq(-1).before(addlist2);
+				$('a').eq(-1).before(addlist2);	//글쓰기 앵커태그 위에 위치
 			}
 		},
 		error: function() {
@@ -184,7 +184,7 @@ function goPage(pageNum) {
 	var choice = document.getElementById("choice").value;
 	var word = document.getElementById("search").value;
 	
-	location.href = "bbslist.jsp?pageNumber="+pageNum+"&choice="+choice+"&search="+word; 
+	location.href = "bbslist.jsp?pageNumber="+pageNum+"&choice="+choice+"&search="+word; //페이지가 변할때 다시 그 값들을 준다 (맨위에서 다시 이 값을 받음)
 	
 	
 }
