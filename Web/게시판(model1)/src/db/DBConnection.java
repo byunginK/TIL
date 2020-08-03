@@ -20,6 +20,7 @@ public class DBConnection {
 	
 	public static Connection getConnection()throws Exception {  // Connection (java.sql) = jdbc의 오브젝트를 읽어준다.
 		Connection conn = null;
+		DBConnection.initConnection();
 	
 		conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.7.45:1521:xe", "hr", "hr"); // url 은 연동된 DB의 url  프로퍼티에서 복붙 그리고 사용자, 비번 입력
 		

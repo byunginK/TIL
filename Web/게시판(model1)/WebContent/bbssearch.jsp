@@ -125,5 +125,14 @@ if(option.equals("id")){
 </table>
 <a href="bbswrite.jsp">글쓰기</a>
 </div>
+<form action="bbssearch.jsp">
+<select name="search_op">
+	<option value="id">작성자</option>
+	<option value="title">제목</option>
+	<option value="content">내용</option>
+</select>
+<input type="text" name="sc">
+<input type="submit" value="검색">
+</form>
 </body>
 </html>

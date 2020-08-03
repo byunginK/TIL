@@ -106,6 +106,9 @@ $(document).ready(function() {
 
 <h1>게시판</h1>
 
+<a href="./calendar/calendar.jsp">일정관리</a>
+<a href="./pdslist.jsp">자료실</a><br><br>
+
 <div align="center">
 <table border="1">
 <col width="70"><col width="600"><col width="150">
@@ -164,7 +167,7 @@ if(list == null || list.size() == 0){
 			<%
 		}else{	// 그외 페이지
 			%>
-			<a href = "#none" title="<%=i+1 %>페이지" onclick="goPage(<%=i %>)" style="font-size: 15pt; color: black; font-weight: bold; text-decoration: none">
+			<a href ="#none" title="<%=i+1 %>페이지" onclick="goPage(<%=i %>)" style="font-size: 15pt; color: black; font-weight: bold; text-decoration: none">
 				[<%=i +1 %>]
 			</a>&nbsp;
 			<%
@@ -177,7 +180,7 @@ if(list == null || list.size() == 0){
 </div>
 
 <br><br>
-<a href="bbswrite.jsp">글쓰기</a>
+<a href="bbswrite.jsp">글쓰기</a><br><br>
 
 
 
