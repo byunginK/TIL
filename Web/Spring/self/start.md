@@ -29,3 +29,19 @@ MVC 모델 2방식으로 진행을하고 느슨한 결합력을 가지고 인터
 ![캡처3](https://user-images.githubusercontent.com/65350890/91443027-b7459b80-e8ad-11ea-8204-38f33e325cd5.PNG)
 
 - 연결을 도와 주는것이 UI고 스프링에서 UI에서 연결(DI)를 쉽게 하도록 해준다
+
+# DI(Defendency injection)
+
+- 연결을 도와주는 대표적인 기능은 DI 와 IOC가 있다.
+![캡처4](https://user-images.githubusercontent.com/65350890/91444770-3045f280-e8b0-11ea-86fb-d46f9ae72f71.PNG)
+
+## DI
+- 왼쪽은 스스로 생성하고 스스로 값을 가지고 오른쪽은 외부에서 값을 받아 setting한다
+
+![캡처5](https://user-images.githubusercontent.com/65350890/91444771-30de8900-e8b0-11ea-84fc-f85b54331c83.PNG)
+
+![캡처6](https://user-images.githubusercontent.com/65350890/91444763-2f14c580-e8b0-11ea-800d-686e5fe1d5aa.PNG)
+- A라는 인터페이스를 만들어 놓고 객체를 생성하여 조립을 해주는 방식이 DI 이다. 이렇게되면 전체 코드 수정필요하지 않고 추가되는 코드만 조립해주면된다.
+
+![캡처7](https://user-images.githubusercontent.com/65350890/91444769-3045f280-e8b0-11ea-91fc-1bd0b54bd5cd.PNG)
+- set을 통해 값을 조립하는 경우와 생성시 값을 넣어 생성하여 조립하는 경우가 있다 이런 방식을 도와주는 것이 스프링이다.
