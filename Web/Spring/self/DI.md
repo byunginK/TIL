@@ -221,3 +221,39 @@ public NewlecExam(int kor, int eng, int math, int com) {
 xmlns:p="http://www.springframework.org/schema/p" 
 ```
 - 위의 태그는 아래 source 옆 Namespaces에서 P 를 체크해 주면 자동으로 추가가 된다.
+
+## DI에서 콜렉션 사용하기
+
+## 1. 기본 방법
+### Main 에서 ArrayList를 사용하기 위해 우선 setting.xml에서 생성해준다
+```xml
+<bean id ="exams" class="java.util.ArrayList">	<!-- 내장함수인 util의 ArrayList를 접근하고 main에서 불러주기위해 id를 지정해준다 -->
+	<constructor-arg>	<!--생성자를 만드는 태그사용 -->
+		<list>	<!-- list를 만듬 -->
+			<bean id ="exam" class="spring.di.emtity.NewlecExam" p:kor="1" p:eng="1"/>	
+			<!-- 리스트에 넣을 객체 및 값을 list태그안에 넣는다  1. NewlecExam의 kor과 eng의 값을 넣은 객체를 add -->
+			<ref bean="exam"/>
+			<!-- exam 객체 (total, avg) add -->
+		</list>
+	</constructor-arg>
+</bean> 
+```
+### main에서 불러준다
+```java
+List<Exam> exams = (List<Exam>)context.getBean("exams");	//setting.xml 에서 id가 exams를 불러온다
+for (Exam e : exams) {
+	System.out.println(e);
+}
+```
+## 2. namespace 방법 이용
+### namespace에서 라이브러리를 사용하여 리스트를 더 간단하게 생성할 수 있다.
+```xml
+xmlns:util="http://www.springframework.org/schema/util"
+```
+- 코드 추가
+```xml
+<util:list id="exams" list-class="java.util.ArrayList">	 <!-- 내장함수인 util의 ArrayList를 접근하고 main에서 불러주기위해 id를 지정해준다 -->
+	<bean id ="exam" class="spring.di.emtity.NewlecExam" p:kor="1" p:eng="1"/> <!-- 생성사 생성 태그와 list 태그를 생성하지않고 바로 넣어줄 수 있다.-->
+	<ref  bean="exam"/>
+</util:list>
+```
