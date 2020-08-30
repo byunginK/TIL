@@ -129,3 +129,95 @@ private Exam exam;
 	ExamConsole console = new GridExamConsole(exam);
 		console.print();
 ```
+
+# DI 값 설정하기
+
+### NewlecExam 에 kor, eng, math, com 의 변수는 선언 되었지만 값을 넣어줄 setter가 없다. 값을 설정해주기 위해 setter을 넣어준다
+```java
+public int getKor() {
+	return kor;
+}
+
+public void setKor(int kor) {
+	this.kor = kor;
+}
+
+public int getEng() {
+	return eng;
+}
+
+public void setEng(int eng) {
+	this.eng = eng;
+}
+
+public int getMath() {
+	return math;
+}
+
+public void setMath(int math) {
+	this.math = math;
+}
+
+public int getCom() {
+	return com;
+}
+
+public void setCom(int com) {
+	this.com = com;
+}
+```	
+### setting.xml 에서 값들을 넣어준다
+```xml
+<bean id ="exam" class="spring.di.emtity.NewlecExam"> <!-- 일반적으로 태그를 사용하여 진행할때-->
+		<property name="kor">		<!-- 프로퍼티 설정 그리고 name은 변수명(set은 적어주지 않는다) value를 태그안 또는 밖에 적어준다 -->
+			<value>10</value>
+		</property>
+		<property name="eng" value="10"></property>
+		<property name="math" value="10"></property>
+		<property name="com" value="10"></property>
+</bean>		
+```
+- 이렇게 값을 넣어줄 수 있다.
+
+## DI 생성자를 통해 값을 넣기
+### NewlecExam에 값을 넣어 생성할 수 있는 생성자를 추가해 준다
+```java
+public NewlecExam() {
+}
+
+
+
+public NewlecExam(int kor, int eng, int math, int com) {
+	this.kor = kor;
+	this.eng = eng;
+	this.math = math;
+	this.com = com;
+}
+
+```
+
+### setting.xml 에서 생성자를 통한 값을 넣어준다
+```xml
+<bean id ="exam" class="spring.di.emtity.NewlecExam">
+		<!-- 생성자로 접근하여 값을 넣어줄때 -->
+		<constructor-arg name="kor" type="int" value="10"></constructor-arg> <!--  name 으로 직접 변수명을 적어줄 수 있다. type은 자료형 -->
+		<constructor-arg index="1" value="20"></constructor-arg>
+		<constructor-arg index="3" value="30"></constructor-arg>
+		<constructor-arg index="2" value="40"></constructor-arg> 
+</bean>	
+```
+- index를 통해 정해진 순서에 맞게 값을 넣어줄 수 있다. value="30"은 인덱스가 3이기 때문에 com의 변수의 값으로 설정된다. 
+- index대신에 name을 통해 값을 넣어줄 수 있다.(명시적으로 변수명을 적어주기 때문에 이 방법이 더 좋다)
+
+
+### bean 아래에 태그를 만들지 않고 bean 태그에 바로 값 대입하기
+```xml
+<bean id ="exam" class="spring.di.emtity.NewlecExam" p:kor="10" p:eng="10"/> 
+```
+- 위의 코드 처럼 한번에 값을 넣어줄 수 있다. p라는 지정자를 통해서 값이 들어간다
+- 단, 위와 같이 적용하기 위해서는 namespace 코드를 상단에 추가해야한다
+
+```xml
+xmlns:p="http://www.springframework.org/schema/p" 
+```
+- 위의 태그는 아래 source 옆 Namespaces에서 P 를 체크해 주면 자동으로 추가가 된다.
