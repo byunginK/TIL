@@ -5,6 +5,9 @@
  
  ### 위처럼 하면 자동적으로 기본 셋팅을 스프링이 해준다
  
+ ### 스프링의 진행 및 모형도
+ ![캡처](https://user-images.githubusercontent.com/65350890/91698168-3a683980-ebad-11ea-887f-b0d3d7f69c5f.PNG)
+ 
  ## 스프링 처럼 setting 해보기
  
  1. 프로젝트 오른쪽 클릭하여 java EE Tools에서 web.xml을 생성해준다
