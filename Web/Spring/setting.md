@@ -10,6 +10,23 @@
  
  ## 스프링 처럼 setting 해보기
  
+ - 스프링의 실행 경로를 찍어보기위한 log 넣기
+ - pom.xml에 log4j와 slf4j simple의 코드를 넣어준다
+ ```xml
+<dependency>
+    <groupId>log4j</groupId>
+    <artifactId>log4j</artifactId>
+    <version>1.2.17</version>
+</dependency>
+
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-simple</artifactId>
+    <version>1.7.25</version>
+</dependency>
+```
+ 
+ 
  1. 프로젝트 오른쪽 클릭하여 java EE Tools에서 web.xml을 생성해준다
  - WebContent 에 WEB-INF 에 web.xml이 생성된다.
  ```xml
