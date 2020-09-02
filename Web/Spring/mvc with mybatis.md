@@ -304,7 +304,7 @@
 	</repositories> 
 </project>
 ```
-### 2.web.xml 은 이전과 동일하고 servlet-context.xml의 경로가 제대로 되어있는지 확인해 준다
+### 2.web.xml 은 이전과 동일하고 servlet-context.xml의 경로와 applicationContext경로, listener가 제대로 설정 되어있는지 확인해 준다
 ```xml
 <servlet>
   	<servlet-name>dispatcherServlet</servlet-name>
@@ -321,8 +321,23 @@
   	
   	<load-on-startup>1</load-on-startup> <!-- 이것부터 읽어라 라는 표시  -->
  </servlet>
- ...
- 
+<servlet-mapping>
+  	<servlet-name>dispatcherServlet</servlet-name>
+  	<!-- <url-pattern>/</url-pattern> -->
+  	<url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>
+  		/WEB-INF/spring/applicationContext.xml
+  	</param-value>
+  </context-param>
+  
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+ ... 아래는 한글 인코딩
 ```  
 ### 3. 스프링에서 mybatis를 쓰기위해 spring 폴더에 applicationContext.xml을 spring bean xml 파일로 생성해준다.
 ```xml
