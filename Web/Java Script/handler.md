@@ -10,7 +10,7 @@ function checkMessage() {
 }
 </script>
 ```
-첫 화면을 띄울때 '<body onload="checkMessage()">'를 통해 함수가 한번 실행된다.
+첫 화면을 띄울때 ```'<body onload="checkMessage()">'```를 통해 함수가 한번 실행된다.
 
 - onload의 다른예
 ```html
