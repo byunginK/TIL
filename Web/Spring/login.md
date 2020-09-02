@@ -184,6 +184,7 @@ $("#suBtn").click(function(){ //버튼을 누르면 회원가입 진행 ajax 설
 		async:true,
 		success:function(data){
 			alert(data);
+			location.href="./loginpage.do"
 		},
 		error:function(){
 			alert('error');
