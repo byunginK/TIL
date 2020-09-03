@@ -87,27 +87,33 @@ public class MemberController {
 
 <script type="text/javascript">
 $("#_btnLogin").click(function(){
-	let memberInfo = {
-			id:$("#id").val(),
-			pwd:$("#pwd").val()
-			};
+	if($("#id").val()==""||$("#pwd").val()==""){
+			alert("아이디 / 비밀번호를 입력해 주세요");
+	}else{
+		let memberInfo = {
+				id:$("#id").val(),
+				pwd:$("#pwd").val()
+				};
 
-	$.ajax({
-		url:"./login.do",
-		type:"post",
-		datatype:"json",
-		data:memberInfo,
-		async:true,
-		success:function(data){
-			alert(data);
-			location.href="./bbslist.do";
-		},
-		error:function(){
-			alert("error");
-		}
-		
-	});
+		$.ajax({
+			url:"./login.do",
+			type:"post",
+			datatype:"json",
+			data:memberInfo,
+			async:true,
+			success:function(data){
+				if(data=="success"){
+					location.href="./bbslist.do";
+				}else{
+					alert(data);
+				}
+			},
+			error:function(){
+				alert("error");
+			}
 
+		});
+	}
 });
 
 </script>
@@ -380,12 +386,14 @@ public String addMem(MemberDto member) {
 public String login(MemberDto login) {
   logger.info("addMem"+new Date());
   MemberDto member = memberService.login(login);
-  String message = "";
-  if(member.getId().equals(login.getId())) {
-    message = "환영합니다  " + member.getId()+"님";
-  }else {
-    message ="로그인 실패";
-  }
+	if(member != null && !member.getId().equals("")) {
+		message = "success";
+		//session 저장
+		req.getSession().setAttribute("login", member);
+
+	}else {
+		message ="id/pw가 일치하지 않습니다.";
+	}
   return message;
 }
 ```  
