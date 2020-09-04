@@ -508,6 +508,132 @@ public String gobbsdetail(String seq, Model model) {
   return "bbsDetail";
 }
 ```
+### - 글 클릭시 자세히 볼 수 있는 페이지 생성
+```html
+<%@page import="bit.com.spring.dto.MemberDto"%>
+<%@page import="bit.com.spring.dto.BbsDto"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%
+BbsDto bbs = (BbsDto)request.getAttribute("getbbs");
+MemberDto member = (MemberDto)request.getSession().getAttribute("login");
+%>    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Bbs Detail</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>작성한 글</h1>
+<table border="1px solid" >
+<col width="100px"><col width="300px">
+<tr>
+	<th colspan="2"><%=bbs.getId() %>님이 작성하신 글</th><th>작성일</th><td><%=bbs.getWdate() %></td><th>조회수</th><td><%=bbs.getReadcount()%></td>
+</tr>
+<tr>
+	<th>정보</th><td colspan="5"><%=bbs.getRef() %>-<%=bbs.getStep() %>-<%=bbs.getDepth() %></td>
+</tr>
+<tr>
+	<th >제목</th><td align="center" colspan="5"><%=bbs.getTitle() %></td>
+</tr>
+<tr>
+	<th colspan="6">내용</th>
+</tr>
+<tr>
+	<td colspan="6"><%=bbs.getContent() %></td>
+</tr>
+</table>
+<button type="button" id="list_btn">목록</button>
+<h3>댓글</h3>
+<table>
+	<tr>
+		<th>제목</th><td><input type="text" id="replytitle" size="30"></td>
+	</tr>
+	<tr>
+		<th>내용</th><td><textarea rows="5" cols="50" id="replycontent"></textarea></td>
+	</tr>
+</table>
+<button type="button" id="addreply_btn">댓글 작성</button>
+<br><br>
+<%
+if(member.getId().equals(bbs.getId())){
+	%>
+	<button type="button" id="updatebbs_btn">수정</button>
+	<button type="button" id = "deletebbs_btn">삭제</button>
+	<%
+}
+%>
+<script type="text/javascript">
+$("#list_btn").click(function(){
+	location.href = "./bbslist.do";
+});
+
+$("#addreply_btn").click(function() {
+	if($("#replytitle").val()==""||$("#replycontent").val()==""){
+		alert("제목이나 내용을 입력해 주세요");
+	}else{
+		let reply = {
+				seq:'<%=bbs.getSeq()%>',
+				id:'<%=bbs.getId()%>',
+				title:$("#replytitle").val(),
+				content:$("#replycontent").val()
+				};
+
+		$.ajax({
+			url:"./addreply.do",
+			type:"get",
+			datatype:"json",
+			data:reply,
+			async:true,
+			success:function(data){
+				if(data==true){
+					alert("댓글이 추가 되었습니다");
+					location.href="./bbslist.do";
+				}else{
+					alert("댓글 추가 실패");
+				}
+			},
+			error:function(){
+				alert("error");
+			}
+			
+		});
+	}
+});
+
+$("#deletebbs_btn").click(function(){
+	$.ajax({
+		url:"./remove.do",
+		type:"get",
+		datatype:"json",
+		data:"seq="+"<%=bbs.getSeq()%>",
+		success:function(data){
+			if(data==true){
+				alert('글이 삭제 되었습니다');
+				location.href="./bbslist.do";
+			}else{
+				alert('삭제 실패');
+			}
+		},
+		error:function(){
+			alert("error");
+		}
+				
+	});
+});
+$("#updatebbs_btn").click(function(){
+	location.href="update.do?seq="+"<%=bbs.getSeq()%>";
+	
+});
+
+</script>
+</body>
+</html>
+
+```
 ### - 댓글 추가시 사용할 컨트롤 생성 ( 댓글들의 step 업데이트와 insert한 댓글 두개의 메소드생성)
 ```java
 @ResponseBody
