@@ -56,6 +56,9 @@ public interface BbsService {
 	BbsDto getbbs(String seq);
 	boolean addreply(BbsDto bbsdto);
 	boolean updatestep(BbsDto bbsdto);
+	List<BbsDto> getsearchlist(String pick,String search);
+	boolean removebbs(String seq);
+	boolean updatebbs(BbsDto bbs);
 }
 ```
 - 실제 클래스
@@ -102,6 +105,21 @@ public class BbsServiceimpl implements BbsService {
 		boolean isS = bbsDao.updatestep(bbsdto);
 		return isS;
 	}
+	@Override
+	public List<BbsDto> getsearchlist(String pick,String search) {
+		List<BbsDto> list = bbsDao.getsearchlist(pick, search);
+		return list;
+	}
+	@Override
+	public boolean removebbs(String seq) {
+		boolean isS = bbsDao.removebbs(seq);
+		return isS;
+	}
+	@Override
+	public boolean updatebbs(BbsDto bbs) {
+		boolean isS = bbsDao.updatebbs(bbs);
+		return isS;
+	}
 }
 ```
 ### 3. 실제 쿼리문을 실행시켜줄 Dao 인터페이스와 클래스를 생성한다
@@ -118,6 +136,9 @@ public interface BbsDao {
 	BbsDto getbbs(String seq);
 	boolean addreply(BbsDto bbsdto);
 	boolean updatestep(BbsDto bbsdto);
+	List<BbsDto> getsearchlist(String pick,String search);
+	boolean removebbs(String seq);
+	boolean updatebbs(BbsDto bbs);
 }
 ```
 - 실제 dao 클래스
@@ -174,6 +195,29 @@ public class BbsDaoimpl implements BbsDao {
 		int result = sqlSession.update(namespace+"updatestep", bbsdto);
 		return result>0?true:false;
 	}
+	
+	@Override
+	public List<BbsDto> getsearchlist(String pick,String search) {
+		List<BbsDto> list = new ArrayList<BbsDto>();
+		Map<String, Object> map = new HashMap<String, Object>();	//검색 카테고리 분류와 검색어가 두개 이기 때문에 hashmap에 넣어주고 paramterType으로 넘겨준다
+		map.put("s_category", pick);
+		map.put("keyword", search);
+		list = sqlSession.selectList(namespace+"getsearchlist", map);
+		
+		return list;
+	}
+
+	@Override
+	public boolean removebbs(String seq) {
+		int result = sqlSession.update(namespace+"removebbs", seq);
+		return  result>0?true:false;
+	}
+
+	@Override
+	public boolean updatebbs(BbsDto bbs) {
+		int result = sqlSession.update(namespace+"updatebbs", bbs);
+		return result>0?true:false;
+	}
 }
 ```
 ### 4. 다오에서 실행하는 bbs 의 쿼리문 을 만들어준다
@@ -207,6 +251,37 @@ public class BbsDaoimpl implements BbsDao {
 		VALUES(SEQ_BBS.NEXTVAL,#{id},(SELECT REF FROM BBS WHERE SEQ = #{seq}),(SELECT STEP FROM BBS WHERE SEQ = #{seq})+1,(SELECT DEPTH FROM BBS WHERE SEQ = #{seq})+1,
 		#{title},#{content},SYSDATE,0,0)
 	</insert>
+	
+	<!-- hashmap을 파라미터로 받고 key 값을 이용해 조건문 실행 -->
+	<select id="getsearchlist" parameterType="hashmap" resultType="bit.com.spring.dto.BbsDto">
+		SELECT *
+		FROM BBS
+		WHERE 1=1
+		<choose>	<!-- 쿼리문에서 조건문을 실행시켜준다 --> 
+			<when test="s_category == 'title'">
+				AND TITLE LIKE '%'||#{keyword}||'%'
+			</when>
+			<when test="s_category == 'content'">
+				AND CONTENT LIKE '%'||#{keyword}||'%'
+			</when>
+			<when test="s_category == 'id'">
+				AND ID = #{keyword}
+			</when>
+		</choose>
+		ORDER BY REF DESC , STEP ASC
+	</select>
+	
+	<update id="removebbs" parameterType="java.lang.String">
+		UPDATE BBS
+		SET DEL = 1
+		WHERE SEQ = #{seq}
+	</update>
+	
+	<update id="updatebbs" parameterType="bit.com.spring.dto.BbsDto">
+		UPDATE BBS
+		SET TITLE = #{title}, CONTENT = #{content}
+		WHERE SEQ = #{seq}
+	</update>
 </mapper>
 ```
 ### 5. 처음 리스트를 뿌려준다
@@ -224,6 +299,11 @@ List<BbsDto> list = (List<BbsDto>)request.getAttribute("allBbsList");
 <meta charset="UTF-8">
 <title>Bbs list</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style type="text/css">
+.removedbbs{
+	color:red;
+}
+</style>
 </head>
 <body>
 <h1>게시판</h1>
@@ -247,11 +327,19 @@ if(list.size()==0){
 			String nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
 			ts = ts+nbsp;
 		}
+		if(list.get(i).getDel()==1){
+			%>
+			<tr class='bbslist'>
+				<th ><%=i+1%></th><td colspan="2" class="removedbbs"><%=ts %>이 글은 작성자에 의해 삭제 되었습니다.</td>
+			</tr>
+			<%
+		}else{
 		%>
-		<tr>
+		<tr class="bbslist">
 			<th><%=i+1%></th><td onclick="location.href='./gobbsdetail.do?seq=<%=list.get(i).getSeq()%>'"><%=ts %><%=list.get(i).getTitle()%></td><td><%=list.get(i).getId()%></td>		
 		</tr>
 		<%
+		}
 	}
 }
 %>
@@ -259,9 +347,7 @@ if(list.size()==0){
 </table>
 
 </div><br>
-
-<!-- 검색 부분 -->
-<div align="center"> 
+<div align="center">
 <select id="choice">
 	<option value="sel">선택</option>
 	<option value="id">작성자</option>
@@ -290,7 +376,25 @@ $("#searchBbs").click(function() {
 		datatype:"json",
 		data:search,
 		success:function(data){
-			alert("success");
+			let addstr = "";
+			//alert("success");
+			$('tr').remove(".bbslist")
+			$.each(data,function(i,val){
+				if(val.del==1){
+				addstr += "<tr class='bbslist'><th>"+(i+1)+"</th><td colspan='2' class='removedbbs'>이 글은 작성자에 의해 삭제 되었습니다.</td></tr>";
+				}else{
+					let ts="";
+					for(let j = 0; j < val.depth; j++){
+						
+						let nbsp = "&nbsp;&nbsp;&nbsp;&nbsp;";
+						ts = ts+nbsp;
+					}
+					addstr += "<tr class='bbslist'>";
+					addstr +="<th>"+(i+1)+"</th><td onclick=\"location.href='./gobbsdetail.do?seq="+val.seq+"'\">"+ts+val.title+"</td><td>"+val.id+"</td>";		
+					addstr +="</tr>";
+				}
+			});
+			$('tr').eq(-1).after(addstr);
 		},
 		error:function(){
 			alert("error");
@@ -299,6 +403,7 @@ $("#searchBbs").click(function() {
 	});
 });
 </script>
+
 </body>
 </html>
 ```
@@ -415,5 +520,178 @@ public boolean addreply(BbsDto bbs) {
   boolean isS = bbsService.addreply(bbs);
 
   return isS;
+}
+```
+### - 리스트에서 검색시 그에 맞는 글 찾기위한 컨트롤 생성
+```java
+@ResponseBody
+@RequestMapping(value = "searchbbs.do", method = RequestMethod.GET)
+public List<BbsDto> searchbbs(String pick, String search) {
+//	logger.info("searchbbs"+ new Date());
+	logger.info("pick: "+pick+" search: "+search);
+
+	List<BbsDto> list = bbsService.getsearchlist(pick, search);
+
+	return list;
+}
+```
+### - bbsdetail에서 글삭제 버튼을 누르면 삭제되는 컨트롤 생성
+```java
+@ResponseBody
+@RequestMapping(value = "remove.do", method = RequestMethod.GET)
+public boolean removebbs(String seq) {
+
+	logger.info(seq);
+
+	boolean isS = bbsService.removebbs(seq);
+	return isS;
+}
+```
+### - 글 수정 버튼을 누르면 수정을 하기위한 페이지로 이동하는 컨트롤 생성
+```java
+@RequestMapping(value = "update.do", method = RequestMethod.GET)
+public String goupdatebbs(String seq, Model model,  HttpServletRequest req) {
+	BbsDto dto = bbsService.getbbs(seq);
+	model.addAttribute("bbsdto", dto);
+	return "updatebbs";
+}
+```
+### - 글 수정 페이지 생성
+- el 태그를 활용하여 생성 (컨트롤에서 BbsDto의 객체를 bbsdto 이름으로 넘겨주어서 el태그에서 사용)
+- 아이디 부분의 ```${login.id }```은 이전 MemberController에서 설정한 Session의 name값을 적어준다 (MemberDto를 login으로 set해주었기 때문에 객체이름.변수명)
+```html
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Bbs Update</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>수정할 글</h1>
+<table border="1px solid" >
+<col width="100px"><col width="300px">
+<tr>
+	<th colspan="2">${login.id }님이 작성하신 글</th><th>작성일</th><td>${bbsdto.wdate }</td><th>조회수</th><td>${bbsdto.readcount }</td>
+</tr>
+<tr>
+	<th>정보</th><td colspan="5">${bbsdto.ref }-${bbsdto.step }-${bbsdto.step }</td>
+</tr>
+<tr>
+	<th >제목</th><td align="center" colspan="5"><input type="text" id="bbstitle" value="${bbsdto.title }" size="85"></td>
+</tr>
+<tr>
+	<th colspan="6">내용</th>
+</tr>
+<tr>
+	<td colspan="6"><textarea rows="10" cols="100" id="bbscontent"> ${bbsdto.content }</textarea></td>
+</tr>
+</table>
+<button type="button" id="revice_btn">수정</button>
+<button type="button" id="allbbslist_btn">목록</button>
+
+<script type="text/javascript">
+$("#revice_btn").click(function(){
+	let update={
+			seq:${bbsdto.seq},
+			title:$("#bbstitle").val(),
+			content:$("#bbscontent").val()
+			};
+	$.ajax({
+		url:"./updatebbs.do",
+		type:"get",
+		datatype:"json",
+		data:update,
+		success:function(data){
+			if(data==true){
+				alert('글이 수정 되었습니다');
+				location.href="./bbslist.do";
+			}else{
+				alert('수정 실패');
+			}
+		},
+		error:function(){
+			alert("error");
+		}
+				
+	});
+});
+</script>
+
+</body>
+</html>
+```
+### - 글 수정 페이지에서 수정 버튼을 누르면 실행되는 컨트롤 생성
+```java
+@ResponseBody
+@RequestMapping(value = "updatebbs.do", method = RequestMethod.GET)
+public boolean updatebbs(BbsDto bbs) {
+	boolean isS = bbsService.updatebbs(bbs);
+	return isS;
+}
+```
+
+
+# AOP 추가
+- 디버깅을 위해 깃발을 꽂는 역할로 우선 AOP를 설정
+- Web.xml에서 AOP를 설정하는 xml을 읽도록 경로를 적어준다.
+```xml
+...
+
+<init-param>
+	<param-name>contextConfigLocation</param-name>
+	<param-value>
+		/WEB-INF/spring/servlet-context.xml <!-- 우리가 사용할 view의 확장자와 경로를 셋팅해주는 것 -->
+		/WEB-INF/spring/aop-context.xml <!-- aop-context 읽게 했음 --> <!-- 기존에서 추가되는 경로 -->
+	</param-value>
+</init-param>
+
+...
+
+```
+- /WEB-INF/spring 에 aop-context.xml을 생성해준다. (Annotation 방식으로 진행)
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- AOP 설정 어노테이션 방식 -->
+	<aop:aspectj-autoproxy/>
+	
+	<!-- AOP 해당 클래스를 생성 -->
+	<bean id="myAspect" class="bit.com.spring.aop.LogAop"/> <!-- class 경로 부분의 src에 만들어둔 클래스를 적어준다 -->
+</beans>
+```
+- AOP 방식 설정시 생성하는 클래스를 src에 생성해준다.
+```java
+package bit.com.spring.aop;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+
+
+@Aspect	//어노테이션으로 aop를 사용하기위해 클래스에 설정
+public class LogAop {
+
+	
+	// within 안에 경로의 *(모든파일)에 AOP설정, or을 통해 여러 경로 지정
+	@Around("within(bit.com.spring.*) or within(bit.com.spring.dao.impl.*)") //아까 xml의 around이며 실행할 callback함수에 붙여준다
+	public Object loggerAop(ProceedingJoinPoint joinpoint)throws Throwable {
+		
+		String signatureStr = joinpoint.getSignature().toShortString();
+		
+		try {
+			System.out.println("loggerAop:"+signatureStr+" 메소드가 실행");
+			Object obj = joinpoint.proceed(); //지정 클래스의 어떠한 메소드가 실행 시
+			
+			return obj;
+		}
+	}
 }
 ```
