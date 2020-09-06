@@ -424,3 +424,167 @@ public class BbsController {
 }
 ```
 ### 그리고 bbslist.jsp로 이동
+
+
+
+# 이메일 인증 구현
+### pom.xml 라이브러리 추가
+```xml
+<dependency>
+    <groupId>com.sun.mail</groupId>
+    <artifactId>javax.mail</artifactId>
+    <version>1.6.2</version>
+</dependency>
+
+
+<dependency>
+    <groupId>javax.mail</groupId>
+    <artifactId>mail</artifactId>
+    <version>1.4.7</version>
+</dependency>
+```
+
+### applicationContext.xml 에 객체 생성
+- gamil 기준
+```xml
+<!-- Gmail -->
+<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value="smtp.gmail.com" />
+    <property name="port" value="587" />
+    <property name="username" value="아이디@gmail.com" />
+    <property name="password" value="비밀번호" />
+    <property name="javaMailProperties">
+    <props>
+      <prop key="mail.smtp.auth">true</prop>
+      <prop key="mail.smtp.starttls.enable">true</prop>
+    </props>
+    </property>
+</bean>
+```
+
+### view에 이메일 인증 버튼과 입력 칸 생성
+```html
+<div class="checkEmail">
+	<h3>이메일</h3>
+	<input type="text" id="email" placeholder="선택입력" maxlength="100">
+	<button type="button" id="email_auth_btn">이메일 인증 보내기</button><br>
+	<input type="text" id="email_auth_check" placeholder="인증코드 입력">
+</div>
+
+
+<script>
+$("#email_auth_btn").click(function() {
+	$.ajax({
+		url:"./emailAuthCheck.do",
+		type:"get",
+		data:{email:$('#email').val()},
+		success:function(data){
+			alert("success");
+		},
+		error:function(){
+			alert("error");
+		}
+	});
+});
+</sctipt>
+```
+### Controller에서 메일을 받고 메일 전송
+```java
+@Inject
+JavaMailSender mailSender;
+@ResponseBody
+@RequestMapping(value = "emailAuthCheck.do", method = RequestMethod.GET, produces = "application/String;charset=utf-8")
+
+public String emailAuthCheck(String email,HttpServletRequest req, HttpServletResponse response) throws IOException {
+	logger.info(email);
+
+	Random ran = new Random();
+	int dice = ran.nextInt(456413) + 12345;	// 인증 코드 생성
+
+	String setfrom = "bitcamp5j0@gamil.com";
+	String tomail = email;
+	String title = "회원 가입 인증 이메일";
+	String content = "인증 코드 : " + dice;
+
+	try {
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper messageHelper = new MimeMessageHelper(message, true,"UTF-8");
+
+		messageHelper.setFrom(setfrom); // 보낼 아이디
+		messageHelper.setTo(tomail);	// 받을 아이디(인증코드를 필요로하는 사용자)
+		messageHelper.setSubject(title);	//제목
+		messageHelper.setText(content);		//내용
+
+		mailSender.send(message);
+
+	} catch (Exception e){
+		System.out.println(e);
+	}
+	return null;
+}
+```
+### java Mail 핸들러 클래스 생성
+```java
+package bit.com.spring.mail;
+
+import java.io.UnsupportedEncodingException;
+
+import javax.activation.DataSource;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+
+public class MailHandler {
+
+	private JavaMailSender mailSender;
+	private MimeMessage message;
+	private MimeMessageHelper messageHelper;
+	
+	public MailHandler(JavaMailSender mailSender) throws MessagingException {
+        this.mailSender = mailSender;
+        message = this.mailSender.createMimeMessage();
+        messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+    }
+ 
+ 
+    public void setSubject(String subject) throws MessagingException {
+        messageHelper.setSubject(subject);
+        
+        // 이메일 타이틀 
+    }
+    
+    public void setText(String htmlContent) throws MessagingException {
+        messageHelper.setText(htmlContent, true);
+        
+        //  이메일 TEXT 부분 
+    }
+    
+    public void setFrom(String email, String name) throws UnsupportedEncodingException, MessagingException {
+        messageHelper.setFrom(email, name);
+        // 보내는 사람 이메일 
+    }
+    
+    public void setTo(String email) throws MessagingException {
+        messageHelper.setTo(email);
+        //받는 사람 이메일 
+    }
+    
+    public void addInline(String contentId, DataSource dataSource) throws MessagingException {
+        messageHelper.addInline(contentId, dataSource);
+    }
+    
+    public void send() {
+        try {
+            mailSender.send(message);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
+}
+```
+
+### 인증 버튼을 누르게 되면 위에 setfrom의 아이디로 로그인하여 사용자 이메일로 인증코드 메일을 발송한다 
+- 주의점: 구글 개인설정 보안에서 낮은 수준의 앱 허용을 허가해 주어야 한다.
