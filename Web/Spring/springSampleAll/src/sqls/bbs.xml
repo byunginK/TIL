@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bbs">
+	<select id="allbbsList" resultType="bit.com.spring.dto.BbsDto">
+		SELECT*FROM BBS ORDER BY REF DESC , STEP ASC
+	</select>  
+	
+	<insert id="addbbs" parameterType="bit.com.spring.dto.BbsDto">
+		INSERT INTO BBS(SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, DEL, READCOUNT)
+		VALUES(SEQ_BBS.NEXTVAL,#{id},(SELECT NVL(MAX(REF),0)+1 FROM BBS),0,0,#{title},#{content},SYSDATE,0,0)
+	</insert>
+	
+	<select id="getbbs" parameterType="java.lang.Integer" resultType="bit.com.spring.dto.BbsDto">
+		SELECT SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, TO_CHAR(WDATE, 'YYYY-MM-DD')AS WDATE,DEL, READCOUNT FROM BBS WHERE SEQ = #{seqnum}
+	</select>
+	
+	<update id="updatestep" parameterType="bit.com.spring.dto.BbsDto">
+		UPDATE BBS
+		SET STEP = STEP +1
+		WHERE REF = (SELECT REF FROM BBS WHERE SEQ = #{seq}) AND STEP > (SELECT STEP FROM BBS WHERE SEQ = #{seq})
+	</update>
+	
+	<insert id="addreply" parameterType="bit.com.spring.dto.BbsDto">
+		INSERT INTO BBS(SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, DEL, READCOUNT)
+		VALUES(SEQ_BBS.NEXTVAL,#{id},(SELECT REF FROM BBS WHERE SEQ = #{seq}),(SELECT STEP FROM BBS WHERE SEQ = #{seq})+1,(SELECT DEPTH FROM BBS WHERE SEQ = #{seq})+1,
+		#{title},#{content},SYSDATE,0,0)
+	</insert>
+	
+	<select id="getsearchlist" parameterType="bit.com.spring.dto.BbsParam" resultType="bit.com.spring.dto.BbsDto">
+		SELECT *
+		FROM BBS
+		WHERE 1=1
+		<choose>
+			<when test="choice == 'title'">
+				AND TITLE LIKE '%'||#{searchWord}||'%'
+			</when>
+			<when test="choice == 'content'">
+				AND CONTENT LIKE '%'||#{searchWord}||'%'
+			</when>
+			<when test="choice == 'id'">
+				AND ID = #{searchWord}
+			</when>
+		</choose>
+		ORDER BY REF DESC , STEP ASC
+	</select>
+	
+	<update id="removebbs" parameterType="java.lang.String">
+		UPDATE BBS
+		SET DEL = 1
+		WHERE SEQ = #{seq}
+	</update>
+	
+	<update id="updatebbs" parameterType="bit.com.spring.dto.BbsDto">
+		UPDATE BBS
+		SET TITLE = #{title}, CONTENT = #{content}
+		WHERE SEQ = #{seq}
+	</update>
+</mapper>	
