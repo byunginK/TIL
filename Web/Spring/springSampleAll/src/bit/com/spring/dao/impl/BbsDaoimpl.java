@@ -22,8 +22,8 @@ public class BbsDaoimpl implements BbsDao {
 	String namespace = "bbs.";
 	
 	@Override
-	public List<BbsDto> allBbsList() {
-		List<BbsDto>list = sqlSession.selectList(namespace+"allbbsList");
+	public List<BbsDto> allBbsList(BbsParam bbs) {
+		List<BbsDto>list = sqlSession.selectList(namespace+"allbbsList",bbs);
 		
 		return list;
 	}
@@ -55,14 +55,14 @@ public class BbsDaoimpl implements BbsDao {
 		return result>0?true:false;
 	}
 
-	@Override
+/*	@Override
 	public List<BbsDto> getsearchlist(BbsParam bbs) {
 		
 		List<BbsDto>list = sqlSession.selectList(namespace+"getsearchlist", bbs);
 		
 		return list;
 	}
-
+*/
 	@Override
 	public boolean removebbs(String seq) {
 		int result = sqlSession.update(namespace+"removebbs", seq);
@@ -73,6 +73,12 @@ public class BbsDaoimpl implements BbsDao {
 	public boolean updatebbs(BbsDto bbs) {
 		int result = sqlSession.update(namespace+"updatebbs", bbs);
 		return result>0?true:false;
+	}
+
+	@Override
+	public int getBbsCount(BbsParam bbs) {
+		
+		return sqlSession.selectOne(namespace+"getBbsCount", bbs);
 	}
 	
 }

@@ -16,8 +16,8 @@ public class BbsServiceimpl implements BbsService {
 	@Autowired
 	BbsDao bbsDao;
 	@Override
-	public List<BbsDto> allBbsList() {
-		List<BbsDto> list = bbsDao.allBbsList();
+	public List<BbsDto> allBbsList(BbsParam bbs) {
+		List<BbsDto> list = bbsDao.allBbsList(bbs);
 		return list;
 	}
 	@Override
@@ -41,11 +41,11 @@ public class BbsServiceimpl implements BbsService {
 		boolean isS = bbsDao.updatestep(bbsdto);
 		return isS;
 	}
-	@Override
+	/*@Override
 	public List<BbsDto> getsearchlist(BbsParam bbs) {
 		List<BbsDto> list = bbsDao.getsearchlist(bbs);
 		return list;
-	}
+	}*/
 	@Override
 	public boolean removebbs(String seq) {
 		boolean isS = bbsDao.removebbs(seq);
@@ -55,6 +55,10 @@ public class BbsServiceimpl implements BbsService {
 	public boolean updatebbs(BbsDto bbs) {
 		boolean isS = bbsDao.updatebbs(bbs);
 		return isS;
+	}
+	@Override
+	public int getBbsCount(BbsParam bbs) {
+		return bbsDao.getBbsCount(bbs);
 	}
 
 	

@@ -7,12 +7,13 @@ import bit.com.spring.dto.BbsParam;
 
 public interface BbsService {
 
-	List<BbsDto> allBbsList();
+	List<BbsDto> allBbsList(BbsParam bbs);
+	int getBbsCount(BbsParam bbs);
 	boolean addbbs(BbsDto bbsdto);
 	BbsDto getbbs(String seq);
 	boolean addreply(BbsDto bbsdto);
 	boolean updatestep(BbsDto bbsdto);
-	List<BbsDto> getsearchlist(BbsParam bbs);
+//	List<BbsDto> getsearchlist(BbsParam bbs);
 	boolean removebbs(String seq);
 	boolean updatebbs(BbsDto bbs);
 }
