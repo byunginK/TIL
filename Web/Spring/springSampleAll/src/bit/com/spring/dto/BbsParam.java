@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class BbsParam implements Serializable {
 
+	//검색을 위한 값
 	private String choice;
 	private String searchWord;
 	
