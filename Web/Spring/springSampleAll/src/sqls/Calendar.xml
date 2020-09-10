@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="Calendar">
+  
+  <select id="getCalendar" parameterType="bit.com.spring.dto.CalendarDto" resultType="bit.com.spring.dto.CalendarDto">
+  	SELECT SEQ, ID, TITLE, CONTENT, RDATE, WDATE 
+  	FROM ( SELECT ROW_NUMBER()OVER(PARTITION BY SUBSTR(RDATE, 1 , 8)ORDER BY RDATE ASC) AS RNUM, 
+			SEQ, ID, TITLE, CONTENT, RDATE, WDATE
+	FROM CALENDAR  
+	WHERE ID=#{id} AND SUBSTR(RDATE, 1, 6)=#{rdate} )
+	WHERE RNUM BETWEEN 1 AND 5
+  
+  </select>
+  
+  
+  
+  </mapper>
