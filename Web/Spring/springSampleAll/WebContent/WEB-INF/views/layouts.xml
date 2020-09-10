@@ -26,5 +26,23 @@
 	<definition name="bbsdetail.tiles" template="/WEB-INF/views/layouts-tiles.jsp" extends="bbslist.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/bbs/bbsdetail.jsp"/>
 	</definition>
+	
+	<definition name="bbsupdate.tiles" template="/WEB-INF/views/layouts-tiles.jsp" extends="bbslist.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/bbs/bbsupdate.jsp"/>
+	</definition>
+	
+	<definition name="bbslist2.tiles" template="/WEB-INF/views/layouts-tiles.jsp" extends="bbslist.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/bbs2/bbslist2.jsp"/>
+	</definition>
+	
+	<definition name="sessionOut.tiles" template="/WEB-INF/views/layouts-tiles.jsp" extends="bbslist.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/login/sessionOut.jsp"/>
+	</definition>
+	
+	<definition name="calendar.tiles" extends="bbslist.tiles">
+		
+		<put-attribute name="left_menu" value="/WEB-INF/views/calendar/left_calendar.jsp"/>
+		<put-attribute name="main" value="/WEB-INF/views/calendar/calendar.jsp"/>
+	</definition>
 
 </tiles-definitions>
