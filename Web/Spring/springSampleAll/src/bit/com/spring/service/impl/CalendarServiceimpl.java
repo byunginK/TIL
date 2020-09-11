@@ -19,6 +19,23 @@ public class CalendarServiceimpl implements CalendarService {
 	public List<CalendarDto> getCalendarlist(CalendarDto cal) {
 		return dao.getCalendarlist(cal);
 	}
+
+	@Override
+	public boolean addcalendar(CalendarDto cal) {
+		boolean isS = dao.addcalendar(cal);
+		return isS;
+	}
+
+	@Override
+	public CalendarDto getcaldetail(int seq) {
+		CalendarDto caldto = dao.getcaldetail(seq);
+		return caldto;
+	}
+
+	@Override
+	public List<CalendarDto> getcallist(CalendarDto cal) {
+		return dao.getcallist(cal);
+	}
 	
 	
 }

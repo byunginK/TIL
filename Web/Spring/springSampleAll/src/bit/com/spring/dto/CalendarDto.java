@@ -54,6 +54,13 @@ public class CalendarDto implements Serializable {
 		this.rdate = rdate;
 	}
 
+	
+	public CalendarDto(String id, String rdate) {
+		super();
+		this.id = id;
+		this.rdate = rdate;
+	}
+
 	public int getSeq() {
 		return seq;
 	}

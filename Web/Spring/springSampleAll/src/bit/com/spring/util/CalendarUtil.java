@@ -37,7 +37,7 @@ public class CalendarUtil {
 	// 그날의 일정을 모두 출력
 	public static String callist(int year, int month, int day) {
 		String str="";
-		str+= String.format("<a href='%s?year=%d&month=%d&day=%d' title='"+ day+"일별일정'>", "calllist.do",year,month,day);
+		str+= String.format("<a href='%s?year=%d&month=%d&day=%d' title='"+ day+"일별일정'>", "callist.do",year,month,day);
 		
 		str += String.format("%2d", day);
 		str += "</a>";
@@ -49,7 +49,7 @@ public class CalendarUtil {
 		
 		String image = "<img src='./image/pen.png' width='18px' height='18px'>";
 		str = String.format("<a href='%s?year=%d&month=%d&day=%d'>%s</a>", 
-							"./calwrite.jsp", year, month, day, image);
+							"./calwrite.do", year, month, day, image);
 		
 		/*
 		  <a href='%s?year=%d&month=%d&day=%d'>
@@ -72,7 +72,7 @@ public class CalendarUtil {
 			if(dto.getRdate().substring(0, 8).equals(dates)) {
 				str += "<tr>";
 				str += "<td style='line-height: 10px; overflow: hidden; border-collapse:collapse;border:1px blue solid'>";
-				str += "<a href='./caldetail.jsp?seq=" + dto.getSeq() + "'>";
+				str += "<a href='./caldetail.do?seq=" + dto.getSeq() + "'>";
 				str += "<font style='font-size:8px; color:blue'>";
 				str += dot3(dto.getTitle());
 				str += "</font>";
