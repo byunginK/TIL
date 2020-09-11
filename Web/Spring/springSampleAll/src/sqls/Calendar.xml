@@ -10,11 +10,28 @@
   	FROM ( SELECT ROW_NUMBER()OVER(PARTITION BY SUBSTR(RDATE, 1 , 8)ORDER BY RDATE ASC) AS RNUM, 
 			SEQ, ID, TITLE, CONTENT, RDATE, WDATE
 	FROM CALENDAR  
-	WHERE ID=#{id} AND SUBSTR(RDATE, 1, 6)=#{rdate} )
+	WHERE ID=#{id} AND SUBSTR(RDATE, 1, 6)= #{rdate} )
 	WHERE RNUM BETWEEN 1 AND 5
   
   </select>
   
+  <insert id="addCalendar" parameterType="bit.com.spring.dto.CalendarDto">
+  	INSERT INTO CALENDAR(SEQ,ID,TITLE,CONTENT,RDATE,WDATE)
+  	VALUES(SEQ_CAL.NEXTVAL,#{id},#{title},#{content},#{rdate},SYSDATE)
+  	
+  </insert>
   
+  <select id="getcaldetail" parameterType="java.lang.Integer" resultType="bit.com.spring.dto.CalendarDto">
+  	SELECT SEQ, ID, TITLE, CONTENT, RDATE, WDATE
+  	FROM CALENDAR
+  	WHERE SEQ = #{seq}
+  </select>  
+  
+  <select id="getcallist" parameterType="bit.com.spring.dto.CalendarDto" resultType="bit.com.spring.dto.CalendarDto">
+  	SELECT SEQ, ID, TITLE, CONTENT, RDATE, WDATE
+	FROM CALENDAR
+	WHERE RDATE LIKE #{rdate}||'%' AND ID = #{id}
+	ORDER BY WDATE ASC
+  </select>
   
   </mapper>
