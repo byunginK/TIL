@@ -39,10 +39,37 @@
 		<put-attribute name="main" value="/WEB-INF/views/login/sessionOut.jsp"/>
 	</definition>
 	
+	<!-- calendar -->
 	<definition name="calendar.tiles" extends="bbslist.tiles">
-		
 		<put-attribute name="left_menu" value="/WEB-INF/views/calendar/left_calendar.jsp"/>
 		<put-attribute name="main" value="/WEB-INF/views/calendar/calendar.jsp"/>
 	</definition>
+	
+	<definition name="calwrite.tiles" extends="bbslist.tiles">
+		<put-attribute name="left_menu" value="/WEB-INF/views/calendar/left_calendar.jsp"/>
+		<put-attribute name="main" value="/WEB-INF/views/calendar/calwrite.jsp"/>
+	</definition>
+	
+	<definition name="caldetail.tiles" extends="bbslist.tiles">
+		<put-attribute name="left_menu" value="/WEB-INF/views/calendar/left_calendar.jsp"/>
+		<put-attribute name="main" value="/WEB-INF/views/calendar/caldetail.jsp"/>
+	</definition>
+	
+	<definition name="callist.tiles" extends="bbslist.tiles">
+		<put-attribute name="left_menu" value="/WEB-INF/views/calendar/left_calendar.jsp"/>
+		<put-attribute name="main" value="/WEB-INF/views/calendar/callist.jsp"/>
+	</definition>
+	
+	<definition name="calmonthlist.tiles" extends="bbslist.tiles">
+		<put-attribute name="left_menu" value="/WEB-INF/views/calendar/left_calendar.jsp"/>
+		<put-attribute name="main" value="/WEB-INF/views/calendar/calmonthlist.jsp"/>
+	</definition>
+	
+	<!-- calendarplug -->
+	<definition name="calendarpluglist.tiles" extends="bbslist.tiles">
+		<put-attribute name="left_menu" value="/WEB-INF/views/calendar/left_calendar.jsp"/>
+		<put-attribute name="main" value="/WEB-INF/views/calendarplug/calendarpluglist.jsp"/>
+	</definition>
+
 
 </tiles-definitions>

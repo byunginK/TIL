@@ -10,7 +10,7 @@
 			<a href="calendarlist.do" title="일정목록">일정목록</a>
 		</li>
 		<li class="menu_item">
-			<a href="calendarwrite.do" title="일정추가">일정추가</a>
+			<a href="calwrite.do" title="일정추가">일정추가</a>
 		</li>
 		
 	</ul>

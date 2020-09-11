@@ -164,7 +164,8 @@ for(int i = 1; i <= lastDayOfMonth; i++){
 	
 	if((i+dayOfWeek -1 )% 7 == 0 && i != lastDayOfMonth){
 		%>
-		</tr><tr height="100px">
+		</tr>
+<tr height="100px">
 		<%
 		
 	}
