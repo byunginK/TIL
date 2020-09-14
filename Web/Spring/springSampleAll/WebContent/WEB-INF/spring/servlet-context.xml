@@ -34,4 +34,23 @@
 	<!-- spring 에서 처리할 수 없는 요청은 tomcat에 위임 -->
 	<mvc:default-servlet-handler/>
 	
+	<!-- upload -->
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="104857600"/>
+		<property name="maxInMemorySize" value="102400"/>
+		<property name="defaultEncoding" value="utf-8"/>
+		<property name="uploadTempDir" value="upload"/> <!--서버에 업로드할 폴더명  -->
+	</bean>
+	
+	<!--download  -->
+	
+	<bean id="downloadView" class="bit.com.spring.util.DownloadView"/>
+	
+	<bean id="downloadViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order">
+			<value>0</value>
+		</property>
+	</bean>
+	
 </beans>

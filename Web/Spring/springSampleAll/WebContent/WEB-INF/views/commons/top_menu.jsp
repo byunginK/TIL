@@ -12,6 +12,8 @@
 			<li><a href="bbslist2.do" title="게시판Plug">게시판Plug</a></li>
 			<li><a href="calendarlist.do" title="일정관리">일정관리</a></li>
 			<li><a href="calendarpluglist.do" title="일정관리Plug">일정관리Plug</a></li>
+			
+			<li><a href="pdslist.do" title="자료실">자료실</a></li>
 		</ul>
 	
 	

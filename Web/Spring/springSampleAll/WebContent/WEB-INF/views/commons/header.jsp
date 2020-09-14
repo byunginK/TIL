@@ -12,4 +12,4 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/table.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/button.css">
 
-<script src="<%=request.getContextPath() %>/jquery/jquery.twbsPagination.min.js"></script>
+<script src="<%=request.getContextPath() %>/jquery/jquery.twbsPagination.min.js"></script>	<!-- 페이징 스크립소스 -->

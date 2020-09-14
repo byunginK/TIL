@@ -70,6 +70,26 @@
 		<put-attribute name="left_menu" value="/WEB-INF/views/calendar/left_calendar.jsp"/>
 		<put-attribute name="main" value="/WEB-INF/views/calendarplug/calendarpluglist.jsp"/>
 	</definition>
+	
+	
+	<!-- pds -->
+	<definition name="pdslist.tiles" extends="bbslist.tiles">
+		<put-attribute name="left_menu" value="/WEB-INF/views/pds/left_pds.jsp"/>
+		<put-attribute name="main" value="/WEB-INF/views/pds/pdslist.jsp"/>
+	</definition>
+	
+	<definition name="pdswrite.tiles" extends="pdslist.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/pds/pdswrite.jsp"/>
+	</definition>
+	
+	
+	<definition name="pdsdetail.tiles" extends="pdslist.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/pds/pdsdetail.jsp"/>
+	</definition>
+	
+	<definition name="pdsupdate.tiles" extends="pdslist.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/pds/pdsupdate.jsp"/>
+	</definition>
 
 
 </tiles-definitions>
