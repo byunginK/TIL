@@ -357,7 +357,15 @@
   		<artifactId>tiles-request-servlet</artifactId>
   		<version>1.0.6</version>
   	</dependency> 
+  	
+  	<!-- 파일 업로드 (자료실) -->
   
+	<dependency>
+	    <groupId>commons-fileupload</groupId>
+	    <artifactId>commons-fileupload</artifactId>
+	    <version>1.3.3</version>
+	</dependency>
+  	
   </dependencies>
   <repositories>
 	  	<repository>
