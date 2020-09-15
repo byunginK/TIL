@@ -100,7 +100,7 @@ public class CalendarUtil {
 	
 	//2020-09-10 -> java.lang.Date로 변경
 	public static Date toDate(int year, int month, int day) {
-		String s = year + "_" +two(month + "") + two(day +"");
+		String s = year + "-" + two(month + "") + "-" + two(day + "");
 		Date d = Date.valueOf(s);
 		return d;
 	}

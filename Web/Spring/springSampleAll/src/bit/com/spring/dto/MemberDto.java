@@ -8,23 +8,18 @@ public class MemberDto implements Serializable {
 	private String pwd;
 	private String name;
 	private String email;
+	private int auth;
 	
 	public MemberDto() {
 	}
 
-	public MemberDto(String id, String pwd, String name, String email) {
+	public MemberDto(String id, String pwd, String name, String email, int auth) {
 		super();
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
 		this.email = email;
-	}
-
-	
-	public MemberDto(String id, String pwd) {
-		super();
-		this.id = id;
-		this.pwd = pwd;
+		this.auth = auth;
 	}
 
 	public String getId() {
@@ -59,10 +54,18 @@ public class MemberDto implements Serializable {
 		this.email = email;
 	}
 
-	@Override
-	public String toString() {
-		return "MemberDto [id=" + id + ", pwd=" + pwd + ", name=" + name + ", email=" + email + "]";
+	public int getAuth() {
+		return auth;
 	}
 
+	public void setAuth(int auth) {
+		this.auth = auth;
+	}
+
+	@Override
+	public String toString() {
+		return "MemberDto [id=" + id + ", pwd=" + pwd + ", name=" + name + ", email=" + email + ", auth=" + auth + "]";
+	}
+	
 	
 }
