@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="Pds">
+  <select id="getPdsList" parameterType="bit.com.spring.dto.PdsParam" resultType="bit.com.spring.dto.PdsDto">
+  	SELECT SEQ, ID, TITLE, CONTENT, FILENAME, OLDFILENAME, READCOUNT, DOWNCOUNT, REGDATE
+  	FROM PDS
+  	WHERE 1=1
+  		<if test="choice != null and choice != ''
+				and searchWord != null and searchWord != ''">
+				<if test="choice == 'title'">
+					AND TITLE LIKE '%'||#{searchWord}||'%'
+				</if>
+				<if test="choice == 'content'">
+					AND CONTENT LIKE '%'||#{searchWord}||'%'
+				</if>
+				<if test="choice == 'id'">
+					AND ID=#{searchWord}
+				</if>	
+		</if>	
+  	ORDER BY SEQ DESC
+  </select>
+  
+  <insert id="uploadPds" parameterType="bit.com.spring.dto.PdsDto">
+  	INSERT INTO PDS(SEQ, ID, TITLE, CONTENT, FILENAME, OLDFILENAME, READCOUNT, DOWNCOUNT, REGDATE)
+  	VALUES(SEQ_PDS.NEXTVAL, #{id},#{title}, #{content},#{filename},#{oldfilename}, 0,0,SYSDATE)
+  </insert>
+  
+  <select id="getPdsdetail" parameterType="java.lang.Integer" resultType="bit.com.spring.dto.PdsDto">
+  	SELECT SEQ, ID, TITLE, CONTENT, FILENAME, OLDFILENAME, READCOUNT, DOWNCOUNT, REGDATE
+  	FROM PDS
+  	WHERE SEQ = #{seq}
+  </select>
+  
+  <update id="updatepds" parameterType="bit.com.spring.dto.PdsDto">
+  	UPDATE PDS
+  	SET TITLE=#{title}, CONTENT=#{content}, FILENAME=#{filename},REGDATE=SYSDATE
+  	WHERE SEQ = #{seq}
+  </update>
+  </mapper>

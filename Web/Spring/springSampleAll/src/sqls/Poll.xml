@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Poll">
+
+<!-- 모든 투표의 목록 -->
+<select id="getPollAllList" resultType="bit.com.spring.dto.PollDto">
+	SELECT POLLID, ID, QUESTION, SDATE, EDATE, ITEMCOUNT, POLLTOTAL, REGDATE
+	FROM POLL
+	ORDER BY SDATE DESC
+</select>
+
+<!-- 투표를 했는지 확인 -->
+<select id="isVote" parameterType="bit.com.spring.dto.Voter" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(*),0)				
+	FROM VOTER
+	WHERE POLLID = #{pollid} AND ID = #{id}  <!--  투표 번호에 대해 아이디가 있으면 카운트가 1이 되고 없으면 0이 나온다  -->
+</select>
+
+<!-- 투표 만들기 -->
+<!-- 투표 주제 -->
+<insert id="makePoll" parameterType="bit.com.spring.dto.PollDto">
+	INSERT INTO POLL(POLLID, ID, QUESTION, SDATE, EDATE, ITEMCOUNT, POLLTOTAL, REGDATE)
+	VALUES(POLL_SEQ.NEXTVAL, #{id}, #{question}, #{sdate}, #{edate}, #{itemcount}, 0, SYSDATE)
+</insert>
+<!-- 투표보기(선택지) -->
+<insert id="makePollSub" parameterType="bit.com.spring.dto.PollSubDto">
+	INSERT INTO POLLSUB(POLLSUBID, POLLID, ANSWER, ACOUNT)
+	VALUES(POLLSUB_SEQ.NEXTVAL, (SELECT NVL(MAX(POLLID),0) FROM POLL),#{answer},0)		<!-- 시퀀스의 현재 번호를 가져오는건 에러가난다 -->
+</insert>
+
+</mapper>  
