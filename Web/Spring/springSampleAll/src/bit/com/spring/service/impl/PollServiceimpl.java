@@ -61,4 +61,22 @@ public class PollServiceimpl implements PollService {
 		}
 	}
 
+	@Override
+	public PollDto getPoll(PollDto poll) {
+		return dao.getPoll(poll);
+	}
+
+	@Override
+	public List<PollSubDto> getPollSubList(PollDto poll) {
+		return dao.getPollSubList(poll);
+	}
+
+	@Override
+	public void polling(Voter voter) {
+		dao.pollingVoter(voter);
+		dao.pollingPoll(voter);
+		dao.pollingSub(voter);
+	}
+
+	
 }

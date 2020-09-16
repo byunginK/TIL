@@ -30,4 +30,39 @@
 	VALUES(POLLSUB_SEQ.NEXTVAL, (SELECT NVL(MAX(POLLID),0) FROM POLL),#{answer},0)		<!-- 시퀀스의 현재 번호를 가져오는건 에러가난다 -->
 </insert>
 
+<!-- 투표 하기 -->
+<!-- 투표 질문 -->
+<select id="getPoll" parameterType="bit.com.spring.dto.PollDto" resultType="bit.com.spring.dto.PollDto">
+	SELECT POLLID, ID, QUESTION, SDATE, EDATE, ITEMCOUNT, POLLTOTAL, REGDATE
+	FROM POLL
+	WHERE POLLID = #{pollid}
+</select>
+
+<!-- 투표 보기들(선택) -->
+<select id="getPollSubList" parameterType="bit.com.spring.dto.PollDto" resultType="bit.com.spring.dto.PollSubDto">
+	SELECT POLLSUBID, POLLID, ANSWER, ACOUNT
+	FROM POLLSUB
+	WHERE POLLID = #{pollid}
+</select>
+
+
+<!-- 투표자 등록 -->
+<insert id="pollingVoter" parameterType="bit.com.spring.dto.Voter">
+	INSERT INTO VOTER(VOTERID, POLLID, POLLSUBID, ID, REGDATE)
+	VALUES(VOTER_SEQ.NEXTVAL, #{pollid}, #{pollsubid}, #{id}, SYSDATE)
+</insert>
+<!-- 어느 주제에 투표를 했는지 카운트 -->
+<update id="pollingPoll" parameterType="bit.com.spring.dto.Voter">
+	UPDATE POLL
+	SET POLLTOTAL = POLLTOTAL +1
+	WHERE POLLID = #{pollid}
+</update>
+
+<!-- 어느 선택안에 선택을 했는지 카운트 -->
+<update id="pollingSub" parameterType="bit.com.spring.dto.Voter">
+	UPDATE POLLSUB
+	SET ACOUNT = ACOUNT +1
+	WHERE POLLSUBID = #{pollsubid} AND POLLID = #{pollid}
+</update>
+
 </mapper>  
