@@ -21,10 +21,12 @@
   		<param-value>
   			/WEB-INF/spring/servlet-context.xml <!-- 우리가 사용할 view의 확장자와 경로를 셋팅해주는 것 -->
   			/WEB-INF/spring/aop-context.xml <!-- aop-context 읽게 했음 -->
+  			/WEB-INF/spring/websocket-context.xml <!-- 웹 소켓 서버를 생성하고 경로를 지정한 설정 xml을 읽게함 -->
   		</param-value>
   	</init-param>
   	
   	<load-on-startup>1</load-on-startup> <!-- 이것부터 읽어라 라는 표시  -->
+  	<async-supported>true</async-supported>	<!-- 웹소켓을 만들 때 추가해주어야 하는 설정 -->
   	
   </servlet>
   

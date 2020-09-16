@@ -101,5 +101,17 @@
 	<definition name="pollmake.tiles" extends="polllist.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/poll/pollmake.jsp"/>
 	</definition>
+	
+	<definition name="polldetail.tiles" extends="polllist.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/poll/polldetail.jsp"/>
+	</definition>
+	
+	<definition name="pollresult.tiles" extends="polllist.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/poll/pollresult.jsp"/>
+	</definition>
 
+	<!-- 채팅 -->
+	<definition name="chatting.tiles" extends="bbslist.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/websocket/chatting.jsp"/>
+	</definition>
 </tiles-definitions>

@@ -18,7 +18,12 @@
 
 			<c:if test="${login.auth eq '1' }">
 			<li><a href="pollmake.do" title="투표만들기">투표만들기</a></li>
-			</c:if>			
+			</c:if>
+			
+			
+			<li><a href="chatting.do" title="채팅">채팅</a></li>
+			
+						
 		</ul>
 	
 	
