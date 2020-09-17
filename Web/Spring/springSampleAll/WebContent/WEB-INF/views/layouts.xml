@@ -8,6 +8,7 @@
 	
 	<definition name="login.tiles" template="/WEB-INF/views/login/login.jsp"/>  <!-- 이렇게 되면 레이아웃을 불러오지 않고 단순 jsp파일만 불러온다 -->
 	<definition name="regi.tiles" template="/WEB-INF/views/login/regi.jsp"/>
+	
 	<definition name="bbslist.tiles" template="/WEB-INF/views/layouts-tiles.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/commons/header.jsp"/>
 		<put-attribute name="top_inc" value="/WEB-INF/views/commons/top_inc.jsp"/>
@@ -113,5 +114,15 @@
 	<!-- 채팅 -->
 	<definition name="chatting.tiles" extends="bbslist.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/websocket/chatting.jsp"/>
+	</definition>
+	
+	<!-- youtube -->
+	<definition name="youtube.tiles" extends="bbslist.tiles">
+		<put-attribute name="left_menu" value="/WEB-INF/views/youtube/left_youtube.jsp"/>
+		<put-attribute name="main" value="/WEB-INF/views/youtube/youlist.jsp"/>
+	</definition>
+	
+	<definition name="myyoutube.tiles" extends="youtube.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/youtube/myyoutube.jsp"/>
 	</definition>
 </tiles-definitions>
