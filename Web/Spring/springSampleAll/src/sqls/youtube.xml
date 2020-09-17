@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="Youtube">
+  	<insert id="saveVideo" parameterType="bit.com.spring.dto.YoutubeSave">
+  		INSERT INTO YOUTUBE(SEQ,ID,TITLE,URL,WDATE)
+  		VALUES(SEQ_YOUTUBE.NEXTVAL,#{id},#{title},#{url},SYSDATE)
+  	</insert>
+  
+  <select id="getMyVideos" parameterType="java.lang.String" resultType="bit.com.spring.dto.YoutubeSave">
+  	SELECT *
+  	FROM YOUTUBE
+  	WHERE ID = #{id}
+  </select>
+  
+  <delete id="removeVideo" parameterType="java.lang.Integer">
+  	DELETE FROM YOUTUBE
+  	WHERE SEQ = #{seq}
+  </delete>
+  
+  </mapper>
