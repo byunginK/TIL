@@ -62,7 +62,4 @@ public class WebSocket extends TextWebSocketHandler{
 	//예외 발생
 		System.out.println(session.getId() + "Exception 발생" + new Date());
 	}
-	
-	
-	
 }
