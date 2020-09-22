@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.example.dao.FileDao">
+	<insert id="fileinsert" parameterType="com.spring.example.dto.FileDto">
+		INSERT INTO FILETEST(SEQ, ORIGINFILENAME, SAFEFILENAME)
+		VALUES(SEQ.NEXTVAL,#{originfilename},#{safefilename})
+	</insert>
+
+	<select id="callfile" parameterType="com.spring.example.dto.FileDto"
+		resultType="com.spring.example.dto.FileDto">
+		SELECT * FROM FILETEST WHERE SEQ = #{seq}
+	</select>
+
+
+</mapper>
