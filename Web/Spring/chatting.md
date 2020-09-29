@@ -254,3 +254,94 @@ function appendMessage(msg){ //메세지가 수신되면 텍스트에리어에 �
                  ----> 세션 3
                   ----> 세션 4
 ```                  
+# 지정된 클라이언트에게 메세지 보내기(실시간)(웹소켓 사용)
+### 설정은 위와 동일하다
+### 1. 백엔드
+```java
+
+@Override
+public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+	//연결 확인(연결 후 실행)
+	System.out.println("연결됨 " + session.getId() + " " + new Date());
+	String senderId = getid(session);	//아래 세션으로 저장된 멤버dto의 id를 가져옴
+	System.out.println(senderId);
+	users.put(senderId, session); //session에 들어오는 값이 계속 달라진다
+}
+
+private String getid(WebSocketSession session) {
+	Map<String, Object> httpSession = session.getAttributes();	// 세션을 가져온다
+	MemberDto loginUser = (MemberDto)httpSession.get("login");	// 세션에 저장되어있는 객체를 가져온다
+
+	if(loginUser == null) {
+		return session.getId();
+	} else {
+		return loginUser.getId();	// id를 return 해준다
+	}
+}
+
+@Override
+protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+	//메시지 수신
+
+	String msg = message.getPayload();
+	System.out.println(msg);
+	String str[] = msg.split(":");	// 뷰에서 보내준 id값을 추출하기 위해 스플릿한다
+	System.out.println(str[1]);
+	String id = str[1];
+
+	//송신 (send)
+	WebSocketSession s = users.get(id); // map에 저장되어있는 아이디를 불러온다 (value에 지정 session 저장되어있다)
+	s.sendMessage(message);
+}
+
+```
+### 2. 사용자 뷰
+```html
+<input type="text" id="id" value="${login.id }">
+<input type="button" id="enterBtn" value="입장" onclick="connect()">
+<input type="button" id="exitBtn" value="나가기" onclick="disconnect()">
+<button type="button" id="btn" onclick="send('aaa')">보내기aaa</button>
+<button type="button" id="btn" onclick="send('zzz')">보내기zzz</button>
+
+
+<script type="text/javascript">
+var wsocket;
+
+function connect(){
+	if(wsocket != undefined && wsocket.readyState != WebSocket.CLOSED){
+		//이미 소켓이 생성된 경우. = 서버에 접속한 경우
+			alert("이미 입장하셨습니다.");
+			return;
+	}
+
+	wsocket = new WebSocket("ws://192.168.219.105:8090/springSample/echo.do");	//서버의 url주소와 echo.do 경로를 적어준다
+	wsocket.onopen = onOpen;
+	wsocket.onmessage = onMessage;
+	wsocket.close = onClose;
+
+}
+
+function disconnect(){
+	wsocket.close();
+}
+
+function onOpen(evt){	//연결 되었을때  전송
+	console.log("연결 성공");
+}
+
+function onMessage(evt){
+	let data = evt.data;
+	alert(data);
+}
+
+function onClose(evt){	//끊겼을때 전송
+	console.log("연결 끊김");
+}
+
+function send(eciver){
+	let id = reciver;
+	wsocket.send("id:"+id+":like");
+}
+
+</script>
+```
