@@ -170,7 +170,7 @@ public class LoginController {
 ```
 ### 5. view 
  - 로그인 접근 할 수있는 페이지 , 접근 권한을 확인해볼 페이지
- ```html
+ ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
@@ -274,7 +274,7 @@ public class LoginController {
 </html>
 ```
 - 접근 거부 페이지
-```html
+```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>      
