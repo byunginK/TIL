@@ -87,6 +87,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.2.xsd">
 
+	<!-- 인식하게 하기위해서 추가 -->
+	<context:component-scan base-package="bit.com.a" />
+	
 <!-- 접근시에 로그인이 안 되어 있을 경우 , login 페이지로 강제 이동 -->
 	<!-- <security:http auto-config="true" use-expressions="false">	
 		<security:intercept-url pattern="/**" access="ROLE_USER"/> 어떠한 경로든 인터셉터(낚아채라) 
@@ -206,7 +209,7 @@ public class LoginController {
 </html>
 ```  
 - 로그인 페이지 (스프링 제공)
-```
+```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -335,3 +338,249 @@ public class pageController {
 	}
 }
 ```
+
+# DB 연동하여 로그인 하기
+### 디비에서 회원정보를 담을 테이블을 생성한다 (이전 member 테이블과는 구성이 다르다)
+```
+CREATE TABLE USERTABLE(
+	ID VARCHAR2(100) PRIMARY KEY,
+	PASSWORD VARCHAR2(300) NOT NULL,
+	NAME VARCHAR2(45) NOT NULL,
+	AUTHORITY VARCHAR2(50) NOT NULL,
+	ENABLED NUMBER(1)
+)
+```
+### model(dto)를 생성 해준다 (시큐리티에서 설정한 요소들이 들어가 있어야한다)
+- UserDetails, Serializable 두개의 인터페이스를 상속받고 오버라이드 해준다
+```java
+package bit.com.a.model;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+public class CustomUserDetails implements UserDetails, Serializable {
+
+	private String ID;
+	private String PASSWORD;
+	private String NAME;
+	
+	// 아래가 시큐리트에 필요한 내용 위에 변수(컬럼)은 더 추가 할 수 있다
+	private String AUTHORITY;	//권한	
+	private boolean ENABLED; //접근 가능 여부
+	
+	public CustomUserDetails() {
+	}
+
+	@Override
+	//컬렉션으로 잡은 이유는 권한설정을 다중으로 할 수 있기 때문에 / GrantedAuthority: 허가, 권리
+	public Collection<? extends GrantedAuthority> getAuthorities() {	//권한들을 리턴하는 함수
+		
+		//여러개의 권한들을 리스트로 받아서 넣어주고 리턴해 준다
+		ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+		auth.add(new SimpleGrantedAuthority(AUTHORITY));
+		
+		return auth;
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return PASSWORD;	//리턴값에 설정한 변수들을 넣는다
+	}
+
+	@Override
+	public String getUsername() {	//id == name 으로 사용한다
+		// TODO Auto-generated method stub
+		return ID;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {	//계정이 만료된 계정인지
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {	// 계정이 잠겨 있는지
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {	//계정의 패스워드가 만료되지 않았는지
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {	//사용 가능 여부
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	public String getNAME() {
+		return NAME;
+	}
+
+	public void setNAME(String nAME) {
+		NAME = nAME;
+	}
+	
+}
+```
+### DB에 접근하여 회원정보를 꺼내올 쿼리문을 작성해준다
+- parameterType없이 반환되는 값만 있다
+```xml
+<mapper namespace="CustUser">
+<select id="selectUserById" resultType="bit.com.a.model.CustomUserDetails">
+	SELECT *
+	FROM USERTABLE
+	WHERE ID = #{loginId}
+
+</select>
+```
+### dao를 생성해 준다
+```java
+package bit.com.a.dao;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import bit.com.a.model.CustomUserDetails;
+
+@Repository
+public class CustomUserDao {
+
+	@Autowired
+	private SqlSessionTemplate session;
+	
+	public CustomUserDetails getUserById(String username) {
+		return session.selectOne("CustUser.selectUserById", username);
+				
+	}
+}
+```
+### service를 생성해주는데, UserDetailsService 을 상속받고 오버라이드 해준다(loadUserByUsername 생성)
+- dao에서 받은 정보들은 model에 담고 반환하는 코드를 작성해준다
+
+```java
+package bit.com.a.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import bit.com.a.dao.CustomUserDao;
+import bit.com.a.model.CustomUserDetails;
+
+
+public class CustomUserService implements UserDetailsService {
+
+	@Autowired
+	CustomUserDao dao;
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+		System.out.println("CustomUserService loadUserByUsername");
+		
+		CustomUserDetails user = dao.getUserById(username);
+		if(user == null) {
+			throw new UsernameNotFoundException(username);
+		}
+		
+		return user;
+	}
+
+}
+```
+### service에서 인증을 대조하는 클래스 생성( 가장 중요)
+- AuthenticationProvider 상속받고 오버 라이드 해준다
+- 뷰에서 입력받은 정보와 db에서 정보를 가져와 패스워드를 대조하고 최종 아이디, 패스워드 , 권한을 
+```java
+package bit.com.a.service;
+
+import java.util.Collection;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+import bit.com.a.HelloController;
+import bit.com.a.model.CustomUserDetails;
+				// Authentication : 확증 , Provider: 제공
+public class CustomAuthenticationProvider implements AuthenticationProvider {
+	
+	private static Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
+	
+	@Autowired
+	private UserDetailsService userDeser;	//상속받은 부분의 인터페이스를 가져오기 떄문에 CustomUserService를 가져온다
+	
+	public boolean matchPassword(String loginPwd, String password) {
+		logger.info("matchPassword check");
+		return loginPwd.equals(password);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		// 인증 함수
+		
+		//입력된 정보를 가져온것
+		String username = (String)authentication.getPrincipal(); //id 가 넘어온다
+		String password = (String)authentication.getCredentials();//password가 넘어온다
+		
+		logger.info("CustomAuthenticationProvider authenticate");
+		logger.info("password:"+password);
+		
+		//db로 부터 가져온 정보
+		CustomUserDetails user = (CustomUserDetails)userDeser.loadUserByUsername(username);
+		Collection<GrantedAuthority> authotities = (Collection<GrantedAuthority>)user.getAuthorities(); //권한을 가져온다
+		
+		if(!matchPassword(password, user.getPassword())) { //패스워드가 다른 경우
+			System.out.println("패스워드 다름");
+			throw new BadCredentialsException(username);
+		}
+		
+		if(!user.isEnabled()) {	//유저 활성화가 안되어있는 경우
+			throw new BadCredentialsException(username);
+		}
+		
+		return new UsernamePasswordAuthenticationToken(username, password, authotities);
+	}
+
+	@Override //사실 이부부은 나중에 반환된 위의 authenticate 메소드에서 반환한 객체가 유효한 타입이 맞는지 검사
+			// null 값이거나 잘못된 타입을 반환했을 경우 인증 실패로 간주
+	public boolean supports(Class<?> authentication) {
+		// TODO Auto-generated method stub
+		return true;	//true 전환 (강제로 true)
+	}
+}
+```
+
+### context-security.xml 에서 이전에 임의로 회원을 추가했던 부분을 사용하지 않고 디비에서 불러온 부분을 사용
+```xml
+<!-- db 적용 -->
+<bean id="userService" class="bit.com.a.service.CustomUserService"/>	<!-- 이렇게 생성해주기때문에 autowired 안해줘도 된다 -->
+
+<bean id="userAuthProvider" class="bit.com.a.service.CustomAuthenticationProvider"/>	<!-- 인증확인 부분의 클래스를 생성-->
+
+<security:authentication-manager>
+	<security:authentication-provider ref="userAuthProvider"/>	<!-- 참조부분에 위에서 생성한 userAuthProvider를 넣어준다 -->
+</security:authentication-manager>
+```
+
