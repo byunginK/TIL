@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <title>Document</title>
+</head>
+<div id="example1">
+    <input v-model="msg" placeholder="여기를 수정해 보세요">
+    <p>메세지 : {{msg}}</p>
+</div>
+
+<div id="example2">
+    <span>여러 줄을 가지는 메세지:</span>
+    <p style="white-space: pre-line">{{message}}</p>
+    <br>
+    <textarea v-model='message' placeholder="여러줄을 입력해보세요"></textarea>
+</div>
+
+<div id="example3">
+    <input type="checkbox" id="checkbox" v-model="checked">
+    <label for="checkbox">{{checked}}</label>
+</div>
+
+<div id="example4">
+    <input type="checkbox" id="jack" value="jack" v-model='checkedNames'>
+    <label for="jack">jack</label>
+    <input type="checkbox" id="john" value="john" v-model='checkedNames'>
+    <label for="john">john</label>
+    <input type="checkbox" id="mike" value="mike" v-model='checkedNames'>
+    <label for="mike">jack</label>
+    <br>
+    <span>체크한 이름:{{checkedNames}}</span>
+</div>
+
+<div id="example5">
+    <input type="radio" id="one" value="One" v-model='picked'>
+    <label for="one">One</label>
+    <input type="radio" id="two" value="two" v-model='picked'>
+    <label for="two">Two</label>
+    <br>
+    <span>선택: {{ picked }}</span>
+
+</div>
+
+<div id="example6">
+    <select v-model="selected">
+        <option disabled value="">Please select one</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <span>선택함: {{ selected }}</span>
+</div>
+
+<div id="example7">
+    <select v-model="selected">
+        <option v-for="option in options" v-bind:value="option.value">
+            {{ option.text }}
+        </option>
+    </select>
+    <span>Selected: {{ selected }}</span>
+</div>
+
+<div id="example8">
+    <input type="text" v-model.lazy="message1" >
+    <input type="text" v-bind:value="message1">
+</div>
+<script>
+    new Vue({
+        el: "#example1",
+        data: {
+            msg: ''
+        }
+    })
+
+    new Vue({
+        el: '#example2',
+        data: {
+            message: ''
+        }
+    })
+
+    new Vue({
+        el: '#example3',
+        data: {
+            checked: false
+        }
+    })
+
+    new Vue({
+        el: '#example4',
+        data: {
+            checkedNames: []
+        }
+    })
+
+    new Vue({
+        el: '#example5',
+        data: {
+            picked: ''
+        }
+    })
+
+    new Vue({
+        el: '#example6',
+        data: {
+            selected: ''
+        }
+    })
+
+    new Vue({
+        el:'#example7',
+        data:{
+            selected:'A',
+            options:[{text:'One',value:'A'},{text:'Two',value:'B'},{text:'Three',value:'C'}]
+        }
+    })
+
+    new Vue({
+        el:'#example8',
+        data:{
+           message1: '' 
+        }
+    })
+</script>
+
+<body>
+
+</body>
+
+</html>

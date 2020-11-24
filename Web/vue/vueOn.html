@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+    <div id="example-1"><button v-on:click="counter += 1">Add 1</button>
+        <p>위 버튼을 클릭한 횟수는 {{counter}} 번 입니다.</p>
+    </div>
+
+    <div id="example-2">
+        <button v-on:click="greet('hi')">Greet</button>
+    </div>
+    <script>
+        var example1 = new Vue({
+            el: '#example-1',
+            data: {
+                counter: 0
+            }
+        })
+
+        var example2 = new Vue({
+            el: '#example-2',
+            data: {
+                name: 'vue.js'
+            },
+            methods: {
+                greet: function (message) {
+                    alert(message)
+                    if (event) {
+                        alert(event.target.tagName)
+                    }
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

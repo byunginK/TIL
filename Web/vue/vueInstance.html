@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{foo}}</p>
+        <button v-on:click="foo = 'baz'">change it</button>
+    </div>
+
+    <div id="example">
+        <p>원본 메시지: "{{ message }}"</p>
+        <p>역순으로 표시한 메시지: "{{ reversedMessage }}"</p>
+    </div>
+    
+    <script>
+        var obj = {
+            foo: 'bar'
+        }
+
+        //Object.freeze(obj); 설정하게 되면 변경되지 않는다
+
+        new Vue({
+            el:'#app',
+            data:obj
+        })
+
+        new Vue({
+            data: {
+                a: 1
+            },
+            created: function() {
+                console.log('a is:'+ this.a)
+            }
+        })
+
+        var vm = new Vue({
+            el: '#example',
+            data:{
+                message: '안녕하세요'
+            },
+            computed: {
+                reversedMessage: function(){
+                    return this.message.split('').reverse().join('')
+                }
+            }
+        })
+
+        vm.message = 'goodbye'
+        console.log(vm.reversedMessage);
+    </script>
+</body>
+</html>
