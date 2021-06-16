@@ -1,0 +1,173 @@
+# React 컴포넌트
+
+## 리액트는 컴포넌트를 사용하여 구성한다.
+### 컴포넌트들을 import하여 가독성 좋게 render하는 방식이다.
+
+### 함수형 또는 클래스형으로 생성 및 선언 할 수 있으며 render를통해 페이지를 그린다.
+### render 메소드의 return 값으로 JSX 태그를 반환하여 페이지를 그린다.
+### 아래 예시를 통해 어떻게 페이지를 구성하는지 알 수 있다.
+<br>
+
+## - index.js
+```javascript
+//가장 상위 모듈로 리액트를 사용하기 위해서는 항상 import 해야한다.
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App'; //app.js의 내용을 가져온다
+import reportWebVitals from './reportWebVitals';
+
+// <App />으로 랜드하게 된다.
+ReactDOM.render(
+  <React.StrictMode>
+    <App /> 
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+### 위 코드에서 `document.getElementById('root')`는 public폴더의 index.html에 선언되어있다.
+### import App from ./App 에서 가져온 내용을 root 객체에 render한다.
+<br>
+
+## - App.js
+```javascript
+import './App.css';
+import React, {Component} from 'react';
+//폴더를 따로 구성하고 구분하기위해 import하여 정리한다.
+import TOC from './components/TOC';
+import Content from './components/Content';
+import Subject from './components/Subject';
+
+//속성을 통해 더 확장성 있게 사용
+class App extends Component {
+  constructor(props){ //컴포넌트가 실행될때 초기화 하기위해서는 생성자에 선언을한다.
+    super(props);
+    //state값을 초기화
+    //외부에서 속성을 볼 수 없게 은닉 할 수 있다.
+    this.state = {
+      mode:'welcome',
+      subject:{title:'WEB',sub:'World wide web!'},
+      welcome:{title:'Welcome',desc:'Hello React@@'},
+      content:[
+        {id:1,title:'HTML',desc:'HTML is HyperText...'},
+        {id:2,title:'CSS',desc:'CSS is for design'},
+        {id:3,title:'JavaScript',desc:'Javascript is for interactive...'}
+      ]
+    }
+  }
+  render(){
+    var _title, _desc = null;
+// state와 props가 변경 될때 render 함수가 다시 실행된다(페이지가 다시 그려진다)
+    if(this.state.mode === 'welcome'){
+      _title = this.state.welcome.title;
+      _desc = this.state.welcome.desc;
+    }else if(this.state.mode === 'read'){
+      _title = this.state.content[0].title;
+      _desc = this.state.content[0].desc;
+    }
+    return (
+      <div className="App">
+          <Subject title={this.state.subject.title} sub={this.state.subject.sub}></Subject>
+          <TOC data={this.state.content}></TOC>
+          <Content title={_title} desc={_desc}></Content>
+      </div>
+    );
+  }
+}
+
+export default App;
+```
+### `class App extends Component`를 통해 컴포넌트를 상속받아 클래스 형식으로 선언을 하고 가장하단에 export하는 것을 볼 수 있다.
+```javascript
+render(){
+    return (
+      <div className="App">
+          <Subject title={this.state.subject.title} sub={this.state.subject.sub}></Subject>
+          <TOC data={this.state.content}></TOC>
+          <Content title={_title} desc={_desc}></Content>
+      </div>
+    );
+}
+```
+### render메소드를 통해 JSX를 선언 하였다. 
+## __컴포넌트의 return값의 가장 상위태그는 단 하나 이여야 하며, 항상 대문자로 시작해야한다__
+
+### App 클래스에서 사용되는 Subject, TOC, Content 컴포넌트는 아래 코드로 구현 되어있으며, 아래와 같이 import하여 사용하고 있다.
+```javascript
+import TOC from './components/TOC';
+import Content from './components/Content';
+import Subject from './components/Subject';
+```
+<br>
+
+## - Subject
+```javascript
+import React, { Component } from 'react';
+
+
+//컴포넌트 만들기
+// 1. 대문자로 시작해야한다.
+// 2. Component 클래스 상속
+// 3. render 함수를 생성하고 최상위 태그 하나만 존재 해야한다.
+//props 사용하기
+// 1. this.props.속성명
+class Subject extends Component {
+    render() {
+        return (
+            <header>
+                <h1><a href="/">{this.props.title}</a></h1>
+                {this.props.sub}
+            </header>
+        );
+    }
+}
+
+export default Subject;
+```
+<br>
+
+## - TOC
+```javascript
+import React, { Component } from 'react';
+
+class TOC extends Component {
+    render() {
+        var lists = [];
+        var data = this.props.data;
+        var i = 0;
+        while(i < data.length){
+            //key는 리액트가 내부적으로 유일값을 요구한다. (태그가 여러개 생성될때)
+            lists.push(<li key={data[i].id}><a href={"/content/"+data[i].id}>{data[i].title}</a></li>);
+            i = i+ 1;
+        }
+        return (
+            <nav>
+                <ul>
+                    {lists}
+                </ul>
+            </nav>
+        );
+    }
+}
+export default TOC;
+```
+<br>
+
+## - Content
+```javascript
+import React, { Component } from "react";
+
+class Content extends Component {
+    render() {
+        return (
+            <article>
+                <h2>{this.props.title}</h2>
+                {this.props.desc}
+            </article>
+        );
+    }
+}
+
+export default Content;
+```

@@ -1,0 +1,107 @@
+# React State
+
+## props가 외부에서도 컨트롤 할 수 있는 속성이라고 하면 state는 리액트 컴포넌트 내부에서 값들을 설정 할 수 있는 기능을 가졌다. 
+## state는 속성의 은닉성을 제공하여 보안에 좋은 영향을 준다.
+
+### 컴포넌트 생성사제 보통 state를 선언하고 이용한다.
+<br>
+
+## - App.js
+```javascript
+class App extends Component {
+  constructor(props){ //컴포넌트가 실행될때 초기화 하기위해서는 생성자에 선언을한다.
+    super(props);
+    //state값을 초기화
+    //외부에서 속성을 볼 수 없게 은닉 할 수 있다.
+    this.state = {
+      mode:'welcome',
+      subject:{title:'WEB',sub:'World wide web!'},
+      welcome:{title:'Welcome',desc:'Hello React@@'},
+      content:[
+        {id:1,title:'HTML',desc:'HTML is HyperText...'},
+        {id:2,title:'CSS',desc:'CSS is for design'},
+        {id:3,title:'JavaScript',desc:'Javascript is for interactive...'}
+      ]
+    }
+  }
+  render(){
+    var _title, _desc = null;
+// state와 props가 변경 될때 render 함수가 다시 실행된다(페이지가 다시 그려진다)
+    if(this.state.mode === 'welcome'){
+      _title = this.state.welcome.title;
+      _desc = this.state.welcome.desc;
+    }else if(this.state.mode === 'read'){
+      _title = this.state.content[0].title;
+      _desc = this.state.content[0].desc;
+    }
+    return (
+      <div className="App">
+          <Subject title={this.state.subject.title} sub={this.state.subject.sub}></Subject>
+          <TOC data={this.state.content}></TOC>
+          <Content title={_title} desc={_desc}></Content>
+      </div>
+    );
+  }
+}
+
+export default App;
+```
+### render메소드 상위에 컴포넌트가 초기화 될때 생성되도록 선언해준다.
+```javascript
+constructor(props){ //컴포넌트가 실행될때 초기화 하기위해서는 생성자에 선언을한다.
+    super(props);
+    //state값을 초기화
+    //외부에서 속성을 볼 수 없게 은닉 할 수 있다.
+    this.state = {
+      mode:'welcome',
+      subject:{title:'WEB',sub:'World wide web!'},
+      welcome:{title:'Welcome',desc:'Hello React@@'},
+      content:[
+        {id:1,title:'HTML',desc:'HTML is HyperText...'},
+        {id:2,title:'CSS',desc:'CSS is for design'},
+        {id:3,title:'JavaScript',desc:'Javascript is for interactive...'}
+      ]
+    }
+}
+```
+### `this.state=`이후 key,value 형태로 선언하여 아래 render를 할때 사용할 수 있게한다.
+```javascript
+return (
+    <div className="App">
+        <Subject title={this.state.subject.title} sub={this.state.subject.sub}></Subject>
+        <TOC data={this.state.content}></TOC>
+        <Content title={_title} desc={_desc}></Content>
+    </div>
+);
+```
+### `<Subject title={this.state.subject.title} sub={this.state.subject.sub}></Subject>`에서 title props에 state에서 선언한 값을 넣으면 Sujbec.js 컴포넌트에서 props로 받은내용으로 페이지에 표시하게 된다.
+
+## TOC 컴포넌트에서 state의 content내용을 data props로 받아 생성하게끔 변경해 보았다.
+<br>
+
+## - TOC.js
+```javascript
+import React, { Component } from 'react';
+
+class TOC extends Component {
+    render() {
+        var lists = [];
+        var data = this.props.data;
+        var i = 0;
+        while(i < data.length){
+            //key는 리액트가 내부적으로 유일값을 요구한다. (태그가 여러개 생성될때)
+            lists.push(<li key={data[i].id}><a href={"/content/"+data[i].id}>{data[i].title}</a></li>);
+            i = i+ 1;
+        }
+        return (
+            <nav>
+                <ul>
+                    {lists}
+                </ul>
+            </nav>
+        );
+    }
+}
+export default TOC;
+```
+## 여기서 생성든 li 태그에서 리액트가 에러를 경고하는데 이는 여러개 생성된 태그에 리액트에서 식별을 위한 유일값을 추가해 주어야 하기 때문이다.
