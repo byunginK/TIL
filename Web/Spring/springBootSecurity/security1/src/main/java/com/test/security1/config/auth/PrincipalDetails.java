@@ -2,9 +2,11 @@ package com.test.security1.config.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.test.security1.model.User;
 
@@ -16,12 +18,20 @@ import com.test.security1.model.User;
 
 //Security Session => Authentication => UserDetails(PrincipalDetails) 타입으로 정해져 있다.
 
-public class PrincipalDetails implements UserDetails{
+public class PrincipalDetails implements UserDetails, OAuth2User{ //일반 로그인시 authentication의 userDetails와 oauth2User로 로그인시 세션을  둘다 부모로 가지는 객체로 만들어줌
 
 	private User user; 
+	private Map<String, Object> attribute;
 	
+	//일반로그인
 	public PrincipalDetails(User user) {
 		this.user = user;
+	}
+	
+	//OAuth 로그인
+	public PrincipalDetails(User user, Map<String, Object>attribute) {
+		this.user = user;
+		this.attribute = attribute;
 	}
 	
 	//해당 User의 권한을 리턴하는곳
@@ -76,6 +86,18 @@ public class PrincipalDetails implements UserDetails{
 	public boolean isEnabled() {
 		//계정 만료 여부 확인하는 로직을 넣을 수도 있음
 		return true;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		// TODO Auto-generated method stub
+		return attribute;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

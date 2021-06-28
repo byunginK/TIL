@@ -3,12 +3,14 @@ package com.test.security1.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.test.security1.config.auth.PrincipalDetails;
 import com.test.security1.model.User;
 import com.test.security1.repository.UserRepository;
 
@@ -21,13 +23,23 @@ public class IndexController {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder; 
 	
+	@ResponseBody
+	@GetMapping("/test/login")
+	public String testLogin(org.springframework.security.core.Authentication authentication) {
+		System.out.println("/test/login==================");
+		System.out.println("authentication : "+ authentication.getPrincipal());
+		return "세션 정보 확인하기";
+	}
+	
 	@GetMapping({"","/"})
 	public String index() {
 		return "index";
 	}
 	@GetMapping("/user")
 	@ResponseBody
-	public String user() {
+	
+	public String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		System.out.println("principalDetails:"+principalDetails.getAttributes());
 		return "user";
 	}
 	@GetMapping("/admin")
